@@ -8,12 +8,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/timePicker" />
 
-    <CheckBox
-        android:text="PM"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/pm_checkbox" />
-
     <Button
         android:text="Set"
         android:layout_width="match_parent"
