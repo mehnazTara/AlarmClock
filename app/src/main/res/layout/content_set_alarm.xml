@@ -5,37 +5,45 @@
     android:id="@+id/content_set_alarm"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/black"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.madel.seng403.SetAlarmActivity"
     tools:showIn="@layout/activity_set_alarm">
 
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <TimePicker
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/timePicker" />
+            android:id="@+id/timePicker"
+            android:background="@color/black"
+            android:numbersBackgroundColor="@color/white"
+            android:numbersSelectorColor="@android:color/holo_red_dark"
+            android:headerBackground="@android:color/holo_red_dark" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400sp"
+        android:layout_marginStart="100sp"
+        android:orientation="horizontal">
 
         <Button
             android:text="Set"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="setAlarmButton"
-            android:id="@+id/set_alarm" />
+            android:id="@+id/set_alarm"
+            android:background="@color/white"
+            />
 
         <Button
             android:text="Cancel"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="cancelAlarmButton"
-            android:id="@+id/cancel_setting_alarm" />
+            android:id="@+id/cancel_setting_alarm"
+            android:background="@color/white" />
+
     </LinearLayout>
 
 </RelativeLayout>
