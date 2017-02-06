@@ -27,12 +27,14 @@
             android:text="Set"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="setAlarmButton"
             android:id="@+id/set_alarm" />
 
         <Button
             android:text="Cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="cancelAlarmButton"
             android:id="@+id/cancel_setting_alarm" />
     </LinearLayout>
 
