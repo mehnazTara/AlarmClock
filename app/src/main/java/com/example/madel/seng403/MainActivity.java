@@ -7,8 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener, AlarmListFragment.OnFragmentInteractionListener {
 
@@ -25,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
+        // Do nothing (required to use sliding fragments)
     }
 
 }
