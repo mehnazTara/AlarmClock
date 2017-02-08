@@ -14,17 +14,6 @@
     android:background="@android:color/black">
     <!--tools:showIn="@layout/activity_main_activity"-->
 
-    <Button
-        android:text="Dismiss"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/end_alarm"
-        android:background="@color/white"
-        android:textColor="@color/black"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="56dp" />
-
     <TextClock
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,6 +23,5 @@
         android:textStyle="bold"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
-
 
 </RelativeLayout>
