@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -86,45 +88,58 @@ public class AlarmListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        pickerTime = (TimePicker) view.findViewById(R.id.timePicker);
 
-        // getting the system alarm service
-        alarmManager = (AlarmManager)getActivity().getSystemService(ALARM_SERVICE);
-
-        buttonSetAlarm = (Button) view.findViewById(R.id.set_alarm_button);
-
-
-        // set on click listener method for set button
-        buttonSetAlarm.setOnClickListener(new View.OnClickListener(){
-
+        // FAB for alarm list
+        // creates new instance of TimePickerFragment to choose the alarm time
+        FloatingActionButton alarmListFab = (FloatingActionButton) view.findViewById(R.id.alarm_list_fab);
+        alarmListFab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                DialogFragment timePickerDialogFragment = new TimePickerFragment();
+                timePickerDialogFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
 
-                // the reason for using two calenders for future extension
-                // for checking is current time was selected , for example not a time from past
-                Calendar calCurr = Calendar.getInstance();
-
-                String time = calCurr.getTime().toString();
-                Log.e("Log meesage: ", time);
-                Calendar calTarget = (Calendar) calCurr.clone();
-
-                // getting the time from timepicker and setting it to the caldendar
-                calTarget.set(Calendar.HOUR_OF_DAY, pickerTime.getHour());
-                calTarget.set(Calendar.MINUTE, pickerTime.getMinute());
-                calTarget.set(Calendar.SECOND, 0);
-                calTarget.set(Calendar.MILLISECOND, 0);
-
-
-                String time1 = calTarget.getTime().toString();
-
-                Log.e("Log message: ", "set time " + time1);
-
-
-                setAlarm(calTarget);
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Alarm Set!", Toast.LENGTH_LONG);
-                toast.show();
-
-            }});
+        // TODO move this AlarmList implementation to onTimeSet method in TimePickerFragment
+//        pickerTime = (TimePicker) view.findViewById(R.id.timePicker);
+//
+//        // getting the system alarm service
+//        alarmManager = (AlarmManager)getActivity().getSystemService(ALARM_SERVICE);
+//
+//        buttonSetAlarm = (Button) view.findViewById(R.id.set_alarm_button);
+//
+//
+//        // set on click listener method for set button
+//        buttonSetAlarm.setOnClickListener(new View.OnClickListener(){
+//
+//            @Override
+//            public void onClick(View view) {
+//
+//                // the reason for using two calenders for future extension
+//                // for checking is current time was selected , for example not a time from past
+//                Calendar calCurr = Calendar.getInstance();
+//
+//                String time = calCurr.getTime().toString();
+//                Log.e("Log meesage: ", time);
+//                Calendar calTarget = (Calendar) calCurr.clone();
+//
+//                // getting the time from timepicker and setting it to the caldendar
+//                calTarget.set(Calendar.HOUR_OF_DAY, pickerTime.getHour());
+//                calTarget.set(Calendar.MINUTE, pickerTime.getMinute());
+//                calTarget.set(Calendar.SECOND, 0);
+//                calTarget.set(Calendar.MILLISECOND, 0);
+//
+//
+//                String time1 = calTarget.getTime().toString();
+//
+//                Log.e("Log message: ", "set time " + time1);
+//
+//
+//                setAlarm(calTarget);
+//                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Alarm Set!", Toast.LENGTH_LONG);
+//                toast.show();
+//
+//            }});
     }
 
     private void setAlarm(Calendar targetCal){
