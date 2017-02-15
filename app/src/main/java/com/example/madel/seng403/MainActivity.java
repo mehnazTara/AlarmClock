@@ -26,4 +26,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         // Do nothing (required to use sliding fragments)
     }
 
+
+
+
+
 }
