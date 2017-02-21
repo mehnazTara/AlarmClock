@@ -58,6 +58,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
 
        myNotification = new NotificationCompat.Builder(context)
+
                 .setContentTitle("Alarm Notification!")
                 .setContentText("An alarm is ringing")
                 .setTicker("Notification!")
@@ -67,10 +68,14 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                 .setAutoCancel(true)
 
                 .setSmallIcon(R.mipmap.notify_icon)
-               .setSmallIcon(R.mipmap.snooze_icon)
 
 
-               //builder.addAction(R.mipmap.snooze_icon, "Snooze",null);
+
+               //.addAction(R.mipmap.snooze_icon, "PAUSE");
+
+
+
+        //builder.addAction(R.mipmap.snooze_icon, "Snooze",null);
 
 
 
@@ -82,8 +87,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     }
 
 }
-
-
 
 
 

@@ -40,13 +40,7 @@ public class RingtonePlayingService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
         Log.i("LocalService", "Recieved start id"+ startId+ ":" + intent);
-        media_song= MediaPlayer.create(this, R.raw.song1);
-        media_song.start();
-
-        return START_NOT_STICKY;
-
-
-     /*  NotificationCompat.Builder builder= new NotificationCompat.Builder(this);
+        media_song= MediaPlayer.create(this, R.raw.song1);     /*  NotificationCompat.Builder builder= new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.mipmap.notify_icon);
         builder.setContentTitle("My Notification");
         builder.setContentText("You have an alarm notification....");
@@ -65,6 +59,12 @@ public class RingtonePlayingService extends Service {
         NM.notify(0,builder.build());
         return START_NOT_STICKY;
 */
+
+        media_song.start();
+
+        return START_NOT_STICKY;
+
+
 
     }
 
