@@ -1,57 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_set_alarm"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.madel.seng403.AlarmListFragment">
+    tools:context="com.example.madel.seng403.AlarmListFragment"
+    android:fillViewport="true">
 
-    <TimePicker
+    <ListView android:id="@+id/alarm_list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:dividerHeight="3dip" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/alarm_list_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/timePicker"
-        android:background="@color/black"
-        android:numbersBackgroundColor="@color/white"
-        android:numbersSelectorColor="@android:color/holo_red_dark"
-        android:headerBackground="@android:color/holo_red_dark" />
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/alarm_list_view"
+        app:layout_anchorGravity="bottom|right|end"
+        android:src="@drawable/ic_add_black_24dp"
+        app:backgroundTint="@android:color/holo_red_dark" />
 
-    <Button
-        android:text="Set"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginBottom="80dp"
-        android:id="@+id/set_alarm_button"
-        android:background="@color/white"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="400sp"-->
-        <!--android:layout_marginStart="100sp"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<Button-->
-            <!--android:text="Set"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:onClick="setAlarmButton"-->
-            <!--android:id="@+id/set_alarm"-->
-            <!--android:background="@color/white"-->
-            <!--/>-->
-
-        <!--<Button-->
-            <!--android:text="Cancel"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:onClick="cancelAlarmButton"-->
-            <!--android:id="@+id/cancel_setting_alarm"-->
-            <!--android:background="@color/white" />-->
-
-    <!--</LinearLayout>-->
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
