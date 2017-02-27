@@ -10,16 +10,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
-import static android.content.Context.ALARM_SERVICE;
+
 
 
 /**
@@ -40,10 +35,6 @@ public class AlarmListFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    // private fields
-    private TimePicker pickerTime;
-    private  Button buttonSetAlarm;
-    private AlarmManager alarmManager;
 
     private OnFragmentInteractionListener mListener;
 
@@ -142,17 +133,17 @@ public class AlarmListFragment extends Fragment {
 //            }});
     }
 
-    private void setAlarm(Calendar targetCal){
-
-        // creating an intent associated with AlarmReceiver class
-        Intent alarmIntent = new Intent(getActivity(), AlarmReceiver.class);
-
-        // creating  a pending intent that delays the intent until the specified calender time is reached
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        // setting the alarm Manager to set alarm at exact time of the user chosen time
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
-    }
+//    private void setAlarm(Calendar targetCal){
+//
+//        // creating an intent associated with AlarmReceiver class
+//        Intent alarmIntent = new Intent(getActivity(), AlarmReceiver.class);
+//
+//        // creating  a pending intent that delays the intent until the specified calender time is reached
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        // setting the alarm Manager to set alarm at exact time of the user chosen time
+//        alarmManager.setExact(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
+//    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

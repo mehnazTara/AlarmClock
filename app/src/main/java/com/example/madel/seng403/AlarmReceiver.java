@@ -71,11 +71,11 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
 
 
-               //.addAction(R.mipmap.snooze_icon, "PAUSE");
+               .addAction(R.mipmap.snooze_icon, "snooze", null)
+               .addAction(R.mipmap.xicon, "dismiss", null)
 
 
 
-        //builder.addAction(R.mipmap.snooze_icon, "Snooze",null);
 
 
 

@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.TaskStackBuilder;
@@ -61,6 +62,15 @@ public class RingtonePlayingService extends Service {
 */
 
         media_song.start();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (media_song.isPlaying())
+                    media_song.stop();
+            }
+        },30000);
 
         return START_NOT_STICKY;
 
