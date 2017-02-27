@@ -85,6 +85,7 @@ public class RingtonePlayingService extends Service {
 
         //tell us we have stopped
         Toast.makeText(this, "on destroy called", Toast.LENGTH_SHORT). show();
+        media_song.stop();
     }
 
 

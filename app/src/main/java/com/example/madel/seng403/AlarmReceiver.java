@@ -28,6 +28,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     private static final int MY_NOTIFICATION_ID=1;
     NotificationManager notificationManager;
     Notification myNotification;
+    private String dismiss = "dismiss";
     private final String myBlog = "http://android-er.blogspot.com/";
 
     @Override
@@ -55,8 +56,8 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                 myIntent,
                 0);
 
-
-
+        Intent dismissIntent  = new Intent(context,DismissReceiver.class);
+        PendingIntent disMissPendingIntent = PendingIntent.getBroadcast(context,0,dismissIntent,0);
        myNotification = new NotificationCompat.Builder(context)
 
                 .setContentTitle("Alarm Notification!")
@@ -72,7 +73,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
 
                .addAction(R.mipmap.snooze_icon, "snooze", null)
-               .addAction(R.mipmap.xicon, "dismiss", null)
+               .addAction(R.mipmap.xicon, "dismiss", disMissPendingIntent)
 
 
 
