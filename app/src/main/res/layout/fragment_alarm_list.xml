@@ -14,7 +14,8 @@
     <ListView android:id="@+id/alarm_list_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:dividerHeight="3dip" />
+        android:dividerHeight="3dip"
+        />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/alarm_list_fab"
@@ -35,5 +36,6 @@
         app:layout_anchorGravity="bottom|left|end"
         android:src="@drawable/ic_add_black_24dp"
         app:backgroundTint="@android:color/holo_red_dark" />
+
 
 </android.support.design.widget.CoordinatorLayout>

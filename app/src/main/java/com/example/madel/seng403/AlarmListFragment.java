@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TimePicker;
+import android.app.Application;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -99,9 +100,7 @@ public class AlarmListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DialogFragment timePickerDialogFragment = new TimePickerFragment();
-
                 timePickerDialogFragment.show(getFragmentManager(), "TimePicker");
-                adapter.notifyDataSetChanged();
             }
         });
 
@@ -110,46 +109,11 @@ public class AlarmListFragment extends Fragment {
             @Override
             public void onClick(View v)
             {
-                System.out.println("hello");
                 checkListFunction();
                 adapter = new AlarmAdapter(getContext(), alarmList);
                 listView.setAdapter(adapter);
             }
         });
-        // TODO move this AlarmList implementation to onTimeSet method in TimePickerFragment
-//
-//
-//        // set on click listener method for set button
-//        buttonSetAlarm.setOnClickListener(new View.OnClickListener(){
-//
-//            @Override
-//            public void onClick(View view) {
-//
-//                // the reason for using two calenders for future extension
-//                // for checking is current time was selected , for example not a time from past
-//                Calendar calCurr = Calendar.getInstance();
-//
-//                String time = calCurr.getTime().toString();
-//                Log.e("Log meesage: ", time);
-//                Calendar calTarget = (Calendar) calCurr.clone();
-//
-//                // getting the time from timepicker and setting it to the caldendar
-//                calTarget.set(Calendar.HOUR_OF_DAY, pickerTime.getHour());
-//                calTarget.set(Calendar.MINUTE, pickerTime.getMinute());
-//                calTarget.set(Calendar.SECOND, 0);
-//                calTarget.set(Calendar.MILLISECOND, 0);
-//
-//
-//                String time1 = calTarget.getTime().toString();
-//
-//                Log.e("Log message: ", "set time " + time1);
-//
-//
-//                setAlarm(calTarget);
-//                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Alarm Set!", Toast.LENGTH_LONG);
-//                toast.show();
-//
-//            }});
     }
 
     public void checkListFunction()
@@ -161,22 +125,7 @@ public class AlarmListFragment extends Fragment {
         }
         adapter.notifyDataSetChanged();
     }
-    /*
-        private void setAlarm(Calendar targetCal){
 
-            // creating an intent associated with AlarmReceiver class
-            Intent alarmIntent = new Intent(getActivity(), AlarmReceiver.class);
-
-            final int alarmID = (int) System.currentTimeMillis();
-            alarmList.add(new AlarmDBItem(targetCal, alarmID));
-
-            // creating  a pending intent that delays the intent until the specified calender time is reached
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), alarmID, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            // setting the alarm Manager to set alarm at exact time of the user chosen time
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
-        }
-    */
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
