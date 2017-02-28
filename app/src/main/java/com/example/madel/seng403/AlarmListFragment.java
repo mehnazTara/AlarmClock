@@ -1,25 +1,22 @@
 package com.example.madel.seng403;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
-import static android.content.Context.ALARM_SERVICE;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 
 /**
@@ -43,7 +40,9 @@ public class AlarmListFragment extends Fragment {
     // private fields
     private TimePicker pickerTime;
     private  Button buttonSetAlarm;
-    private AlarmManager alarmManager;
+    public static ArrayList<AlarmDBItem> alarmList = new ArrayList<AlarmDBItem>();
+    private ListView listView;
+    private AlarmAdapter adapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,6 +70,7 @@ public class AlarmListFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        loadFile(this.getContext());
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -82,13 +82,16 @@ public class AlarmListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_alarm_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_alarm_list, container, false);
+        listView = (ListView) view.findViewById(R.id.alarm_list_view);
+        this.adapter = new AlarmAdapter(this.getContext(), alarmList);
+        listView.setAdapter(adapter);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         // FAB for alarm list
         // creates new instance of TimePickerFragment to choose the alarm time
         FloatingActionButton alarmListFab = (FloatingActionButton) view.findViewById(R.id.alarm_list_fab);
@@ -96,17 +99,24 @@ public class AlarmListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DialogFragment timePickerDialogFragment = new TimePickerFragment();
+
                 timePickerDialogFragment.show(getFragmentManager(), "TimePicker");
+                adapter.notifyDataSetChanged();
             }
         });
 
+        FloatingActionButton listbutton = (FloatingActionButton) view.findViewById(R.id.listbutton);
+        listbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                System.out.println("hello");
+                checkListFunction();
+                adapter = new AlarmAdapter(getContext(), alarmList);
+                listView.setAdapter(adapter);
+            }
+        });
         // TODO move this AlarmList implementation to onTimeSet method in TimePickerFragment
-//        pickerTime = (TimePicker) view.findViewById(R.id.timePicker);
-//
-//        // getting the system alarm service
-//        alarmManager = (AlarmManager)getActivity().getSystemService(ALARM_SERVICE);
-//
-//        buttonSetAlarm = (Button) view.findViewById(R.id.set_alarm_button);
 //
 //
 //        // set on click listener method for set button
@@ -142,18 +152,31 @@ public class AlarmListFragment extends Fragment {
 //            }});
     }
 
+    public void checkListFunction()
+    {
+        loadFile(this.getContext());
+        for(int i=0; i<alarmList.size(); i++)
+        {
+            System.out.println(alarmList.get(i).getHour()+":"+alarmList.get(i).getMinute());
+        }
+        adapter.notifyDataSetChanged();
+    }
+/*
     private void setAlarm(Calendar targetCal){
 
         // creating an intent associated with AlarmReceiver class
         Intent alarmIntent = new Intent(getActivity(), AlarmReceiver.class);
 
+        final int alarmID = (int) System.currentTimeMillis();
+        alarmList.add(new AlarmDBItem(targetCal, alarmID));
+
         // creating  a pending intent that delays the intent until the specified calender time is reached
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), alarmID, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // setting the alarm Manager to set alarm at exact time of the user chosen time
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
     }
-
+*/
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -178,6 +201,23 @@ public class AlarmListFragment extends Fragment {
         mListener = null;
     }
 
+    public static String fileName = "alarmSaveFile.ser";
+
+    public void loadFile(Context context){
+        try {
+            FileInputStream fileInputStream = context.openFileInput(fileName);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            this.alarmList = (ArrayList<AlarmDBItem>) objectInputStream.readObject();
+            objectInputStream.close();
+            fileInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * This in'terface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -192,5 +232,7 @@ public class AlarmListFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 
 }
