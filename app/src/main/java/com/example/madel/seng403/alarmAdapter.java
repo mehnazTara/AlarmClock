@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.content.Context.ALARM_SERVICE;
+
 /**
  * Created by Quinn on 2017-02-27.
  */
@@ -72,7 +74,8 @@ public class AlarmAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent cancelIntent = new Intent(context,AlarmReceiver.class);
                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, 0, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(cancelPendingIntent);
                 Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Set!", Toast.LENGTH_LONG);
                 toast.show();
             }
