@@ -71,6 +71,9 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
                 .setSmallIcon(R.mipmap.notify_icon)
 
+                .addAction(R.mipmap.snooze_icon, "snooze", null)
+                .addAction(R.mipmap.xicon, "dismiss", null)
+
 
 
                .addAction(R.mipmap.snooze_icon, "snooze", null)
