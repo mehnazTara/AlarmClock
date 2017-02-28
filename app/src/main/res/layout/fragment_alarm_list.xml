@@ -10,6 +10,7 @@
     tools:context="com.example.madel.seng403.AlarmListFragment"
     android:fillViewport="true">
 
+
     <ListView android:id="@+id/alarm_list_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -22,6 +23,16 @@
         android:layout_margin="16dp"
         app:layout_anchor="@id/alarm_list_view"
         app:layout_anchorGravity="bottom|right|end"
+        android:src="@drawable/ic_add_black_24dp"
+        app:backgroundTint="@android:color/holo_red_dark" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/listbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/alarm_list_view"
+        app:layout_anchorGravity="bottom|left|end"
         android:src="@drawable/ic_add_black_24dp"
         app:backgroundTint="@android:color/holo_red_dark" />
 
