@@ -25,6 +25,7 @@ public class AlarmAdapter extends BaseAdapter {
     Context context;
     LayoutInflater inflator;
     ArrayList<AlarmDBItem> alarmList;
+    int idforbuttonalarm;
 
     public AlarmAdapter(Context c, ArrayList<AlarmDBItem> alarms)
     {
@@ -67,16 +68,17 @@ public class AlarmAdapter extends BaseAdapter {
         }
         TextView name = (TextView) view.findViewById(R.id.list_item_string);
         name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString());
-
-        Button cancelButton = (Button) view.findViewById(R.id.delete_btn);
+        idforbuttonalarm = i;
+        final Button cancelButton = (Button) view.findViewById(R.id.delete_btn);
         cancelButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                cancelButton.setBackgroundColor(0xff0000);
                 Intent cancelIntent = new Intent(context,AlarmReceiver.class);
-                PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, 0, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, alarmList.get(idforbuttonalarm).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
                 am.cancel(cancelPendingIntent);
-                Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Set!", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Cancelled!", Toast.LENGTH_LONG);
                 toast.show();
             }
         });

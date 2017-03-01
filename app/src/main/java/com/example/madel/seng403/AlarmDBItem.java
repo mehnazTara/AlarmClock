@@ -23,7 +23,7 @@ public class AlarmDBItem implements java.io.Serializable {
         this.minute = calendar.get(Calendar.MINUTE);
     }
 
-    public long getID()
+    public int getID()
     {
         return this.id;
     }

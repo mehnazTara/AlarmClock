@@ -107,8 +107,8 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
         // creating an intent associated with AlarmReceiver class
         Intent alarmIntent = new Intent(getActivity(), AlarmReceiver.class);
-        //final int alarmID = (int) System.currentTimeMillis();
-        final int alarmID = 0;
+        final int alarmID = (int) System.currentTimeMillis();
+        //final int alarmID = 0;
         alarmList.add(new AlarmDBItem(targetCal, alarmID));
         saveFile(this.getContext());
         // creating  a pending intent that delays the intent until the specified calender time is reached
