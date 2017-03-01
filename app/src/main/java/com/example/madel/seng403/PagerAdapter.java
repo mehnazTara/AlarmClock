@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 /**
  * Created by raavi on 2017-02-06.
+ * Functionality for swiping left and right between fragments.
  */
 
 public class PagerAdapter extends FragmentPagerAdapter {

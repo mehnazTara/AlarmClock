@@ -25,6 +25,7 @@
 
         <receiver android:name=".AlarmReceiver" />
         <receiver android:name=".DismissReceiver" />
+        <receiver android:name=".SnoozeReceiver" />
 
         <service
             android:name=".RingtonePlayingService"

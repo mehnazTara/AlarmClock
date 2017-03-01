@@ -33,6 +33,7 @@ public class AlarmListFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static String fileName = "alarmSaveFile.ser"; //file name that the alarms are saved to
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -90,6 +91,7 @@ public class AlarmListFragment extends Fragment {
         return view;
     }
 
+    //sets up the list view when the view is created
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -116,17 +118,15 @@ public class AlarmListFragment extends Fragment {
         });
     }
 
+    //loads the list of alarms from memory when the application has been closed, or the list
+    //is refreshed.
     public void checkListFunction()
     {
         loadFile(this.getContext());
-        for(int i=0; i<alarmList.size(); i++)
-        {
-            System.out.println(alarmList.get(i).getHour()+":"+alarmList.get(i).getMinute());
-        }
         adapter.notifyDataSetChanged();
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // functionality for the button.
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -150,8 +150,8 @@ public class AlarmListFragment extends Fragment {
         mListener = null;
     }
 
-    public static String fileName = "alarmSaveFile.ser";
-
+    //loads the file of alarms from storage.
+    //Called when the app is shut down or fragment is reloaded after timepicker fragment.
     public void loadFile(Context context){
         try {
             FileInputStream fileInputStream = context.openFileInput(fileName);
@@ -167,16 +167,6 @@ public class AlarmListFragment extends Fragment {
         }
     }
 
-    /**
-     * This in'terface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

@@ -23,6 +23,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
+/*
+Creates a ringtone for the alarm to sound when an intent is activated.
+Notification is also generated in the notification center of the fun.
+ */
 public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     private static final int MY_NOTIFICATION_ID=1;
@@ -59,6 +63,10 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
         Intent dismissIntent  = new Intent(context,DismissReceiver.class);
         PendingIntent disMissPendingIntent = PendingIntent.getBroadcast(context,0,dismissIntent,0);
+
+        Intent snoozeIntent = new Intent(context, SnoozeReceiver.class);
+        PendingIntent doSnoozeIntent = PendingIntent.getBroadcast(context, 0, snoozeIntent,0);
+
         myNotification = new NotificationCompat.Builder(context)
 
                 .setContentTitle("Alarm Notification!")
@@ -73,7 +81,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
 
 
-                .addAction(R.mipmap.snooze_icon, "snooze", null)
+                .addAction(R.mipmap.snooze_icon, "snooze", doSnoozeIntent)
                 .addAction(R.mipmap.xicon, "dismiss", disMissPendingIntent)
 
 
@@ -91,31 +99,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
 }
 
-
-
-
-
-
-  /* public void onReceive(Context context, Intent intent, View view) {
-
-        // for testing
-        Log.e("LOG MESSAGE:", "inside alarm receiver");
-        // create intent to the ringtone and notification service
-
-        Intent service_intent = new Intent(context, RingtonePlayingService.class);
-        // start ringtone service
-        context.startService(service_intent);
-
-        Toast.makeText(context, "-------Alarm on!!!!!--------", Toast.LENGTH_LONG).show();
-        // for activating vibration
-        Vibrator vibrator = (Vibrator) context
-                .getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(5000);
-
-
-
-
-*/
 
 
 

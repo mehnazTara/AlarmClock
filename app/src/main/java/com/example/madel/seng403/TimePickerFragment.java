@@ -30,6 +30,7 @@ import static android.content.Context.ALARM_SERVICE;
 
 /**
  * Created by raavi on 2017-02-13.
+ * Timepicker for setting a new alarm.
  */
 
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
@@ -40,6 +41,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     private AlarmManager alarmManager;
     public static ArrayList<AlarmDBItem> alarmList = new ArrayList<AlarmDBItem>();
     public AlarmAdapter ad;
+    private static String fileName = "alarmSaveFile.ser"; //file name for the alarms to be saved.
 
 
     @Override
@@ -70,17 +72,6 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         Log.e("LOG MESSAGE MINUTE SET " , String.valueOf(min));
         alarmManager = (AlarmManager)getActivity().getSystemService(ALARM_SERVICE);
 
-//        buttonSetAlarm = (Button) view.findViewById(R.id.set_alarm_button);
-//
-//
-//        // set on click listener method for set button
-//        buttonSetAlarm.setOnClickListener(new View.OnClickListener(){
-//
-//            @Override
-//            public void onClick(View view) {
-
-        // the reason for using two calenders for future extension
-        // for checking is current time was selected , for example not a time from past
         Calendar calCurr = Calendar.getInstance();
 
         String time = calCurr.getTime().toString();
@@ -103,13 +94,16 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         toast.show();
     }
 
+    //sets an alarm and makes it active.
+    //adds alarm to the alarmist and saves the list.
     private void setAlarm(Calendar targetCal, ArrayList<AlarmDBItem> alarmList){
 
         // creating an intent associated with AlarmReceiver class
         Intent alarmIntent = new Intent(getActivity(), AlarmReceiver.class);
         final int alarmID = (int) System.currentTimeMillis();
-        //final int alarmID = 0;
+        Log.e("Log message: ", "alarm created with id: " + alarmID);
         alarmList.add(new AlarmDBItem(targetCal, alarmID));
+        Log.e("Log message: ", "the alarm list id is: " + alarmList.get(alarmList.size()-1).getID());
         saveFile(this.getContext());
         // creating  a pending intent that delays the intent until the specified calender time is reached
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), alarmID, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -118,8 +112,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
     }
 
-    public static String fileName = "alarmSaveFile.ser";
-
+    //saves the alarm list to a file
     public void saveFile(Context context)
     {
         try {
@@ -133,6 +126,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         }
     }
 
+    //loads the alarm list from the file
     public void loadFile(Context context){
         try {
             FileInputStream fileInputStream = context.openFileInput(fileName);

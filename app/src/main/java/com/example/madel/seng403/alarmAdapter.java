@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import static android.content.Context.ALARM_SERVICE;
 
 /**
  * Created by Quinn on 2017-02-27.
+ * Adapter for the list view of alarmlistfragment for formatting
  */
 
 public class AlarmAdapter extends BaseAdapter {
@@ -49,16 +51,6 @@ public class AlarmAdapter extends BaseAdapter {
         return alarmList.get(i).getID();
     }
 
-   /* @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        if(view==null)
-        {
-            view = inflator.inflate(android.R.layout.simple_list_item_1, viewGroup, false);
-        }
-        TextView name = (TextView) view.findViewById(android.R.id.text1);
-        name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString());
-        return view;
-    } */
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
@@ -70,12 +62,17 @@ public class AlarmAdapter extends BaseAdapter {
         name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString());
         idforbuttonalarm = i;
         final Button cancelButton = (Button) view.findViewById(R.id.delete_btn);
+        cancelButton.setTag(i);
         cancelButton.setOnClickListener(new View.OnClickListener(){
+            //functionality of the cancel button for a given alarm
+            //prevents the alarm from ringing before it goes off.
             @Override
             public void onClick(View v) {
                 cancelButton.setBackgroundColor(0xff0000);
+                //Log.e("Log message: ", "button id: " + cancelButton.getTag());
+                //Log.e("Log message: ", "alarm cancelled with id: " + alarmList.get((int) cancelButton.getTag()).getID());
                 Intent cancelIntent = new Intent(context,AlarmReceiver.class);
-                PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, alarmList.get(idforbuttonalarm).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelButton.getTag()).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
                 am.cancel(cancelPendingIntent);
                 Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Cancelled!", Toast.LENGTH_LONG);
