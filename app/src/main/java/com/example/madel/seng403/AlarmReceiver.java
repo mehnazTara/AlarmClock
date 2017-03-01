@@ -59,7 +59,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
         Intent dismissIntent  = new Intent(context,DismissReceiver.class);
         PendingIntent disMissPendingIntent = PendingIntent.getBroadcast(context,0,dismissIntent,0);
-       myNotification = new NotificationCompat.Builder(context)
+        myNotification = new NotificationCompat.Builder(context)
 
                 .setContentTitle("Alarm Notification!")
                 .setContentText("An alarm is ringing")
@@ -71,20 +71,18 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
                 .setSmallIcon(R.mipmap.notify_icon)
 
+
+
                 .addAction(R.mipmap.snooze_icon, "snooze", null)
-                .addAction(R.mipmap.xicon, "dismiss", null)
-
-
-
-               .addAction(R.mipmap.snooze_icon, "snooze", null)
-               .addAction(R.mipmap.xicon, "dismiss", disMissPendingIntent)
+                .addAction(R.mipmap.xicon, "dismiss", disMissPendingIntent)
 
 
 
 
 
 
-               .build();
+                .build();
+
 
         notificationManager =
                 (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
