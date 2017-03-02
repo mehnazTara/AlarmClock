@@ -51,22 +51,22 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                 .getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(5000);
 
-
+        // creating intent and pending intent for starting notification
         Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(myBlog));
         myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, myIntent, 0);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                context,
-                0,
-                myIntent,
-                0);
 
+        // creating intent and pending intent for starting Dismiss BroadcastReceiver
         Intent dismissIntent  = new Intent(context,DismissReceiver.class);
         PendingIntent disMissPendingIntent = PendingIntent.getBroadcast(context,0,dismissIntent,0);
 
+        // creating intent and pending intent for snooze
         Intent snoozeIntent = new Intent(context, SnoozeReceiver.class);
         PendingIntent doSnoozeIntent = PendingIntent.getBroadcast(context, 0, snoozeIntent,0);
 
+
+        // building and setting the motification
         myNotification = new NotificationCompat.Builder(context)
 
                 .setContentTitle("Alarm Notification!")
@@ -85,13 +85,9 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                 .addAction(R.mipmap.xicon, "dismiss", disMissPendingIntent)
 
 
-
-
-
-
                 .build();
 
-
+        // starting the notification service
         notificationManager =
                 (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(MY_NOTIFICATION_ID, myNotification);

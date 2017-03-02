@@ -21,13 +21,15 @@ import java.security.Provider;
 
 /**
  * Created by coolest person ever on 2017-02-14.
+ * This class represents the RingtoneService. This class uses MediaPlayer to play mp4 from
+ * raw folder.
  */
 
 public class RingtonePlayingService extends Service {
 
     MediaPlayer media_song;
-    int startid;
-    boolean isReturning;
+//    int startid;
+//    boolean isReturning;
 
     @Nullable
     @Override
@@ -39,30 +41,18 @@ public class RingtonePlayingService extends Service {
 
 
     @Override
+    /**
+     * this methods is called when this Service class is instantiated
+     * it starts the mp3 from raw folder
+     */
     public int onStartCommand(Intent intent, int flags, int startId){
         Log.i("LocalService", "Recieved start id"+ startId+ ":" + intent);
-        media_song= MediaPlayer.create(this, R.raw.song1);     /*  NotificationCompat.Builder builder= new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.mipmap.notify_icon);
-        builder.setContentTitle("My Notification");
-        builder.setContentText("You have an alarm notification....");
-       // Intent myitnent= new Intent(this, NotificationActivity.class);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //startActivity(myintent);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(NotificationActivity.class);
-        stackBuilder.addNextIntent(intent);
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(pendingIntent);
-        builder.addAction(R.mipmap.snooze_icon, "Snooze",null);
-        builder.addAction(R.mipmap.xicon, "Dismiss", null);
-        //NotificationManager NM= (NotificationManager) getSystemService() ;
-        NotificationManager NM= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        NM.notify(0,builder.build());
-        return START_NOT_STICKY;
-*/
+        media_song= MediaPlayer.create(this, R.raw.song1);
 
+        // starts the song
         media_song.start();
 
+        // this block of code makes the song stop after 30 seconds
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -85,28 +75,10 @@ public class RingtonePlayingService extends Service {
 
         //tell us we have stopped
         Toast.makeText(this, "on destroy called", Toast.LENGTH_SHORT). show();
+        // song is stopped on destroy
         media_song.stop();
     }
 
-
-    public void showNotification(View view){
-        NotificationCompat.Builder builder= new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.mipmap.notify_icon);
-        builder.setContentTitle("My Notification");
-        builder.setContentText("You have an alarm notification....");
-        Intent intent= new Intent(this, NotificationActivity.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(NotificationActivity.class);
-        stackBuilder.addNextIntent(intent);
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(pendingIntent);
-        builder.addAction(R.mipmap.snooze_icon, "Snooze",null);
-        builder.addAction(R.mipmap.xicon, "Dismiss", null);
-        //NotificationManager NM= (NotificationManager) getSystemService() ;
-        NotificationManager NM= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        NM.notify(0,builder.build());
-
-    }
 
 
 }

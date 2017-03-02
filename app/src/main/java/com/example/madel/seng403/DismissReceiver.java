@@ -15,6 +15,7 @@ import static android.content.Context.ALARM_SERVICE;
 public class DismissReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        // calls on destory method for RingtonePlayingService
         context.stopService(new Intent(context,RingtonePlayingService.class));
     }
 }
