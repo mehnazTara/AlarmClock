@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TimePicker;
 import android.app.Application;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,12 +29,13 @@ import java.util.ArrayList;
  * Use the {@link AlarmListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+
 public class AlarmListFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static String fileName = "alarmSaveFile.ser"; //file name that the alarms are saved to
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -41,10 +43,9 @@ public class AlarmListFragment extends Fragment {
 
     // private fields
     private TimePicker pickerTime;
-    private  Button buttonSetAlarm;
-    public static ArrayList<AlarmDBItem> alarmList = new ArrayList<AlarmDBItem>();
-    private ListView listView;
+    private static ListView listView;
     private AlarmAdapter adapter;
+    private static Context context;
 
     private OnFragmentInteractionListener mListener;
 
@@ -72,7 +73,6 @@ public class AlarmListFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        loadFile(this.getContext());
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -86,8 +86,9 @@ public class AlarmListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_alarm_list, container, false);
         listView = (ListView) view.findViewById(R.id.alarm_list_view);
-        this.adapter = new AlarmAdapter(this.getContext(), alarmList);
+        this.adapter = new AlarmAdapter(this.getContext(), MainActivity.getList());
         listView.setAdapter(adapter);
+        context = this.getContext();
         return view;
     }
 
@@ -106,24 +107,24 @@ public class AlarmListFragment extends Fragment {
             }
         });
 
-        FloatingActionButton listbutton = (FloatingActionButton) view.findViewById(R.id.listbutton);
+       /* FloatingActionButton listbutton = (FloatingActionButton) view.findViewById(R.id.listbutton);
         listbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
                 checkListFunction();
-                adapter = new AlarmAdapter(getContext(), alarmList);
-                listView.setAdapter(adapter);
+                listView.setAdapter(new AlarmAdapter(getContext(), MainActivity.getList()));
             }
-        });
+        }); */
     }
 
-    //loads the list of alarms from memory when the application has been closed, or the list
-    //is refreshed.
+    //confirms the correct alarms are loaded
     public void checkListFunction()
     {
-        loadFile(this.getContext());
-        adapter.notifyDataSetChanged();
+        for(int i=0; i<MainActivity.getList().size(); i++)
+        {
+            System.out.println(MainActivity.getList().get(i).getHour() + ":" + MainActivity.getList().get(i).getMinute());
+        }
     }
 
     // functionality for the button.
@@ -150,21 +151,9 @@ public class AlarmListFragment extends Fragment {
         mListener = null;
     }
 
-    //loads the file of alarms from storage.
-    //Called when the app is shut down or fragment is reloaded after timepicker fragment.
-    public void loadFile(Context context){
-        try {
-            FileInputStream fileInputStream = context.openFileInput(fileName);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            this.alarmList = (ArrayList<AlarmDBItem>) objectInputStream.readObject();
-            objectInputStream.close();
-            fileInputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public static void updateListView()
+    {
+        listView.setAdapter(new AlarmAdapter(context, MainActivity.getList()));
     }
 
     public interface OnFragmentInteractionListener {
