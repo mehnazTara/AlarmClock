@@ -107,15 +107,6 @@ public class AlarmListFragment extends Fragment {
             }
         });
 
-       /* FloatingActionButton listbutton = (FloatingActionButton) view.findViewById(R.id.listbutton);
-        listbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                checkListFunction();
-                listView.setAdapter(new AlarmAdapter(getContext(), MainActivity.getList()));
-            }
-        }); */
     }
 
     //confirms the correct alarms are loaded

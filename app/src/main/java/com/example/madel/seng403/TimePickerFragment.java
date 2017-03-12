@@ -7,8 +7,10 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.Calendar;
-import android.icu.util.TimeZone;
+
+import java.sql.Time;
+import java.util.Calendar;
+import java.util.TimeZone;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
@@ -36,7 +38,7 @@ import static android.content.Context.ALARM_SERVICE;
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
     // private fields
-    private TimePicker pickerTime;
+    //private TimePicker pickerTime;
     private  Button buttonSetAlarm;
     private AlarmManager alarmManager;
     public AlarmAdapter ad;
@@ -45,9 +47,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     public Dialog onCreateDialog(Bundle savedInstanceState){
         //Use the current time as the default values for the time picker
         Calendar c = Calendar.getInstance();
-        TimeZone zone = TimeZone.getTimeZone("Canada/Calgary");
-        c.setTimeZone(zone);
-        int hour = c.get(Calendar.HOUR);
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
         Log.e("LOG MESSAGE INITIAL ", String.valueOf(hour));
         Log.e("LOG INITIAL MIN", String.valueOf(minute));
@@ -74,11 +74,15 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         Log.e("Log meesage: ", time);
         Calendar calTarget = (Calendar) calCurr.clone();
 
-        // getting the time from timepicker and setting it to the caldendar
-        calTarget.set(Calendar.HOUR, hour);
+        // getting the time from timepicker and setting it to the calendar
+        calTarget.set(Calendar.HOUR_OF_DAY, hour);
         calTarget.set(Calendar.MINUTE, min);
         calTarget.set(Calendar.SECOND, 0);
         calTarget.set(Calendar.MILLISECOND, 0);
+        if(calTarget.getTime().before(calCurr.getTime()))
+        {
+            calTarget.set(Calendar.HOUR_OF_DAY, hour + 24);
+        }
 
 
         String time1 = calTarget.getTime().toString();

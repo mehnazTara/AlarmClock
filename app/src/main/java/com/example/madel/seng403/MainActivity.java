@@ -72,5 +72,17 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveFile(this);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        loadFile(this);
+    }
+
 
 }
