@@ -21,6 +21,8 @@ import java.security.Provider;
 
 /**
  * Created by coolest person ever on 2017-02-14.
+ * This class represents the RingtoneService. This class uses MediaPlayer to play mp4 from
+ * raw folder.
  */
 
 public class RingtonePlayingService extends Service {
@@ -35,11 +37,16 @@ public class RingtonePlayingService extends Service {
     }
 
     @Override
+    /**
+     * this methods is called when this Service class is instantiated
+     * it starts the mp3 from raw folder
+     */
     public int onStartCommand(Intent intent, int flags, int startId){
         Log.i("LocalService", "Recieved start id"+ startId+ ":" + intent);
         media_song= MediaPlayer.create(this, R.raw.song1);
         media_song.start();
 
+        // this block of code makes the song stop after 30 seconds
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -57,10 +64,8 @@ public class RingtonePlayingService extends Service {
 
         //tell us we have stopped
         Toast.makeText(this, "on destroy called", Toast.LENGTH_SHORT). show();
+        // song is stopped on destroy
         media_song.stop();
     }
-
-
-
 
 }
