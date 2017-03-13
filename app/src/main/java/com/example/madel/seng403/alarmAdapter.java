@@ -60,7 +60,7 @@ public class AlarmAdapter extends BaseAdapter {
         name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString());
         idforbuttonalarm = i;
 
-        final Button cancelButton = (Button) view.findViewById(R.id.delete_btn);
+        final Button cancelButton = (Button) view.findViewById(R.id.cancel_btn);
         cancelButton.setTag(i);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             //functionality of the cancel button for a given alarm
@@ -82,8 +82,8 @@ public class AlarmAdapter extends BaseAdapter {
         final Button deleteButton = (Button) view.findViewById(R.id.delete_btn);
         deleteButton.setTag(i);
         deleteButton.setOnClickListener(new View.OnClickListener() {
-            //functionality of the cancel button for a given alarm
-            //prevents the alarm from ringing before it goes off.
+            //functionality of the delete button for a given alarm
+            //prevents the alarm from ringing before it goes off then deletes the alarm from the list
             @Override
             public void onClick(View v) {
                 deleteButton.setBackgroundColor(0xff0000);
