@@ -1,16 +1,21 @@
 package com.example.madel.seng403;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.app.Application;
 import android.widget.Toast;
@@ -88,6 +93,18 @@ public class AlarmListFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.alarm_list_view);
         this.adapter = new AlarmAdapter(this.getContext(), MainActivity.getList());
         listView.setAdapter(adapter);
+
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            //adapteriew instead of parent
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int item = adapter.getCount();
+                Intent intent = new Intent(getActivity(), MainActivity.class);                //based on item add info to intent
+                startActivity(intent);
+            }
+        });
         context = this.getContext();
         return view;
     }
@@ -96,6 +113,9 @@ public class AlarmListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+
         // FAB for alarm list
         // creates new instance of TimePickerFragment to choose the alarm time
         FloatingActionButton alarmListFab = (FloatingActionButton) view.findViewById(R.id.alarm_list_fab);
@@ -108,6 +128,12 @@ public class AlarmListFragment extends Fragment {
         });
 
     }
+
+
+
+
+
+
 
     //confirms the correct alarms are loaded
     public void checkListFunction()

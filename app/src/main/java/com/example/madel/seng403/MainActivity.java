@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         viewPager = (ViewPager) findViewById(R.id.pager);
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
+
     }
 
     @Override

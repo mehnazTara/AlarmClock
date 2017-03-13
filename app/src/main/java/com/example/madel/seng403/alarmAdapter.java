@@ -31,6 +31,9 @@ public class AlarmAdapter extends BaseAdapter {
 
     public AlarmAdapter(Context c, ArrayList<AlarmDBItem> alarms)
     {
+
+
+
         this.context = c;
         this.alarmList = alarms;
         inflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -50,10 +53,19 @@ public class AlarmAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return alarmList.get(i).getID();
     }
+//remove this ;ater
+    public long ItemClicked(int i) {
+        return alarmList.get(i).getID();
+    }
 
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+
+
+
+
+
         if(view==null)
         {
             view = inflator.inflate(R.layout.rowlayout, viewGroup, false);
