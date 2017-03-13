@@ -77,6 +77,7 @@ public class AlarmAdapter extends BaseAdapter {
                 am.cancel(cancelPendingIntent);
                 Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Cancelled!", Toast.LENGTH_LONG);
                 toast.show();
+
             }
         });
         return view;

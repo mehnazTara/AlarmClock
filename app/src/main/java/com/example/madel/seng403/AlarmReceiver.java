@@ -37,8 +37,12 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        int index = intent.getIntExtra("AlarmPosition",0);
         long id = intent.getLongExtra("id", 0);
         Log.e("LOG MESSAGE:", "inside alarm receiver");
+        Log.e("LOG MESSAGE:", "inside alarm receiver");
+
+
 
 
         Intent service_intent = new Intent(context, RingtonePlayingService.class);
