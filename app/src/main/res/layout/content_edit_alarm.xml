@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_edit_alarm"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.madel.seng403.EditAlarm"
+    tools:showIn="@layout/activity_edit_alarm">
+
+
+    <CheckBox
+        android:text="repeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox"
+        android:layout_below="@+id/timePicker"
+        android:layout_alignParentStart="true" />
+
+    <RadioButton
+        android:text="TR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButton4"
+        android:layout_alignBaseline="@+id/radioButton3"
+        android:layout_alignBottom="@+id/radioButton3"
+        android:layout_toEndOf="@+id/radioButton3" />
+
+    <RadioButton
+        android:text="F"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButton5"
+        android:layout_alignBaseline="@+id/radioButton4"
+        android:layout_alignBottom="@+id/radioButton4"
+        android:layout_toEndOf="@+id/radioButton4" />
+
+    <RadioButton
+        android:text="W"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButton3"
+        android:layout_alignBaseline="@+id/radioButton2"
+        android:layout_alignBottom="@+id/radioButton2"
+        android:layout_toEndOf="@+id/radioButton2" />
+
+    <RadioButton
+        android:text="SN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButton7"
+        android:layout_alignBaseline="@+id/radioButton6"
+        android:layout_alignBottom="@+id/radioButton6"
+        android:layout_toEndOf="@+id/radioButton6" />
+
+    <RadioButton
+        android:text="T"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButton2"
+        android:layout_below="@+id/checkBox"
+        android:layout_toEndOf="@+id/radioButton" />
+
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="330dp"
+        android:id="@+id/timePicker"
+        android:layout_alignParentEnd="true" />
+
+    <RadioButton
+        android:text="M"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButton"
+        android:layout_below="@+id/checkBox"
+        android:layout_alignParentStart="true" />
+
+    <RadioButton
+        android:text="S"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButton6"
+        android:layout_alignBaseline="@+id/radioButton5"
+        android:layout_alignBottom="@+id/radioButton5"
+        android:layout_toEndOf="@+id/radioButton5" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:onClick="Ringtone"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_notifications_black_24dp"
+        android:id="@+id/imageButton"
+        android:layout_below="@+id/radioButton2"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="11dp" />
+
+
+</RelativeLayout>

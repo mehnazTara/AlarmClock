@@ -84,6 +84,14 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         super.onResume();
         loadFile(this);
     }
+    public void Edit(View view) {
+        Intent intentLoadNewActivity = new Intent(MainActivity.this, EditAlarm.class); // change activity
+        startActivity(intentLoadNewActivity);
+    }
 
+    public void Ringtone(View view) {
+        Intent intentLoadNewActivity = new Intent(MainActivity.this, Edit.class); // change activity
+        startActivity(intentLoadNewActivity);
+    }
 
 }

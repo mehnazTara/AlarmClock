@@ -25,6 +25,15 @@
         android:layout_marginRight="5dp"
         android:text="Cancel" />
 
+    <Button
+        android:text="edit "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit"
+         android:onClick="Edit"
+        android:layout_alignBaseline="@+id/delete_btn"
+        android:layout_alignBottom="@+id/delete_btn"
+        android:layout_toStartOf="@+id/delete_btn" />
 
 
 </RelativeLayout>
