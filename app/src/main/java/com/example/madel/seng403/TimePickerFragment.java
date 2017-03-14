@@ -108,21 +108,15 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         MainActivity.getList().add(new AlarmDBItem(targetCal, alarmID,true));
         Log.e("Log message: ", "the alarm list id is: " + MainActivity.getList().get(MainActivity.getList().size()-1).getID());
 
-       // int index = MainActivity.getList().size()-1;
+        // passing the alarm Id to AlarmReiver
         alarmIntent.putExtra("AlarmId", alarmID);
-       // Log.e("POSITION", String.valueOf(index));
         // creating  a pending intent that delays the intent until the specified calender time is reached
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), alarmID, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // setting the alarm Manager to set alarm at exact time of the user chosen time
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
         AlarmListFragment.updateListView();
-//        ComponentName receiver = new ComponentName(getActivity(), BootReceiver.class);
-//        PackageManager pm = getActivity().getPackageManager();
-//
-//        pm.setComponentEnabledSetting(receiver,
-//                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-//                PackageManager.DONT_KILL_APP);
+
     }
 
 }

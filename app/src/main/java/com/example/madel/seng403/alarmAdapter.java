@@ -72,9 +72,13 @@ public class AlarmAdapter extends BaseAdapter {
                 //Log.e("Log message: ", "button id: " + cancelButton.getTag());
                 //Log.e("Log message: ", "alarm cancelled with id: " + alarmList.get((int) cancelButton.getTag()).getID());
                 Intent cancelIntent = new Intent(context,AlarmReceiver.class);
+                int alarmId = alarmList.get((int) cancelButton.getTag()).getID();
                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelButton.getTag()).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
                 am.cancel(cancelPendingIntent);
+
+                // alarm is inactivated when cancels so that it does not fire up after reboot
+                MainActivity.changeAlarmToInactive(alarmId,context);
                 Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Cancelled!", Toast.LENGTH_LONG);
                 toast.show();
 

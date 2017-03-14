@@ -85,4 +85,18 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     }
 
 
+    /**
+     * finds the alarmDBitem in the list and changes its active field variable to false
+     * @param id
+     * @param context
+     */
+    public static void changeAlarmToInactive( int id, Context context ){
+        for (AlarmDBItem alarm: alarmList){
+            if(alarm.getID()== id){
+                alarm.setStatus(false);
+            }
+        }
+       saveFile(context);
+    }
+
 }

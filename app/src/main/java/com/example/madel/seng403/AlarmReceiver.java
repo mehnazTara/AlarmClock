@@ -40,14 +40,12 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         int index = intent.getExtras().getInt("AlarmId");
         long id = intent.getLongExtra("id", 0);
         Log.e("LOG MESSAGE:", "inside alarm receiver ID " + index);
-       // Log.e("LOG MESSAGE:", "inside alarm receiver");
 
-        for (AlarmDBItem alarm: MainActivity.getList()){
-            if(alarm.getID()== index){
-                alarm.setStatus(false);
-            }
-        }
-        MainActivity.saveFile(context);
+
+        // changing the alarm to inactive status
+        MainActivity.changeAlarmToInactive(index, context);
+
+        // for testing purpose only
         MainActivity.loadFile(context);
 
         for (AlarmDBItem alarm: MainActivity.getList()){
@@ -57,8 +55,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                 }
             }
         }
-
-
 
 
 

@@ -15,7 +15,7 @@ public class AlarmDBItem implements java.io.Serializable {
     private int id;
     private int hour;
     private int minute;
-    private  boolean status;
+    private  boolean active;
     private String label;
 
     public AlarmDBItem(){}
@@ -25,7 +25,7 @@ public class AlarmDBItem implements java.io.Serializable {
         this.id = id;
         this.hour = calendar.get(Calendar.HOUR);
         this.minute = calendar.get(Calendar.MINUTE);
-        this.status = status;
+        this.active = status;
     }
 
     public int getID()
@@ -60,8 +60,10 @@ public class AlarmDBItem implements java.io.Serializable {
             return Integer.toString(minute);
         }
     }
+
+    // gets the active boolean of the object
     public boolean getStatus(){
-        return this.status;
+        return this.active;
     }
 
     public String getLabel(){
@@ -69,7 +71,7 @@ public class AlarmDBItem implements java.io.Serializable {
     }
 
     public void setStatus(boolean input){
-        this.status = input;
+        this.active = input;
     }
 
     public void setLabel(String input){
