@@ -37,10 +37,27 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        int index = intent.getIntExtra("AlarmPosition",0);
+        int index = intent.getExtras().getInt("AlarmId");
         long id = intent.getLongExtra("id", 0);
-        Log.e("LOG MESSAGE:", "inside alarm receiver");
-        Log.e("LOG MESSAGE:", "inside alarm receiver");
+        Log.e("LOG MESSAGE:", "inside alarm receiver ID " + index);
+       // Log.e("LOG MESSAGE:", "inside alarm receiver");
+
+        for (AlarmDBItem alarm: MainActivity.getList()){
+            if(alarm.getID()== index){
+                alarm.setStatus(false);
+            }
+        }
+        MainActivity.saveFile(context);
+        MainActivity.loadFile(context);
+
+        for (AlarmDBItem alarm: MainActivity.getList()){
+            if(alarm.getID()== index){
+                if(!alarm.getStatus()) {
+                    Log.e("Alarm status", "false");
+                }
+            }
+        }
+
 
 
 

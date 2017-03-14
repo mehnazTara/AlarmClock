@@ -15,12 +15,12 @@ public class AlarmDBItem implements java.io.Serializable {
     private int id;
     private int hour;
     private int minute;
-    private  String status;
+    private  boolean status;
     private String label;
 
     public AlarmDBItem(){}
 
-    public AlarmDBItem(Calendar calendar, int id,String status)
+    public AlarmDBItem(Calendar calendar, int id,boolean status)
     {
         this.id = id;
         this.hour = calendar.get(Calendar.HOUR);
@@ -60,7 +60,7 @@ public class AlarmDBItem implements java.io.Serializable {
             return Integer.toString(minute);
         }
     }
-    public String getStatus(){
+    public boolean getStatus(){
         return this.status;
     }
 
@@ -68,7 +68,7 @@ public class AlarmDBItem implements java.io.Serializable {
         return this.label;
     }
 
-    public void setStatus(String input){
+    public void setStatus(boolean input){
         this.status = input;
     }
 
