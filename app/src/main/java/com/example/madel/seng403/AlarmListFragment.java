@@ -101,7 +101,7 @@ public class AlarmListFragment extends Fragment {
             //adapteriew instead of parent
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int item = adapter.getCount();
-                Intent intent = new Intent(getActivity(), MainActivity.class);                //based on item add info to intent
+                Intent intent = new Intent(getActivity(), EditAlarm.class);
                 startActivity(intent);
             }
         });

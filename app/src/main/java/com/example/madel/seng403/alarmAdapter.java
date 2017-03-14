@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,6 +93,58 @@ public class AlarmAdapter extends BaseAdapter {
                 toast.show();
             }
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     /*  final Button edit = (Button) view.findViewById(R.id.edit);
+        cancelButton.setTag(i);
+        edit.setOnClickListener(new View.OnClickListener(){
+            //functionality of the cancel button for a given alarm
+            //prevents the alarm from ringing before it goes off.
+            @Override
+            public void onClick(View v) {
+                AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+                //Log.e("Log message: ", "button id: " + cancelButton.getTag());
+                //Log.e("Log message: ", "alarm cancelled with id: " + alarmList.get((int) cancelButton.getTag()).getID());
+                Intent cancelIntent = new Intent(context,AlarmReceiver.class);
+                PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelButton.getTag()).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(cancelPendingIntent);
+                Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Cancelled!", Toast.LENGTH_LONG);
+                toast.show();
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, (System.currentTimeMillis() + (1000*15)), pendingIntent);
+
+
+            }
+        });
+
+
+*/
+
+
+
+
+
+
+
+
         return view;
     }
 
