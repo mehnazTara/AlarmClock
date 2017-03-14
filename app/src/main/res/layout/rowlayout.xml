@@ -16,15 +16,15 @@
         android:textColor="@color/white"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/delete_btn"
+    <ToggleButton
+        android:text="ToggleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="5dp"
-        android:text="Cancel" />
-
+        android:layout_alignTop="@+id/list_item_string"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/cancel_btn"
+        android:textOn="Enable"
+        android:textOff="Cancel" />
     <Button
         android:text="edit "
         android:layout_width="wrap_content"
