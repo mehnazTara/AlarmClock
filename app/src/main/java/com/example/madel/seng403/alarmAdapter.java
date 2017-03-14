@@ -102,6 +102,7 @@ public class AlarmAdapter extends BaseAdapter {
                 am.cancel(deletePendingIntent);
 
                 MainActivity.getList().remove(i);
+                MainActivity.saveFile(context);
 
                 AlarmListFragment.updateListView();
                 Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Deleted!", Toast.LENGTH_LONG);
