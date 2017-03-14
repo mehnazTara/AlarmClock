@@ -29,8 +29,7 @@ public class AlarmAdapter extends BaseAdapter {
     ArrayList<AlarmDBItem> alarmList;
     int idforbuttonalarm;
 
-    public AlarmAdapter(Context c, ArrayList<AlarmDBItem> alarms)
-    {
+    public AlarmAdapter(Context c, ArrayList<AlarmDBItem> alarms) {
         this.context = c;
         this.alarmList = alarms;
         inflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -53,17 +52,17 @@ public class AlarmAdapter extends BaseAdapter {
 
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        if(view==null)
-        {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
+        if (view == null) {
             view = inflator.inflate(R.layout.rowlayout, viewGroup, false);
         }
         TextView name = (TextView) view.findViewById(R.id.list_item_string);
         name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString());
         idforbuttonalarm = i;
-        final Button cancelButton = (Button) view.findViewById(R.id.delete_btn);
+
+        final Button cancelButton = (Button) view.findViewById(R.id.cancel_btn);
         cancelButton.setTag(i);
-        cancelButton.setOnClickListener(new View.OnClickListener(){
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             //functionality of the cancel button for a given alarm
             //prevents the alarm from ringing before it goes off.
             @Override
@@ -71,8 +70,11 @@ public class AlarmAdapter extends BaseAdapter {
                 cancelButton.setBackgroundColor(0xff0000);
                 //Log.e("Log message: ", "button id: " + cancelButton.getTag());
                 //Log.e("Log message: ", "alarm cancelled with id: " + alarmList.get((int) cancelButton.getTag()).getID());
+
                 Intent cancelIntent = new Intent(context,AlarmReceiver.class);
                 int alarmId = alarmList.get((int) cancelButton.getTag()).getID();
+
+
                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelButton.getTag()).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
                 am.cancel(cancelPendingIntent);
@@ -84,7 +86,28 @@ public class AlarmAdapter extends BaseAdapter {
 
             }
         });
+
+        final Button deleteButton = (Button) view.findViewById(R.id.delete_btn);
+        deleteButton.setTag(i);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            //functionality of the delete button for a given alarm
+            //prevents the alarm from ringing before it goes off then deletes the alarm from the list
+            @Override
+            public void onClick(View v) {
+                deleteButton.setBackgroundColor(0xff0000);
+
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) deleteButton.getTag()).getID(), deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
+
+                MainActivity.getList().remove(i);
+
+                AlarmListFragment.updateListView();
+                Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Deleted!", Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
         return view;
     }
-
 }
