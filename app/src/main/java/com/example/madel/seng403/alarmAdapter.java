@@ -108,35 +108,26 @@ public class AlarmAdapter extends BaseAdapter {
 
 
 
-     /*  final Button edit = (Button) view.findViewById(R.id.edit);
-        cancelButton.setTag(i);
+       final Button edit = (Button) view.findViewById(R.id.edit);
+        edit.setTag(i);
         edit.setOnClickListener(new View.OnClickListener(){
             //functionality of the cancel button for a given alarm
             //prevents the alarm from ringing before it goes off.
             @Override
             public void onClick(View v) {
-                AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-                Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+                int alarmId=  alarmList.get((int) cancelButton.getTag()).getID();
 
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                Intent intentLoadNewActivity = new Intent(context, EditAlarm.class); // change activity
+                intentLoadNewActivity.putExtra("AlarmId", alarmId);
 
-
-                //Log.e("Log message: ", "button id: " + cancelButton.getTag());
-                //Log.e("Log message: ", "alarm cancelled with id: " + alarmList.get((int) cancelButton.getTag()).getID());
-                Intent cancelIntent = new Intent(context,AlarmReceiver.class);
-                PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelButton.getTag()).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-                am.cancel(cancelPendingIntent);
-                Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Cancelled!", Toast.LENGTH_LONG);
-                toast.show();
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, (System.currentTimeMillis() + (1000*15)), pendingIntent);
+                context.startActivity(intentLoadNewActivity);
 
 
             }
         });
 
 
-*/
+
 
 
 
