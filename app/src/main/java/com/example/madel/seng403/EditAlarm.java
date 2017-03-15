@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -25,12 +26,17 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import static android.R.attr.label;
 import static com.example.madel.seng403.MainActivity.alarmList;
 
 public class EditAlarm extends AppCompatActivity {
     AlarmManager alarm_manager;
     TimePicker alarm_timepicker;
     TextView update_text;
+    TextView update_label;
+    EditText edit;
+    TextView editPageText;
+
     Context context;
     int idforbuttonalarm;
     int index;
@@ -53,16 +59,42 @@ public class EditAlarm extends AppCompatActivity {
         alarm_manager= (AlarmManager) getSystemService((ALARM_SERVICE));
         alarm_timepicker=(TimePicker) findViewById(R.id.timePicker);
        update_text=(TextView) findViewById(R.id.list_item_string) ;
+        update_label=(TextView) findViewById(R.id.alarm_lable) ;
+        editPageText=(TextView) findViewById(R.id.textView) ;
+
+        edit=(EditText) findViewById(R.id.editText2) ;
 
 //initialize buttons
         Button save = (Button)findViewById(R.id.save_button);
+        Button label_click = (Button)findViewById(R.id.label_change);
+        label_click.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //getting text from edittext
+            String label_title= edit.getText().toString();
+                //append text to textview label in list
 
-       save.setOnClickListener(new View.OnClickListener() {
+                //I should be using update_label instead of editPageText :(
+                editPageText.setText(label_title);
+
+             //   update_label.append(label_title);
+
+
+                Toast toast = Toast.makeText(context.getApplicationContext(), "label added!", Toast.LENGTH_LONG);
+                toast.show();
+
+
+            }
+        });
+
+
+
+        save.setOnClickListener(new View.OnClickListener() {
            
-
+//on click stuff is commented out because my phone can not run. If anyone is using this on the empulatr
+            //or API>22 then undo comments
            @Override
            public void onClick(View v) {
-
+/*
                    Calendar calendar= Calendar.getInstance();
 
                    calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
@@ -100,7 +132,7 @@ public class EditAlarm extends AppCompatActivity {
                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                AlarmListFragment.updateListView();
 
-
+*/
 
 
 
@@ -118,7 +150,14 @@ public class EditAlarm extends AppCompatActivity {
     }
 
 
-    public void toList(View view) {
+
+
+
+
+
+
+
+        public void toList(View view) {
       /*  AlarmListFragment alarmListFragment= new AlarmListFragment();
         FragmentManager alarmList= alarmListFragment.getFragmentManager();
         FragmentTransaction fragmentTransaction= alarmList.beginTransaction();

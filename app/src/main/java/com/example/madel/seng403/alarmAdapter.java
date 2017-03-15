@@ -73,6 +73,9 @@ public class AlarmAdapter extends BaseAdapter {
             view = inflator.inflate(R.layout.rowlayout, viewGroup, false);
         }
         TextView name = (TextView) view.findViewById(R.id.list_item_string);
+        TextView label = (TextView) view.findViewById(R.id.alarm_lable);
+        label.setText("default label");
+
         name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString());
         idforbuttonalarm = i;
         final Button cancelButton = (Button) view.findViewById(R.id.delete_btn);
