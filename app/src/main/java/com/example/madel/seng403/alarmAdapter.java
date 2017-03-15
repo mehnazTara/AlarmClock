@@ -11,10 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -60,30 +63,37 @@ public class AlarmAdapter extends BaseAdapter {
         name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString());
         idforbuttonalarm = i;
 
-        final Button cancelButton = (Button) view.findViewById(R.id.cancel_btn);
-        cancelButton.setTag(i);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            //functionality of the cancel button for a given alarm
-            //prevents the alarm from ringing before it goes off.
+        final ToggleButton cancelToggle = (ToggleButton) view.findViewById(R.id.cancel_btn);
+        cancelToggle.setTag(i);
+        cancelToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                cancelButton.setBackgroundColor(0xff0000);
-                //Log.e("Log message: ", "button id: " + cancelButton.getTag());
-                //Log.e("Log message: ", "alarm cancelled with id: " + alarmList.get((int) cancelButton.getTag()).getID());
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //Cancel toggle function
+                if (isChecked) {
+                    Intent cancelIntent = new Intent(context, AlarmReceiver.class);
+                    PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, (int) alarmList.get((int) cancelToggle.getTag()).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                    am.cancel(cancelPendingIntent);
+                    Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Cancelled!", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                //Enable alarm toggle function
+                else {
+                    Intent enableIntent = new Intent(context, AlarmReceiver.class);
+                    PendingIntent enablePendingIntent = PendingIntent.getBroadcast(context, (int) alarmList.get((int) cancelToggle.getTag()).getID(), enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
 
-                Intent cancelIntent = new Intent(context,AlarmReceiver.class);
-                int alarmId = alarmList.get((int) cancelButton.getTag()).getID();
+                    Calendar calCurr = Calendar.getInstance();
 
+                    calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag()).getHour());
+                    calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag()).getMinute());
+                    calCurr.set(Calendar.SECOND, 0);
+                    calCurr.set(Calendar.MILLISECOND, 0);
 
-                PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelButton.getTag()).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-                am.cancel(cancelPendingIntent);
-
-                // alarm is inactivated when cancels so that it does not fire up after reboot
-                MainActivity.changeAlarmToInactive(alarmId,context);
-                Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Cancelled!", Toast.LENGTH_LONG);
-                toast.show();
-
+                    am.setExact(am.RTC_WAKEUP, calCurr.getTimeInMillis(), enablePendingIntent);
+                    Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Enabled!", Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
         });
 
