@@ -1,18 +1,24 @@
 package com.example.madel.seng403;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.app.Application;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,6 +34,8 @@ import java.util.ArrayList;
  * Use the {@link AlarmListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+
 public class AlarmListFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,10 +48,9 @@ public class AlarmListFragment extends Fragment {
 
     // private fields
     private TimePicker pickerTime;
-    private  Button buttonSetAlarm;
-    public static ArrayList<AlarmDBItem> alarmList = new ArrayList<AlarmDBItem>();
-    private ListView listView;
+    private static ListView listView;
     private AlarmAdapter adapter;
+    private static Context context;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,7 +78,6 @@ public class AlarmListFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        loadFile(this.getContext());
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -85,14 +91,31 @@ public class AlarmListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_alarm_list, container, false);
         listView = (ListView) view.findViewById(R.id.alarm_list_view);
-        this.adapter = new AlarmAdapter(this.getContext(), alarmList);
+        this.adapter = new AlarmAdapter(this.getContext(), MainActivity.getList());
         listView.setAdapter(adapter);
+
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            //adapteriew instead of parent
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int item = adapter.getCount();
+                Intent intent = new Intent(getActivity(), EditAlarm.class);
+                startActivity(intent);
+            }
+        });
+        context = this.getContext();
         return view;
     }
 
+    //sets up the list view when the view is created
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+
         // FAB for alarm list
         // creates new instance of TimePickerFragment to choose the alarm time
         FloatingActionButton alarmListFab = (FloatingActionButton) view.findViewById(R.id.alarm_list_fab);
@@ -104,29 +127,24 @@ public class AlarmListFragment extends Fragment {
             }
         });
 
-        FloatingActionButton listbutton = (FloatingActionButton) view.findViewById(R.id.listbutton);
-        listbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                checkListFunction();
-                adapter = new AlarmAdapter(getContext(), alarmList);
-                listView.setAdapter(adapter);
-            }
-        });
     }
 
+
+
+
+
+
+
+    //confirms the correct alarms are loaded
     public void checkListFunction()
     {
-        loadFile(this.getContext());
-        for(int i=0; i<alarmList.size(); i++)
+        for(int i=0; i<MainActivity.getList().size(); i++)
         {
-            System.out.println(alarmList.get(i).getHour()+":"+alarmList.get(i).getMinute());
+            System.out.println(MainActivity.getList().get(i).getHour() + ":" + MainActivity.getList().get(i).getMinute());
         }
-        adapter.notifyDataSetChanged();
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // functionality for the button.
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -150,33 +168,11 @@ public class AlarmListFragment extends Fragment {
         mListener = null;
     }
 
-    public static String fileName = "alarmSaveFile.ser";
-
-    public void loadFile(Context context){
-        try {
-            FileInputStream fileInputStream = context.openFileInput(fileName);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            this.alarmList = (ArrayList<AlarmDBItem>) objectInputStream.readObject();
-            objectInputStream.close();
-            fileInputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public static void updateListView()
+    {
+        listView.setAdapter(new AlarmAdapter(context, MainActivity.getList()));
     }
 
-    /**
-     * This in'terface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

@@ -1,13 +1,15 @@
 package com.example.madel.seng403;
 
-import android.icu.util.Calendar;
+import java.util.Calendar;
 import android.provider.BaseColumns;
 import android.widget.TimePicker;
 
 /**
  * Created by Quinn on 2017-02-27.
+ * Object that represents a single alarm.
+ * AlarmDbItems are stored within an alarmlist.
+ * AlarmDbItems contain information about the alarm: unique id, hour, and minute set.
  */
-
 public class AlarmDBItem implements java.io.Serializable {
 
     private int id;
@@ -23,7 +25,7 @@ public class AlarmDBItem implements java.io.Serializable {
         this.minute = calendar.get(Calendar.MINUTE);
     }
 
-    public long getID()
+    public int getID()
     {
         return this.id;
     }
@@ -43,6 +45,7 @@ public class AlarmDBItem implements java.io.Serializable {
         return Integer.toString(this.hour);
     }
 
+    //formats the minute value in a regular :mm format when the minutes value is only one digit.
     public String getMinuteString()
     {
         if(minute<10)

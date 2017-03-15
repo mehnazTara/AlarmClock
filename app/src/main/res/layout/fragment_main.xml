@@ -24,27 +24,4 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/swipe3"
-        android:id="@+id/imageView2"
-        android:layout_marginBottom="12dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/textClock"
-        android:layout_marginStart="52dp" />
-
-    <TextView
-        android:text="Swipe "
-        android:textColor="@color/white"
-        android:textSize="30sp"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:layout_marginBottom="23dp"
-        android:layout_alignBottom="@+id/imageView2"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="11dp" />
-
 </RelativeLayout>
