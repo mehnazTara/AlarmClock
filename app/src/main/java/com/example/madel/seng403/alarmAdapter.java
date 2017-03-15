@@ -16,6 +16,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.CompoundButton;
 import java.util.concurrent.TimeUnit;
+import java.util.Calendar;
 
 import java.util.ArrayList;
 
@@ -55,38 +56,6 @@ public class AlarmAdapter extends BaseAdapter {
         return alarmList.get(i).getID();
     }
 
-/*
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        if(view==null)
-        {
-            view = inflator.inflate(R.layout.rowlayout, viewGroup, false);
-        }
-        TextView name = (TextView) view.findViewById(R.id.list_item_string);
-        name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString());
-        idforbuttonalarm = i;
-        final Button cancelButton = (Button) view.findViewById(R.id.delete_btn);
-        cancelButton.setTag(i);
-        cancelButton.setOnClickListener(new View.OnClickListener(){
-            //functionality of the cancel button for a given alarm
-            //prevents the alarm from ringing before it goes off.
-            @Override
-            public void onClick(View v) {
-                cancelButton.setBackgroundColor(0xff0000);
-                //Log.e("Log message: ", "button id: " + cancelButton.getTag());
-                //Log.e("Log message: ", "alarm cancelled with id: " + alarmList.get((int) cancelButton.getTag()).getID());
-                Intent cancelIntent = new Intent(context,AlarmReceiver.class);
-                PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelButton.getTag()).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-                am.cancel(cancelPendingIntent);
-                Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Cancelled!", Toast.LENGTH_LONG);
-                toast.show();
-            }
-        });
-        return view;
-    }
-*/
-
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
@@ -95,9 +64,6 @@ public class AlarmAdapter extends BaseAdapter {
         TextView name = (TextView) view.findViewById(R.id.list_item_string);
         name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString());
         idforbuttonalarm = i;
-
-        currentHour = alarmList.get(i).getHour();
-        currentMin = alarmList.get(i).getMinute();
 
         //Cancel Toggle Button
         final ToggleButton cancelToggle = (ToggleButton) view.findViewById(R.id.cancel_btn);
@@ -108,19 +74,28 @@ public class AlarmAdapter extends BaseAdapter {
                 //Cancel toggle function
                 if (isChecked) {
                     Intent cancelIntent = new Intent(context, AlarmReceiver.class);
-                    PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, (int) alarmList.get((int) cancelToggle.getTag()).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
                     am.cancel(cancelPendingIntent);
-                    Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Set!", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Cancelled!", Toast.LENGTH_LONG);
                     toast.show();
                 }
                 //Enable alarm toggle function
                 else {
                     Intent enableIntent = new Intent(context, AlarmReceiver.class);
-                    PendingIntent enablePendingIntent = PendingIntent.getBroadcast(context, 0, enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent enablePendingIntent = PendingIntent.getBroadcast(context, (int) alarmList.get((int) cancelToggle.getTag()).getID(), enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-                    long millTime = TimeUnit.HOURS.toMillis(currentHour) + TimeUnit.MINUTES.toMillis(currentMin);
-                    am.setExact(am.RTC_WAKEUP, millTime, enablePendingIntent);
+
+                    Calendar calCurr = Calendar.getInstance();
+
+                    calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag()).getHour());
+                    calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag()).getMinute());
+                    calCurr.set(Calendar.SECOND, 0);
+                    calCurr.set(Calendar.MILLISECOND, 0);
+
+                    am.setExact(am.RTC_WAKEUP, calCurr.getTimeInMillis(), enablePendingIntent);
+                    Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Enabled!", Toast.LENGTH_LONG);
+                    toast.show();
                 }
             }
         });
