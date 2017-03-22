@@ -38,7 +38,6 @@ public class EditAlarm extends AppCompatActivity {
     TextView editPageText;
 
     Context context;
-    int idforbuttonalarm;
     int index;
 
 
@@ -46,7 +45,7 @@ public class EditAlarm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState== null){
-            Bundle extras= getIntent().getExtras();
+            Bundle extras= getIntent().getExtras();//getting alarm id that we pass in
             if(extras!=null){
                  index=extras.getInt("AlarmId");
             }
@@ -94,33 +93,62 @@ public class EditAlarm extends AppCompatActivity {
             //or API>22 then undo comments
            @Override
            public void onClick(View v) {
-/*
+
                    Calendar calendar= Calendar.getInstance();
 
-                   calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
-               calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
+                //   calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
+               //calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
+                 calendar.set(Calendar.HOUR_OF_DAY, 4);
+               calendar.set(Calendar.MINUTE, 20);
+
                calendar.set(Calendar.SECOND,0);
                calendar.set(Calendar.MILLISECOND,0);
+               Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+
+               if(index==-1){
+                   // creating an intent associated with AlarmReceiver class
+                   final int alarmID = (int) System.currentTimeMillis();
+                   Log.e("Log message: ", "alarm created with id: " + alarmID);
+                   MainActivity.getList().add(new AlarmDBItem(calendar, alarmID));
+                   Log.e("Log message: ", "the alarm list id is: " + MainActivity.getList().get(MainActivity.getList().size() - 1).getID());
+                   // creating  a pending intent that delays the intent until the specified calender time is reached
+                   PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                   // setting the alarm Manager to set alarm at exact time of the user chosen time
+                   alarm_manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                   AlarmListFragment.updateListView();
+                   MainActivity.saveFile(context);
+
+               }
+
+
+
+
+
 
                ArrayList<AlarmDBItem> list= MainActivity.getList();
                 int saveSpot=0;
                for(int i=0; i< MainActivity.getList().size(); i++){
                    if(list.get(i).getID()==index){
                        saveSpot=i;
-                       list.get(i).setHour(alarm_timepicker.getHour());
-                       list.get(i).setMinute(alarm_timepicker.getMinute());
+               //        list.get(i).setHour(alarm_timepicker.getHour());
+                 //      list.get(i).setMinute(alarm_timepicker.getMinute());
+                       list.get(i).setHour(4);
+                       list.get(i).setMinute(20);
 
 
                        //      list.remove(i);
 
                    }
-               }
+
+
+
+                   }
                 MainActivity.saveFile(context);
 
                
 
                // creating an intent associated with AlarmReceiver class
-               Intent alarmIntent = new Intent(context, AlarmReceiver.class);
                Log.e("Log message: ", "alarm created with id: " + index);
 
              //  MainActivity.getList().add(saveSpot,new AlarmDBItem(calendar, index));
@@ -132,7 +160,7 @@ public class EditAlarm extends AppCompatActivity {
                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                AlarmListFragment.updateListView();
 
-*/
+
 
 
 
