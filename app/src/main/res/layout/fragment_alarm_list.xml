@@ -12,7 +12,9 @@
 
 
     <ListView android:id="@+id/alarm_list_view"
-        android:layout_width="fill_parent"
+
+
+    android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:dividerHeight="3dip"
         android:divider="@color/white"

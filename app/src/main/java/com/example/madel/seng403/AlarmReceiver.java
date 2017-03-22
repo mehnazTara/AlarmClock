@@ -33,7 +33,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     NotificationManager notificationManager;
     Notification myNotification;
     private String dismiss = "dismiss";
-    private final String myBlog = "http://android-er.blogspot.com/";
+    private final String note = "alarm notification";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -69,7 +69,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         vibrator.vibrate(5000);
 
         // creating intent and pending intent for starting notification
-        Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(myBlog));
+        Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(note));
         myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, myIntent, 0);
 

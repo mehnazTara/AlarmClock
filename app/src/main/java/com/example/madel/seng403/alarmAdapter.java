@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +34,8 @@ public class AlarmAdapter extends BaseAdapter {
     ArrayList<AlarmDBItem> alarmList;
     int idforbuttonalarm;
 
-    public AlarmAdapter(Context c, ArrayList<AlarmDBItem> alarms) {
+    public AlarmAdapter(Context c, ArrayList<AlarmDBItem> alarms)
+    {
         this.context = c;
         this.alarmList = alarms;
         inflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -52,14 +55,24 @@ public class AlarmAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return alarmList.get(i).getID();
     }
+//remove this ;ater
+    public long ItemClicked(int i) {
+        return alarmList.get(i).getID();
+    }
 
 
     @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
-        if (view == null) {
+    public View getView(int i, View view, ViewGroup viewGroup) {
+
+
+        if(view==null)
+        {
             view = inflator.inflate(R.layout.rowlayout, viewGroup, false);
         }
         TextView name = (TextView) view.findViewById(R.id.list_item_string);
+        TextView label = (TextView) view.findViewById(R.id.alarm_lable);
+        label.setText("default label");
+
         name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString());
         idforbuttonalarm = i;
 
@@ -111,7 +124,7 @@ public class AlarmAdapter extends BaseAdapter {
                 AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
                 am.cancel(deletePendingIntent);
 
-                MainActivity.getList().remove(i);
+                MainActivity.getList().remove((int) deleteButton.getTag());
                 MainActivity.saveFile(context);
 
                 AlarmListFragment.updateListView();
@@ -119,6 +132,25 @@ public class AlarmAdapter extends BaseAdapter {
                 toast.show();
             }
         });
+
+       final Button edit = (Button) view.findViewById(R.id.edit);
+        edit.setTag(i);
+        edit.setOnClickListener(new View.OnClickListener(){
+            //functionality of the cancel button for a given alarm
+            //prevents the alarm from ringing before it goes off.
+            @Override
+            public void onClick(View v) {
+                int alarmId=  alarmList.get((int) cancelToggle.getTag()).getID();
+
+                Intent intentLoadNewActivity = new Intent(context, EditAlarm.class); // change activity
+                intentLoadNewActivity.putExtra("AlarmId", alarmId);
+
+                context.startActivity(intentLoadNewActivity);
+
+
+            }
+        });
+
         return view;
     }
 }
