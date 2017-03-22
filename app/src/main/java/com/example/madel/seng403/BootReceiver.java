@@ -30,8 +30,8 @@ public class BootReceiver extends BroadcastReceiver {
         // getting the file with arrayList object
         MainActivity.loadFile(context);
         ArrayList<AlarmDBItem> list = MainActivity.getList();
-        if ((intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
-                || (intent.getAction().equals("android.intent.action.QUICKBOOT_POWERON"))) {
+     //   if ((intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
+       //         || (intent.getAction().equals("android.intent.action.QUICKBOOT_POWERON"))) {
             for (AlarmDBItem alarm : list) {
                 int id = alarm.getID();
                 int hour = alarm.getHour();
