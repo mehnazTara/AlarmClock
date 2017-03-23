@@ -75,7 +75,7 @@ public class EditAlarm extends AppCompatActivity {
                 //I should be using update_label instead of editPageText :(
                 editPageText.setText(label_title);
 
-             //   update_label.append(label_title);
+               //update_label.append(label_title);
 
 
                 Toast toast = Toast.makeText(context.getApplicationContext(), "label added!", Toast.LENGTH_LONG);
@@ -96,10 +96,10 @@ public class EditAlarm extends AppCompatActivity {
 
                    Calendar calendar= Calendar.getInstance();
 
-                //   calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
-               //calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
-                 calendar.set(Calendar.HOUR_OF_DAY, 4);
-               calendar.set(Calendar.MINUTE, 20);
+                   calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
+               calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
+    //             calendar.set(Calendar.HOUR_OF_DAY, 4);
+//               calendar.set(Calendar.MINUTE, 20);
 
                calendar.set(Calendar.SECOND,0);
                calendar.set(Calendar.MILLISECOND,0);
@@ -131,10 +131,10 @@ public class EditAlarm extends AppCompatActivity {
                for(int i=0; i< MainActivity.getList().size(); i++){
                    if(list.get(i).getID()==index){
                        saveSpot=i;
-               //        list.get(i).setHour(alarm_timepicker.getHour());
-                 //      list.get(i).setMinute(alarm_timepicker.getMinute());
-                       list.get(i).setHour(4);
-                       list.get(i).setMinute(20);
+                       list.get(i).setHour(alarm_timepicker.getHour());
+                     list.get(i).setMinute(alarm_timepicker.getMinute());
+                      // list.get(i).setHour(4);
+                       //list.get(i).setMinute(20);
 
 
                        //      list.remove(i);
