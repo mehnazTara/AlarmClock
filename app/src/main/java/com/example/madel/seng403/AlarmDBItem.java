@@ -20,12 +20,18 @@ public class AlarmDBItem implements java.io.Serializable {
 
     public AlarmDBItem(){}
 
-    public AlarmDBItem(Calendar calendar, int id,boolean status)
+    public AlarmDBItem(Calendar calendar, int id,boolean status, String text)
     {
         this.id = id;
         this.hour = calendar.get(Calendar.HOUR);
         this.minute = calendar.get(Calendar.MINUTE);
         this.active = status;
+        if (text != null){
+            this.label = text;
+        }
+        else{
+            this.label = "default label";
+        }
     }
 
     public int getID()

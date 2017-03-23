@@ -70,10 +70,10 @@ public class AlarmAdapter extends BaseAdapter {
             view = inflator.inflate(R.layout.rowlayout, viewGroup, false);
         }
         TextView name = (TextView) view.findViewById(R.id.list_item_string);
-        TextView label = (TextView) view.findViewById(R.id.alarm_lable);
-        label.setText("default label");
+//        TextView label = (TextView) view.findViewById(R.id.alarm_lable);
+//        label.setText("default label");
 
-        name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString());
+        name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString() + "\n" + alarmList.get(i).getLabel());
         idforbuttonalarm = i;
 
         final ToggleButton cancelToggle = (ToggleButton) view.findViewById(R.id.cancel_btn);
@@ -144,6 +144,7 @@ public class AlarmAdapter extends BaseAdapter {
 
                 Intent intentLoadNewActivity = new Intent(context, EditAlarm.class); // change activity
                 intentLoadNewActivity.putExtra("AlarmId", alarmId);
+                intentLoadNewActivity.addCategory("Edit");
 
                 context.startActivity(intentLoadNewActivity);
 
