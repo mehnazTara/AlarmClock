@@ -32,6 +32,7 @@
 
         <service
             android:name=".RingtonePlayingService"
+
             android:enabled="true"></service>
         <receiver android:name=".BootReceiver"
             android:enabled="true">
@@ -49,6 +50,7 @@
             android:name=".EditAlarm"
             android:label="@string/title_activity_edit_alarm"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

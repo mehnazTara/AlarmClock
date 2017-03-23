@@ -32,6 +32,15 @@ public class AlarmDBItem implements java.io.Serializable {
     {
         return this.id;
     }
+    public void  setHour(int i)
+    {
+        i= hour;
+    }
+
+    public void  setMinute(int i)
+    {
+        i= minute;
+    }
 
     public int getHour()
     {
@@ -41,14 +50,6 @@ public class AlarmDBItem implements java.io.Serializable {
     public int getMinute()
     {
         return this.minute;
-    }
-
-    public void setHour(int i){
-        hour=i;
-    }
-
-    public void setMinute(int i){
-        minute=i;
     }
 
 

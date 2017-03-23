@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     }
 
 
-
     public void Ringtone(View view) {
         Intent intentLoadNewActivity = new Intent(MainActivity.this, Edit.class); // change activity
         startActivity(intentLoadNewActivity);

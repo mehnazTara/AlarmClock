@@ -38,7 +38,6 @@ public class EditAlarm extends AppCompatActivity {
     TextView editPageText;
 
     Context context;
-    int idforbuttonalarm;
     int index;
 
 
@@ -46,9 +45,9 @@ public class EditAlarm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState== null){
-            Bundle extras= getIntent().getExtras();
+            Bundle extras= getIntent().getExtras();//getting alarm id that we pass in
             if(extras!=null){
-                 index=extras.getInt("AlarmId");
+                index=extras.getInt("AlarmId");
             }
         }
         super.onCreate(savedInstanceState);
@@ -58,7 +57,7 @@ public class EditAlarm extends AppCompatActivity {
         this.context=this;
         alarm_manager= (AlarmManager) getSystemService((ALARM_SERVICE));
         alarm_timepicker=(TimePicker) findViewById(R.id.timePicker);
-       update_text=(TextView) findViewById(R.id.list_item_string) ;
+        update_text=(TextView) findViewById(R.id.list_item_string) ;
         update_label=(TextView) findViewById(R.id.alarm_lable) ;
         editPageText=(TextView) findViewById(R.id.textView) ;
 
@@ -70,13 +69,13 @@ public class EditAlarm extends AppCompatActivity {
         label_click.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //getting text from edittext
-            String label_title= edit.getText().toString();
+                String label_title= edit.getText().toString();
                 //append text to textview label in list
 
                 //I should be using update_label instead of editPageText :(
                 editPageText.setText(label_title);
 
-             //   update_label.append(label_title);
+                //update_label.append(label_title);
 
 
                 Toast toast = Toast.makeText(context.getApplicationContext(), "label added!", Toast.LENGTH_LONG);
@@ -89,49 +88,77 @@ public class EditAlarm extends AppCompatActivity {
 
 
         save.setOnClickListener(new View.OnClickListener() {
-           
-//on click stuff is commented out because my phone can not run. If anyone is using this on the empulatr
+
+            //on click stuff is commented out because my phone can not run. If anyone is using this on the empulatr
             //or API>22 then undo comments
-           @Override
-           public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-                   Calendar calendar= Calendar.getInstance();
+                Calendar calendar= Calendar.getInstance();
 
-                   calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
-               calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
-               calendar.set(Calendar.SECOND,0);
-               calendar.set(Calendar.MILLISECOND,0);
+                calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
+                calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
+                //             calendar.set(Calendar.HOUR_OF_DAY, 4);
+//               calendar.set(Calendar.MINUTE, 20);
 
-               ArrayList<AlarmDBItem> list= MainActivity.getList();
+                calendar.set(Calendar.SECOND,0);
+                calendar.set(Calendar.MILLISECOND,0);
+                Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+
+                if(index==-1){
+                    // creating an intent associated with AlarmReceiver class
+                    final int alarmID = (int) System.currentTimeMillis();
+                    Log.e("Log message: ", "alarm created with id: " + alarmID);
+                    MainActivity.getList().add(new AlarmDBItem(calendar, alarmID, false));
+                    Log.e("Log message: ", "the alarm list id is: " + MainActivity.getList().get(MainActivity.getList().size() - 1).getID());
+                    // creating  a pending intent that delays the intent until the specified calender time is reached
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    // setting the alarm Manager to set alarm at exact time of the user chosen time
+                    alarm_manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    AlarmListFragment.updateListView();
+                    MainActivity.saveFile(context);
+
+                }
+
+
+
+
+
+
+                ArrayList<AlarmDBItem> list= MainActivity.getList();
                 int saveSpot=0;
-               for(int i=0; i< MainActivity.getList().size(); i++){
-                   if(list.get(i).getID()==index){
-                       saveSpot=i;
-                       list.get(i).setHour(alarm_timepicker.getHour());
-                       list.get(i).setMinute(alarm_timepicker.getMinute());
+                for(int i=0; i< MainActivity.getList().size(); i++){
+                    if(list.get(i).getID()==index){
+                        saveSpot=i;
+                        list.get(i).setHour(alarm_timepicker.getHour());
+                        list.get(i).setMinute(alarm_timepicker.getMinute());
+                        // list.get(i).setHour(4);
+                        //list.get(i).setMinute(20);
 
 
-                       //      list.remove(i);
+                        //      list.remove(i);
 
-                   }
-               }
+                    }
+
+
+
+                }
                 MainActivity.saveFile(context);
 
-               
 
-               // creating an intent associated with AlarmReceiver class
-               Intent alarmIntent = new Intent(context, AlarmReceiver.class);
-               Log.e("Log message: ", "alarm created with id: " + index);
 
-             //  MainActivity.getList().add(saveSpot,new AlarmDBItem(calendar, index));
-               Log.e("Log message: ", "the alarm list id is: " + MainActivity.getList().get(MainActivity.getList().size()-1).getID());
-               // creating  a pending intent that delays the intent until the specified calender time is reached
-               PendingIntent pendingIntent = PendingIntent.getBroadcast(context, index, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                // creating an intent associated with AlarmReceiver class
+                Log.e("Log message: ", "alarm created with id: " + index);
 
-               // setting the alarm Manager to set alarm at exact time of the user chosen time
-               alarm_manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-               AlarmListFragment.updateListView();
+                //  MainActivity.getList().add(saveSpot,new AlarmDBItem(calendar, index));
+                Log.e("Log message: ", "the alarm list id is: " + MainActivity.getList().get(MainActivity.getList().size()-1).getID());
+                // creating  a pending intent that delays the intent until the specified calender time is reached
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, index, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+                // setting the alarm Manager to set alarm at exact time of the user chosen time
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                AlarmListFragment.updateListView();
 
 
 
@@ -145,8 +172,9 @@ public class EditAlarm extends AppCompatActivity {
 
 
 
-           }
-       });
+
+            }
+        });
     }
 
 
@@ -157,22 +185,21 @@ public class EditAlarm extends AppCompatActivity {
 
 
 
-        public void toList(View view) {
+    public void toList(View view) {
       /*  AlarmListFragment alarmListFragment= new AlarmListFragment();
         FragmentManager alarmList= alarmListFragment.getFragmentManager();
         FragmentTransaction fragmentTransaction= alarmList.beginTransaction();
         fragmentTransaction.commit();*/
 
-      //  Intent intentLoadNewActivity = new Intent(context, AlarmListFragment.class); // change activity
+        //  Intent intentLoadNewActivity = new Intent(context, AlarmListFragment.class); // change activity
 
-     //   context.startActivity(intentLoadNewActivity);
+        //   context.startActivity(intentLoadNewActivity);
     }
 
 
 
 
 }
-
 
 
 
