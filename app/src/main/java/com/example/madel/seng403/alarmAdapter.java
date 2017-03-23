@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -76,7 +78,7 @@ public class AlarmAdapter extends BaseAdapter {
         name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString() + "\n" + alarmList.get(i).getLabel());
         idforbuttonalarm = i;
 
-        final ToggleButton cancelToggle = (ToggleButton) view.findViewById(R.id.cancel_btn);
+        final Switch cancelToggle = (Switch) view.findViewById(R.id.cancel_btn);
         cancelToggle.setTag(i);
         cancelToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -110,7 +112,7 @@ public class AlarmAdapter extends BaseAdapter {
             }
         });
 
-        final Button deleteButton = (Button) view.findViewById(R.id.delete_btn);
+        final ImageButton deleteButton = (ImageButton) view.findViewById(R.id.delete_btn);
         deleteButton.setTag(i);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             //functionality of the delete button for a given alarm
