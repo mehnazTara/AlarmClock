@@ -80,12 +80,13 @@ public class EditAlarm extends AppCompatActivity {
                 calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
                 calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
                 //             calendar.set(Calendar.HOUR_OF_DAY, 4);
-//               calendar.set(Calendar.MINUTE, 20);
+              // calendar.set(Calendar.MINUTE, 20);
 
                 calendar.set(Calendar.SECOND,0);
                 calendar.set(Calendar.MILLISECOND,0);
 
                 if(index==-1){
+
                     // creating an intent associated with AlarmReceiver class
                    setAlarm(calendar);
 
@@ -96,9 +97,9 @@ public class EditAlarm extends AppCompatActivity {
                     for (int i = 0; i < MainActivity.getList().size(); i++) {
                         if (list.get(i).getID() == index) {
                             list.get(i).setHour(alarm_timepicker.getHour());
-                            list.get(i).setMinute(alarm_timepicker.getMinute());
+                           list.get(i).setMinute(alarm_timepicker.getMinute());
                             list.get(i).setLabel(label);
-                            // list.get(i).setHour(4);
+                            //list.get(i).setHour(4);
                             //list.get(i).setMinute(20);
 
 

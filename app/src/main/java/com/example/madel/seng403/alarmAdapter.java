@@ -135,9 +135,15 @@ public class AlarmAdapter extends BaseAdapter {
             }
         });
 
-       final Button edit = (Button) view.findViewById(R.id.edit);
-        edit.setTag(i);
-        edit.setOnClickListener(new View.OnClickListener(){
+
+
+
+
+
+
+         //   final TextView listItem = (TextView) view.findViewById(R.id.list_item_string);
+        name.setTag(i);
+        name.setOnClickListener(new View.OnClickListener(){
             //functionality of the cancel button for a given alarm
             //prevents the alarm from ringing before it goes off.
             @Override
