@@ -1,26 +1,16 @@
 package com.example.madel.seng403;
 
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Vibrator;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.content.WakefulBroadcastReceiver;
-import android.support.v7.app.NotificationCompat;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Vibrator;
+import android.support.v4.content.WakefulBroadcastReceiver;
+import android.support.v7.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 /*
@@ -29,7 +19,7 @@ Notification is also generated in the notification center of the fun.
  */
 public class AlarmReceiver extends WakefulBroadcastReceiver {
 
-    private static final int MY_NOTIFICATION_ID=1;
+    private static final int MY_NOTIFICATION_ID = 1;
     NotificationManager notificationManager;
     Notification myNotification;
     private String dismiss = "dismiss";
@@ -40,7 +30,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         int index = intent.getExtras().getInt("AlarmId");
         long id = intent.getLongExtra("id", 0);
         Log.e("LOG MESSAGE:", "inside alarm receiver ID " + index);
-
 
         // changing the alarm to inactive status
         MainActivity.changeAlarmToInactive(index, context);
@@ -55,8 +44,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                 }
             }
         }
-
-
 
         Intent service_intent = new Intent(context, RingtonePlayingService.class);
         // start ringtone service
@@ -80,12 +67,12 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
         // creating intent and pending intent for snooze
         Intent snoozeIntent = new Intent(context, SnoozeReceiver.class);
+        snoozeIntent.putExtra("notificationId", MY_NOTIFICATION_ID);
         PendingIntent doSnoozeIntent = PendingIntent.getBroadcast(context, 0, snoozeIntent,0);
 
 
         // building and setting the motification
         myNotification = new NotificationCompat.Builder(context)
-
                 .setContentTitle("Alarm Notification!")
                 .setContentText("An alarm is ringing")
                 .setTicker("Notification!")
@@ -93,15 +80,10 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                 .setContentIntent(pendingIntent)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setAutoCancel(true)
-
+                .setOngoing(true)
                 .setSmallIcon(R.mipmap.notify_icon)
-
-
-
                 .addAction(R.mipmap.snooze_icon, "snooze", doSnoozeIntent)
                 .addAction(R.mipmap.xicon, "dismiss", disMissPendingIntent)
-
-
                 .build();
 
         // starting the notification service
