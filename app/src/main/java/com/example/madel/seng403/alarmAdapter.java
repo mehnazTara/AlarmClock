@@ -14,8 +14,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -72,19 +70,19 @@ public class AlarmAdapter extends BaseAdapter {
             view = inflator.inflate(R.layout.rowlayout, viewGroup, false);
         }
         TextView name = (TextView) view.findViewById(R.id.list_item_string);
+        TextView label = (TextView) view.findViewById(R.id.alarm_lable);
+        label.setText("default label");
 
-
-        name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString() + "\n" + alarmList.get(i).getLabel());
+        name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString());
         idforbuttonalarm = i;
 
-        final Switch cancelToggle = (Switch) view.findViewById(R.id.cancel_btn);
+        final ToggleButton cancelToggle = (ToggleButton) view.findViewById(R.id.cancel_btn);
         cancelToggle.setTag(i);
-        cancelToggle.setChecked(true);
         cancelToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //Cancel toggle function
-                if (!isChecked) {
+                if (isChecked) {
                     Intent cancelIntent = new Intent(context, AlarmReceiver.class);
                     PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, (int) alarmList.get((int) cancelToggle.getTag()).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
@@ -105,13 +103,6 @@ public class AlarmAdapter extends BaseAdapter {
                     calCurr.set(Calendar.SECOND, 0);
                     calCurr.set(Calendar.MILLISECOND, 0);
 
-                    Calendar now = Calendar.getInstance();
-                    if(calCurr.getTime().before(now.getTime()))
-                    {
-                        calCurr.set(Calendar.HOUR_OF_DAY, alarmList.get((int) cancelToggle.getTag()).getHour() + 24);
-                    }
-
-
                     am.setExact(am.RTC_WAKEUP, calCurr.getTimeInMillis(), enablePendingIntent);
                     Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Enabled!", Toast.LENGTH_LONG);
                     toast.show();
@@ -119,7 +110,7 @@ public class AlarmAdapter extends BaseAdapter {
             }
         });
 
-        final ImageButton deleteButton = (ImageButton) view.findViewById(R.id.delete_btn);
+        final Button deleteButton = (Button) view.findViewById(R.id.delete_btn);
         deleteButton.setTag(i);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             //functionality of the delete button for a given alarm
@@ -149,12 +140,10 @@ public class AlarmAdapter extends BaseAdapter {
             //prevents the alarm from ringing before it goes off.
             @Override
             public void onClick(View v) {
-                int alarmId=  alarmList.get((int) edit.getTag()).getID();
-               String alarmLabel = alarmList.get((int) edit.getTag()).getLabel();
+                int alarmId=  alarmList.get((int) cancelToggle.getTag()).getID();
 
                 Intent intentLoadNewActivity = new Intent(context, EditAlarm.class); // change activity
                 intentLoadNewActivity.putExtra("AlarmId", alarmId);
-                intentLoadNewActivity.putExtra("AlarmLabel", alarmLabel);
 
                 context.startActivity(intentLoadNewActivity);
 
