@@ -1,6 +1,6 @@
 package com.example.madel.seng403;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,22 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
+
 import android.widget.ListView;
-import android.widget.TextView;
+
 import android.widget.TimePicker;
-import android.app.Application;
-import android.widget.Toast;
-
-import android.widget.ToggleButton;
 
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-
-import static com.example.madel.seng403.MainActivity.alarmList;
 
 
 /**

@@ -23,7 +23,7 @@ public class AlarmDBItem implements java.io.Serializable {
     public AlarmDBItem(Calendar calendar, int id,boolean status, String text)
     {
         this.id = id;
-        this.hour = calendar.get(Calendar.HOUR);
+        this.hour = calendar.get(Calendar.HOUR_OF_DAY);
         this.minute = calendar.get(Calendar.MINUTE);
         this.active = status;
         if (text != null){
@@ -40,12 +40,12 @@ public class AlarmDBItem implements java.io.Serializable {
     }
     public void  setHour(int i)
     {
-        i= hour;
+        this.hour = i;
     }
 
     public void  setMinute(int i)
     {
-        i= minute;
+       this.minute = i;
     }
 
     public int getHour()

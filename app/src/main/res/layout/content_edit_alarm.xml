@@ -18,7 +18,9 @@
         android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/save_button" />
+        android:id="@+id/save_button"
+        android:layout_alignParentBottom ="true"
+        android:layout_centerInParent="true"/>
 
     <CheckBox
         android:text="repeat"
@@ -100,11 +102,13 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="11dp" />
 
-    <TimePicker
+    <TextView
+        android:text=""
         android:layout_width="wrap_content"
-        android:layout_height="330dp"
-        android:id="@+id/timePicker"
-        android:layout_alignParentTop="true" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/radioButton2"
+        android:id="@+id/textView" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -113,17 +117,17 @@
         android:hint="enter alarm label"
         android:ems="10"
         android:id="@+id/editText2"
-        android:layout_marginTop="26dp"
-        android:layout_below="@+id/save_button"
+        android:layout_above="@+id/checkBox"
         android:layout_alignStart="@+id/imageButton" />
 
-    <TextView
-        android:text=""
+    <TimePicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/radioButton2"
-        android:id="@+id/textView" />
+        android:id="@+id/timePicker"
+        android:scaleX="0.80"
+        android:scaleY="0.80"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

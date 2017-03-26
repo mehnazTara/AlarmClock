@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="SENG403"
+            android:label="ALARM CLOCK"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,16 +41,15 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
             </intent-filter>
         </receiver>
-            android:enabled="true" />
 
         <activity
             android:name=".Edit"
             android:label="@string/title_activity_edit" />
         <activity
             android:name=".EditAlarm"
-            android:label="@string/title_activity_edit_alarm"
+            android:label="ADD/EDIT ALARM"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>
