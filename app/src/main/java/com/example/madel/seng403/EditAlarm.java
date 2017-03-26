@@ -25,6 +25,7 @@ import java.util.Calendar;
  *
  */
 public class EditAlarm extends AppCompatActivity {
+
     private AlarmManager alarm_manager;
     private TimePicker alarm_timepicker;
     private EditText edit;
@@ -34,8 +35,6 @@ public class EditAlarm extends AppCompatActivity {
     private Context context;
     private int index;
     private Calendar calendar;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import java.io.FileInputStream;
@@ -30,8 +28,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         viewPager = (ViewPager) findViewById(R.id.pager);
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
-
-
     }
 
     @Override
@@ -97,11 +93,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         Intent intentLoadNewActivity = new Intent(MainActivity.this, Edit.class); // change activity
         startActivity(intentLoadNewActivity);
     }
-
-
-
-
-
 
     /**
      * finds the alarmDBitem in the list and changes its active field variable to false

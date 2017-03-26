@@ -1,13 +1,14 @@
 package com.example.madel.seng403;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -29,6 +30,8 @@ public class MainFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    public static Button dismissButton = null;
 
     public MainFragment() {
         // Required empty public constructor
@@ -65,7 +68,23 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        View v = inflater.inflate(R.layout.fragment_main, container, false);
+
+        // stop ringtone when dismiss button pressed
+        dismissButton = (Button) v.findViewById(R.id.dismiss_alarm_button);
+        dismissButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // stop ringtone
+                getActivity().stopService(new Intent(v.getContext(), RingtonePlayingService.class));
+
+                // dismiss notification
+                AlarmReceiver.dismissNotification();
+
+                // set invisible
+                v.setVisibility(View.INVISIBLE);
+            }
+        });
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -107,7 +126,9 @@ public class MainFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-
-
+    public static void setDismissButtonVisible(boolean visible) {
+        if (visible) dismissButton.setVisibility(View.VISIBLE);
+        else dismissButton.setVisibility(View.INVISIBLE);
+    }
 
 }

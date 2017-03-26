@@ -59,7 +59,6 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
                 DateFormat.is24HourFormat(getActivity()));
     }
 
-
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // TODO add AlarmManager implementation here
