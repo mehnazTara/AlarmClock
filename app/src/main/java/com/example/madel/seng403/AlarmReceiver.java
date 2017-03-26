@@ -20,7 +20,7 @@ Notification is also generated in the notification center of the fun.
 public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     private static final int MY_NOTIFICATION_ID = 1;
-    NotificationManager notificationManager;
+    private static NotificationManager notificationManager;
     Notification myNotification;
     private String dismiss = "dismiss";
     private final String note = "alarm notification";
@@ -54,6 +54,9 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         Vibrator vibrator = (Vibrator) context
                 .getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(5000);
+
+        // make dismiss button visible
+        MainFragment.setDismissButtonVisible(true);
 
         // creating intent and pending intent for starting notification
         Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(note));
@@ -90,6 +93,10 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         notificationManager =
                 (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(MY_NOTIFICATION_ID, myNotification);
+    }
+
+    public static void dismissNotification() {
+        notificationManager.cancel(MY_NOTIFICATION_ID);
     }
 
 }

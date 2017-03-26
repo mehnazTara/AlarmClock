@@ -35,11 +35,8 @@ public class EditAlarm extends AppCompatActivity {
     EditText edit;
     TextView editPageText;
     String label = null;
-
     Context context;
     int index;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

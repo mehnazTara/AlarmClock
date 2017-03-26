@@ -1,34 +1,17 @@
 package com.example.madel.seng403;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.TimePicker;
-import android.app.Application;
-import android.widget.Toast;
-
-import android.widget.ToggleButton;
-
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-
-import static com.example.madel.seng403.MainActivity.alarmList;
 
 
 /**
@@ -40,14 +23,12 @@ import static com.example.madel.seng403.MainActivity.alarmList;
  * create an instance of this fragment.
  */
 
-
 public class AlarmListFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     int idforbuttonalarm;
-
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -100,9 +81,6 @@ public class AlarmListFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.alarm_list_view);
         this.adapter = new AlarmAdapter(this.getContext(), MainActivity.getList());
         listView.setAdapter(adapter);
-
-
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             //adapteriew instead of parent
@@ -153,12 +131,6 @@ public class AlarmListFragment extends Fragment {
 
     }
 
-
-
-
-
-
-
     //confirms the correct alarms are loaded
     public void checkListFunction()
     {
@@ -201,7 +173,5 @@ public class AlarmListFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
 
 }
