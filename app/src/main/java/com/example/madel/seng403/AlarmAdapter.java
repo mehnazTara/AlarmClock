@@ -73,15 +73,23 @@ public class AlarmAdapter extends BaseAdapter {
 
         final Switch cancelToggle = (Switch) view.findViewById(R.id.cancel_btn);
         cancelToggle.setTag(i);
+        AlarmDBItem alarm =  alarmList.get((int) cancelToggle.getTag());
+
+        // only enable if alarm is active
+        if(alarm.getStatus()) {
+            cancelToggle.setChecked(true);
+        }
         cancelToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //Cancel toggle function
-                if (isChecked) {
+                if (!isChecked) {
                     Intent cancelIntent = new Intent(context, AlarmReceiver.class);
                     PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
                     am.cancel(cancelPendingIntent);
+                    // making sure alarm is disabled
+                    MainActivity.changeAlarmToInactive(alarmList.get((int) cancelToggle.getTag()).getID(),context);
                     Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Cancelled!", Toast.LENGTH_LONG);
                     toast.show();
                 }
