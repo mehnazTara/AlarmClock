@@ -14,27 +14,6 @@
     android:background="@android:color/black">
     <!--tools:showIn="@layout/activity_main_activity"-->
 
-
-    <Button
-        android:text="analog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textClock"
-        android:layout_marginTop="15dp"
-        android:id="@+id/button" />
-
-    <Button
-        android:text="digital"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button2"
-        android:layout_alignBaseline="@+id/button"
-        android:layout_alignBottom="@+id/button"
-        android:layout_alignParentEnd="true" />
-
-
-
     <TextClock
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,9 +21,7 @@
         android:textSize="80sp"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:layout_below="@+id/button"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="11dp"
-        android:layout_marginTop="56dp" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
