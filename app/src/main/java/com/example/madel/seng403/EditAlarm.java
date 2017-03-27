@@ -36,6 +36,8 @@ public class EditAlarm extends AppCompatActivity {
     private int index;
     private Calendar calendar;
 
+    private Boolean initalCheck;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState== null){
@@ -50,6 +52,7 @@ public class EditAlarm extends AppCompatActivity {
         setContentView(R.layout.activity_edit_alarm);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         // initializing all the field variables
         this.context=this;
         alarm_manager= (AlarmManager) getSystemService((ALARM_SERVICE));
@@ -57,53 +60,48 @@ public class EditAlarm extends AppCompatActivity {
         edit=(EditText) findViewById(R.id.editText2) ;
         edit.setText(previousLabel);
 
-
         //this block handles the action related to clicking of save button
         Button save = (Button)findViewById(R.id.save_button);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                    // getting the label
+                    label = edit.getText().toString();
 
-                // getting the label
-                label = edit.getText().toString();
+                    // getting the hour and minute from timePicker
+                    int hour = alarm_timepicker.getHour();
+                    int minute = alarm_timepicker.getMinute();
+                    Log.e("Log message", "time picker time " + hour + minute);
 
-                // getting the hour and minute from timePicker
-                int hour = alarm_timepicker.getHour();
-                int minute = alarm_timepicker.getMinute();
-                Log.e("Log message", "time picker time " + hour + minute);
+                    calendar = Calendar.getInstance();
 
-               calendar= Calendar.getInstance();
+                    // setting the user input time in a calendar object
+                    calendar.set(Calendar.HOUR_OF_DAY, hour);
+                    calendar.set(Calendar.MINUTE, minute);
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    Calendar calCurr = Calendar.getInstance();
+                    if (repeat_checkBox.isChecked()){
+                        repeatWeekCheck(calendar);
+                    }
+                    else {
+                        // if time  chosen is before current time then increment by 24 hours
+                        if (calendar.getTime().before(calCurr.getTime())) {
+                            calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour() + 24);
+                        }
 
+                        // index == -1 means this activity was started from new alarm button
+                        if (index == -1) {
+                            setAlarm(calendar);
 
-                // setting the user input time in a calendar object
-                calendar.set(Calendar.HOUR_OF_DAY, hour);
-                calendar.set(Calendar.MINUTE, minute);
-                calendar.set(Calendar.SECOND,0);
-                calendar.set(Calendar.MILLISECOND,0);
-                Calendar calCurr = Calendar.getInstance();
-
-                // if time  chosen is before current time then increment by 24 hours
-                if(calendar.getTime().before(calCurr.getTime()))
-                {
-                    calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour() + 24);
-                }
-
-
-                // index == -1 means this activity was started from new alarm button
-                if(index==-1){
-                   setAlarm(calendar);
-
-                }
-                // else its an edit action
-                else {
-                    editAlarm(hour,minute);
-
-                }
+                        }
+                        // else its an edit action
+                        else {
+                            editAlarm(hour, minute);
+                        }
+                    }
                 // goes back to previous fragment
                onBackPressed();
-
-
-
             }
         });
     }
@@ -184,10 +182,108 @@ public class EditAlarm extends AppCompatActivity {
         alarm_manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         AlarmListFragment.updateListView();
 
-
     }
 
+    private Boolean repeatWeekCheck(Calendar targetCal) {
+        //Checking which days the user requested
+        Boolean checkboxFlag = False;
+        while (initalCheck) {
+            if (m_checkBox.isChecked()) {
+                checkboxFlag = True;
+                repeatWeek(2, targetCal, checkboxFlag);
+            }
+            if (t_checkBox.isChecked()) {
+                checkboxFlag = True;
+                repeatWeek(3, targetCal, checkboxFlag);
+            }
+            if (w_checkBox.isChecked()) {
+                checkboxFlag = True;
+                repeatWeek(4, targetCal, checkboxFlag);
+            }
+            if (tr_checkBox.isChecked()) {
+                checkboxFlag = True;
+                repeatWeek(5, targetCal, checkboxFlag);
+            }
+            if (f_checkBox.isChecked()) {
+                checkboxFlag = True;
+                repeatWeek(6, targetCal, checkboxFlag);
+            }
+            if (s_checkBox.isChecked()) {
+                checkboxFlag = True;
+                repeatWeek(7, targetCal);
+            }
+            if (sn_checkBox.isChecked()) {
+                checkboxFlag = True;
+                repeatWeek(1, targetCal, checkboxFlag);
+            }
+            initalCheck = false;
+        }
+    }
 
+    private void repeatWeek (int week, Calendar targetCal, Boolean checkboxFlag) {
+        targetCal.set(Calendar.DAY_OF_WEEK, week);
+        //If new alarm
+        if (index == -1) {
+            // creating an intent associated with AlarmReceiver class
+            Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+            final int alarmID = (int) System.currentTimeMillis(); // assigns a unique alarmID
+            Log.e("Log message: ", "alarm created with id: " + alarmID);
+
+            // passing the alarm Id to AlarmReiver
+            alarmIntent.putExtra("AlarmId", alarmID);
+            Log.e("Log/MESSAGE:Label", "label " + label);
+
+            // adding it to the global list
+            MainActivity.getList().add(new AlarmDBItem(targetCal, alarmID,true ,label));
+            Log.e("Log message: ", "the alarm list id is: " + MainActivity.getList().get(MainActivity.getList().size()-1).getID());
+
+            // creating  a pending intent that delays the intent until the specified calender time is reached
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            // setting the alarm Manager to set alarm at exact time of the user chosen time
+            alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), 24 * 7 * 60 * 60 * 1000, pendingIntent);
+            AlarmListFragment.updateListView();
+
+            MainActivity.saveFile(context);
+        }
+        //Edit Alarm
+        else {
+            ArrayList<AlarmDBItem> list = MainActivity.getList();
+
+            // find the AlarmDBItem with the same id and sets the hour and minute as the input
+            for (int i = 0; i < MainActivity.getList().size(); i++) {
+                if (list.get(i).getID() == index) {
+                    list.get(i).setHour(hour);
+                    list.get(i).setMinute(minute);
+                    list.get(i).setLabel(label);
+                }
+            }
+
+            // for testing purpose
+            for (AlarmDBItem a :MainActivity.getList()){
+                if (a.getID() == index){
+                    Log.e("Log message", "time" + a.getHourString() + a.getMinuteString());
+                    break;
+                }
+            }
+
+            // saving the updated file
+            MainActivity.saveFile(context);
+
+            Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+
+            // creating an intent associated with AlarmReceiver class
+            Log.e("Log message: ", "alarm created with id: " + index);
+
+            Log.e("Log message: ", "the alarm list id is: " + MainActivity.getList().get(MainActivity.getList().size() - 1).getID());
+            // creating  a pending intent that delays the intent until the specified calender time is reached
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, index, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            // setting the alarm Manager to set alarm at exact time of the user chosen time
+            alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 7 * 60 * 60 * 1000 ,pendingIntent);
+            AlarmListFragment.updateListView();
+        }
+    }
     /**
      * this method takes view back to the previoue fragment in the fragment stack
      */
