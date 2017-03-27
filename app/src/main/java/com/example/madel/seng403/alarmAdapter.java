@@ -147,7 +147,6 @@ public class AlarmAdapter extends BaseAdapter {
 
             }
         });
-
         return view;
     }
 }

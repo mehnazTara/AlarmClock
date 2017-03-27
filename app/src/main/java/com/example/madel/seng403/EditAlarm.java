@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.CheckBox;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,6 +38,15 @@ public class EditAlarm extends AppCompatActivity {
     private Calendar calendar;
 
     private Boolean initalCheck;
+    private Boolean checkboxFlag = false;
+
+    final CheckBox sn_checkBox = (CheckBox) findViewById(R.id.verify_SN);
+    final CheckBox m_checkBox = (CheckBox) findViewById(R.id.verify_M);
+    final CheckBox t_checkBox = (CheckBox) findViewById(R.id.verify_T);
+    final CheckBox w_checkBox = (CheckBox) findViewById(R.id.verify_W);
+    final CheckBox tr_checkBox = (CheckBox) findViewById(R.id.verify_TR);
+    final CheckBox f_checkBox = (CheckBox) findViewById(R.id.verify_F);
+    final CheckBox s_checkBox = (CheckBox) findViewById(R.id.verify_S);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +91,8 @@ public class EditAlarm extends AppCompatActivity {
                     calendar.set(Calendar.SECOND, 0);
                     calendar.set(Calendar.MILLISECOND, 0);
                     Calendar calCurr = Calendar.getInstance();
-                    if (repeat_checkBox.isChecked()){
-                        repeatWeekCheck(calendar);
+                    if (repeatWeekCheck(calendar, false, hour, minute)){
+                        repeatWeekCheck(calendar, true, hour, minute);
                     }
                     else {
                         // if time  chosen is before current time then increment by 24 hours
@@ -184,43 +194,57 @@ public class EditAlarm extends AppCompatActivity {
 
     }
 
-    private Boolean repeatWeekCheck(Calendar targetCal) {
+    private Boolean repeatWeekCheck(Calendar targetCal, Boolean secondIt, int hour, int minute) {
         //Checking which days the user requested
-        Boolean checkboxFlag = False;
         while (initalCheck) {
             if (m_checkBox.isChecked()) {
-                checkboxFlag = True;
-                repeatWeek(2, targetCal, checkboxFlag);
+                checkboxFlag = true;
+                if (secondIt) {
+                    repeatWeek(2, targetCal, hour, minute);
+                }
             }
             if (t_checkBox.isChecked()) {
-                checkboxFlag = True;
-                repeatWeek(3, targetCal, checkboxFlag);
+                checkboxFlag = true;
+                if (secondIt) {
+                    repeatWeek(3, targetCal, hour, minute);
+                }
             }
             if (w_checkBox.isChecked()) {
-                checkboxFlag = True;
-                repeatWeek(4, targetCal, checkboxFlag);
+                checkboxFlag = true;
+                if (secondIt) {
+                    repeatWeek(4, targetCal, hour, minute);
+                }
             }
             if (tr_checkBox.isChecked()) {
-                checkboxFlag = True;
-                repeatWeek(5, targetCal, checkboxFlag);
+                checkboxFlag = true;
+                if (secondIt) {
+                    repeatWeek(5, targetCal, hour, minute);
+                }
             }
             if (f_checkBox.isChecked()) {
-                checkboxFlag = True;
-                repeatWeek(6, targetCal, checkboxFlag);
+                checkboxFlag = true;
+                if (secondIt) {
+                    repeatWeek(6, targetCal, hour, minute);
+                }
             }
             if (s_checkBox.isChecked()) {
-                checkboxFlag = True;
-                repeatWeek(7, targetCal);
+                checkboxFlag = true;
+                if (secondIt) {
+                    repeatWeek(7, targetCal, hour, minute);
+                }
             }
             if (sn_checkBox.isChecked()) {
-                checkboxFlag = True;
-                repeatWeek(1, targetCal, checkboxFlag);
+                checkboxFlag = true;
+                if (secondIt) {
+                    repeatWeek(1, targetCal, hour, minute);
+                }
             }
             initalCheck = false;
         }
+        return checkboxFlag;
     }
 
-    private void repeatWeek (int week, Calendar targetCal, Boolean checkboxFlag) {
+    private void repeatWeek (int week, Calendar targetCal, int hour, int minute) {
         targetCal.set(Calendar.DAY_OF_WEEK, week);
         //If new alarm
         if (index == -1) {
