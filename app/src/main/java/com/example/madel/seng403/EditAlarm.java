@@ -172,6 +172,7 @@ public class EditAlarm extends AppCompatActivity {
 
 
         Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+        alarmIntent.putExtra("AlarmId", index);
 
         // creating an intent associated with AlarmReceiver class
         Log.e("Log message: ", "alarm created with id: " + index);
@@ -199,6 +200,12 @@ public class EditAlarm extends AppCompatActivity {
                 super.onBackPressed();
             }
         }
+
+
+    public void RingTone (View v){
+        // needs implementation for ringtone button
+
+    }
 
 
 
