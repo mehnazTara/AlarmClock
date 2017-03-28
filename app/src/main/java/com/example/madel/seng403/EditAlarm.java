@@ -37,8 +37,7 @@ public class EditAlarm extends AppCompatActivity {
     private int index;
     private Calendar calendar;
 
-    private Boolean initalCheck;
-    private Boolean checkboxFlag = false;
+    private Boolean weeklyCheckboxFlag = false;
 
     final CheckBox sn_checkBox = (CheckBox) findViewById(R.id.verify_SN);
     final CheckBox m_checkBox = (CheckBox) findViewById(R.id.verify_M);
@@ -47,6 +46,8 @@ public class EditAlarm extends AppCompatActivity {
     final CheckBox tr_checkBox = (CheckBox) findViewById(R.id.verify_TR);
     final CheckBox f_checkBox = (CheckBox) findViewById(R.id.verify_F);
     final CheckBox s_checkBox = (CheckBox) findViewById(R.id.verify_S);
+
+    final CheckBox d_checkBox = (CheckBox) findViewById(R.id.repeatCheckBox);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,10 +92,13 @@ public class EditAlarm extends AppCompatActivity {
                     calendar.set(Calendar.SECOND, 0);
                     calendar.set(Calendar.MILLISECOND, 0);
                     Calendar calCurr = Calendar.getInstance();
+
+                    //Inital check if any weekly checkboxes are checked
                     if (repeatWeekCheck(calendar, false, hour, minute)){
                         repeatWeekCheck(calendar, true, hour, minute);
-                    }
-                    else {
+                    } else if (weeklyCheckboxFlag == false){
+                        repeatDailyCheck(calendar, hour, minute);
+                    } else {
                         // if time  chosen is before current time then increment by 24 hours
                         if (calendar.getTime().before(calCurr.getTime())) {
                             calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour() + 24);
@@ -196,57 +200,66 @@ public class EditAlarm extends AppCompatActivity {
 
     private Boolean repeatWeekCheck(Calendar targetCal, Boolean secondIt, int hour, int minute) {
         //Checking which days the user requested
-        while (initalCheck) {
+        //First iteration is solely in charge of notifying if one of the checkboxes are checked or not
+        // Second iteration is performed to actually set the alarm for the days that have been checked
+        // Number indicates day of the week
             if (m_checkBox.isChecked()) {
-                checkboxFlag = true;
+                weeklyCheckboxFlag = true;
                 if (secondIt) {
                     repeatWeek(2, targetCal, hour, minute);
                 }
             }
             if (t_checkBox.isChecked()) {
-                checkboxFlag = true;
+                weeklyCheckboxFlag = true;
                 if (secondIt) {
                     repeatWeek(3, targetCal, hour, minute);
                 }
             }
             if (w_checkBox.isChecked()) {
-                checkboxFlag = true;
+                weeklyCheckboxFlag = true;
                 if (secondIt) {
                     repeatWeek(4, targetCal, hour, minute);
                 }
             }
             if (tr_checkBox.isChecked()) {
-                checkboxFlag = true;
+                weeklyCheckboxFlag = true;
                 if (secondIt) {
                     repeatWeek(5, targetCal, hour, minute);
                 }
             }
             if (f_checkBox.isChecked()) {
-                checkboxFlag = true;
+                weeklyCheckboxFlag = true;
                 if (secondIt) {
                     repeatWeek(6, targetCal, hour, minute);
                 }
             }
             if (s_checkBox.isChecked()) {
-                checkboxFlag = true;
+                weeklyCheckboxFlag = true;
                 if (secondIt) {
                     repeatWeek(7, targetCal, hour, minute);
                 }
             }
             if (sn_checkBox.isChecked()) {
-                checkboxFlag = true;
+                weeklyCheckboxFlag = true;
                 if (secondIt) {
                     repeatWeek(1, targetCal, hour, minute);
                 }
             }
-            initalCheck = false;
-        }
-        return checkboxFlag;
+        return weeklyCheckboxFlag;
     }
 
+    //This runs if weeklyCheckboxFlag is false aka if none of the weekly checkboxes have been checked
+    private void repeatDailyCheck(Calendar targetCal, int hour, int minute) {
+
+        if (d_checkBox.isChecked()) {
+            repeatDay(targetCal, hour, minute);
+        }
+    }
+
+    //Repeat Week Logic
     private void repeatWeek (int week, Calendar targetCal, int hour, int minute) {
         targetCal.set(Calendar.DAY_OF_WEEK, week);
-        //If new alarm
+        //If index is -1 the create a new repeating alarm
         if (index == -1) {
             // creating an intent associated with AlarmReceiver class
             Intent alarmIntent = new Intent(context, AlarmReceiver.class);
@@ -270,7 +283,7 @@ public class EditAlarm extends AppCompatActivity {
 
             MainActivity.saveFile(context);
         }
-        //Edit Alarm
+        //Edit Existing Alarm
         else {
             ArrayList<AlarmDBItem> list = MainActivity.getList();
 
@@ -304,10 +317,75 @@ public class EditAlarm extends AppCompatActivity {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, index, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // setting the alarm Manager to set alarm at exact time of the user chosen time
-            alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 7 * 60 * 60 * 1000 ,pendingIntent);
+            alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), 24 * 7 * 60 * 60 * 1000 ,pendingIntent);
             AlarmListFragment.updateListView();
         }
     }
+
+    private void repeatDay (Calendar targetCal, int hour, int minute) {
+        //If index is -1 the create a new repeating alarm
+        if (index == -1) {
+            // creating an intent associated with AlarmReceiver class
+            Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+            final int alarmID = (int) System.currentTimeMillis(); // assigns a unique alarmID
+            Log.e("Log message: ", "alarm created with id: " + alarmID);
+
+            // passing the alarm Id to AlarmReiver
+            alarmIntent.putExtra("AlarmId", alarmID);
+            Log.e("Log/MESSAGE:Label", "label " + label);
+
+            // adding it to the global list
+            MainActivity.getList().add(new AlarmDBItem(targetCal, alarmID,true ,label));
+            Log.e("Log message: ", "the alarm list id is: " + MainActivity.getList().get(MainActivity.getList().size()-1).getID());
+
+            // creating  a pending intent that delays the intent until the specified calender time is reached
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            // setting the alarm Manager to set alarm at exact time of the user chosen time
+            alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), 24 * 60 * 60 * 1000, pendingIntent);
+            AlarmListFragment.updateListView();
+
+            MainActivity.saveFile(context);
+        }
+        //Edit Exusting Alarm
+        else {
+            ArrayList<AlarmDBItem> list = MainActivity.getList();
+
+            // find the AlarmDBItem with the same id and sets the hour and minute as the input
+            for (int i = 0; i < MainActivity.getList().size(); i++) {
+                if (list.get(i).getID() == index) {
+                    list.get(i).setHour(hour);
+                    list.get(i).setMinute(minute);
+                    list.get(i).setLabel(label);
+                }
+            }
+
+            // for testing purpose
+            for (AlarmDBItem a :MainActivity.getList()){
+                if (a.getID() == index){
+                    Log.e("Log message", "time" + a.getHourString() + a.getMinuteString());
+                    break;
+                }
+            }
+
+            // saving the updated file
+            MainActivity.saveFile(context);
+
+            Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+
+            // creating an intent associated with AlarmReceiver class
+            Log.e("Log message: ", "alarm created with id: " + index);
+
+            Log.e("Log message: ", "the alarm list id is: " + MainActivity.getList().get(MainActivity.getList().size() - 1).getID());
+            // creating  a pending intent that delays the intent until the specified calender time is reached
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, index, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            // setting the alarm Manager to set alarm at exact time of the user chosen time
+            alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), 24 * 60 * 60 * 1000 ,pendingIntent);
+            AlarmListFragment.updateListView();
+        }
+    }
+
     /**
      * this method takes view back to the previoue fragment in the fragment stack
      */
