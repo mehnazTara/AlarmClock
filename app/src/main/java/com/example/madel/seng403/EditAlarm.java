@@ -38,6 +38,7 @@ public class EditAlarm extends AppCompatActivity {
     private Calendar calendar;
 
     private Boolean weeklyCheckboxFlag = false;
+    private int weekCount = 0;
 
     final CheckBox sn_checkBox = (CheckBox) findViewById(R.id.verify_SN);
     final CheckBox m_checkBox = (CheckBox) findViewById(R.id.verify_M);
@@ -93,21 +94,20 @@ public class EditAlarm extends AppCompatActivity {
                     calendar.set(Calendar.MILLISECOND, 0);
                     Calendar calCurr = Calendar.getInstance();
 
+                    // if time  chosen is before current time then increment by 24 hours
+                    if (calendar.getTime().before(calCurr.getTime())) {
+                        calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour() + 24);
+                    }
+
                     //Inital check if any weekly checkboxes are checked
-                    if (repeatWeekCheck(calendar, false, hour, minute)){
+                    if (repeatWeekCheck(calendar, false, hour, minute)) {
                         repeatWeekCheck(calendar, true, hour, minute);
                     } else if (weeklyCheckboxFlag == false){
                         repeatDailyCheck(calendar, hour, minute);
                     } else {
-                        // if time  chosen is before current time then increment by 24 hours
-                        if (calendar.getTime().before(calCurr.getTime())) {
-                            calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour() + 24);
-                        }
-
                         // index == -1 means this activity was started from new alarm button
                         if (index == -1) {
                             setAlarm(calendar);
-
                         }
                         // else its an edit action
                         else {
@@ -207,42 +207,55 @@ public class EditAlarm extends AppCompatActivity {
                 weeklyCheckboxFlag = true;
                 if (secondIt) {
                     repeatWeek(2, targetCal, hour, minute);
+                    weekCount++;
                 }
+            }
+            else {
+                Intent cancelIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(cancelPendingIntent);
             }
             if (t_checkBox.isChecked()) {
                 weeklyCheckboxFlag = true;
                 if (secondIt) {
                     repeatWeek(3, targetCal, hour, minute);
+                    weekCount++;
                 }
             }
             if (w_checkBox.isChecked()) {
                 weeklyCheckboxFlag = true;
                 if (secondIt) {
                     repeatWeek(4, targetCal, hour, minute);
+                    weekCount++;
                 }
             }
             if (tr_checkBox.isChecked()) {
                 weeklyCheckboxFlag = true;
                 if (secondIt) {
                     repeatWeek(5, targetCal, hour, minute);
+                    weekCount++;
                 }
             }
             if (f_checkBox.isChecked()) {
                 weeklyCheckboxFlag = true;
                 if (secondIt) {
                     repeatWeek(6, targetCal, hour, minute);
+                    weekCount++;
                 }
             }
             if (s_checkBox.isChecked()) {
                 weeklyCheckboxFlag = true;
                 if (secondIt) {
                     repeatWeek(7, targetCal, hour, minute);
+                    weekCount++;
                 }
             }
             if (sn_checkBox.isChecked()) {
                 weeklyCheckboxFlag = true;
                 if (secondIt) {
                     repeatWeek(1, targetCal, hour, minute);
+                    weekCount++;
                 }
             }
         return weeklyCheckboxFlag;
@@ -279,7 +292,10 @@ public class EditAlarm extends AppCompatActivity {
 
             // setting the alarm Manager to set alarm at exact time of the user chosen time
             alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), 24 * 7 * 60 * 60 * 1000, pendingIntent);
-            AlarmListFragment.updateListView();
+
+            if (weekCount == 1) {
+                AlarmListFragment.updateListView();
+            }
 
             MainActivity.saveFile(context);
         }
@@ -318,6 +334,7 @@ public class EditAlarm extends AppCompatActivity {
 
             // setting the alarm Manager to set alarm at exact time of the user chosen time
             alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), 24 * 7 * 60 * 60 * 1000 ,pendingIntent);
+
             AlarmListFragment.updateListView();
         }
     }
@@ -382,7 +399,9 @@ public class EditAlarm extends AppCompatActivity {
 
             // setting the alarm Manager to set alarm at exact time of the user chosen time
             alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), 24 * 60 * 60 * 1000 ,pendingIntent);
-            AlarmListFragment.updateListView();
+            if (weekCount == 1) {
+                AlarmListFragment.updateListView();
+            }
         }
     }
 
