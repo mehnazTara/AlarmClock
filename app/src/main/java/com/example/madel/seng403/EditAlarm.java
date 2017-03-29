@@ -32,7 +32,7 @@ public class EditAlarm extends AppCompatActivity {
     private EditText edit;
     private String label = null;
     private String previousLabel = null;
-    private AlarmDBItem aDBItem = new AlarmDBItem();
+    private AlarmDBItem aDBItem = new AlarmDBItem(Calendar.getInstance(),0,true,null);
 
     private Context context;
     private int index;
@@ -40,15 +40,15 @@ public class EditAlarm extends AppCompatActivity {
 
     private boolean[] alarmRepeat = new boolean[8];
 
-    final CheckBox checkBox_1 = (CheckBox) findViewById(R.id.verify_SN);
-    final CheckBox checkBox_2 = (CheckBox) findViewById(R.id.verify_M);
-    final CheckBox checkBox_3 = (CheckBox) findViewById(R.id.verify_T);
-    final CheckBox checkBox_4 = (CheckBox) findViewById(R.id.verify_W);
-    final CheckBox checkBox_5 = (CheckBox) findViewById(R.id.verify_TR);
-    final CheckBox checkBox_6 = (CheckBox) findViewById(R.id.verify_F);
-    final CheckBox checkBox_7 = (CheckBox) findViewById(R.id.verify_S);
+    CheckBox checkBox_1 ;
+    CheckBox checkBox_2 ;
+    CheckBox checkBox_3 ;
+    CheckBox checkBox_4 ;
+    CheckBox checkBox_5 ;
+    CheckBox checkBox_6 ;
+    CheckBox checkBox_7 ;
 
-    final CheckBox checkBox_0 = (CheckBox) findViewById(R.id.repeatCheckBox);
+    CheckBox checkBox_0 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +70,15 @@ public class EditAlarm extends AppCompatActivity {
         alarm_timepicker=(TimePicker) findViewById(R.id.timePicker);
         edit=(EditText) findViewById(R.id.editText2) ;
         edit.setText(previousLabel);
+        checkBox_1 = (CheckBox) findViewById(R.id.verify_SN);
+        checkBox_2 = (CheckBox) findViewById(R.id.verify_M);
+        checkBox_3 = (CheckBox) findViewById(R.id.verify_T);
+        checkBox_4 = (CheckBox) findViewById(R.id.verify_W);
+        checkBox_5 = (CheckBox) findViewById(R.id.verify_TR);
+        checkBox_6 = (CheckBox) findViewById(R.id.verify_F);
+        checkBox_7 = (CheckBox) findViewById(R.id.verify_S);
+
+        checkBox_0 = (CheckBox) findViewById(R.id.repeatCheckBox);
 
 
         //this block handles the action related to clicking of save button

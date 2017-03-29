@@ -15,6 +15,8 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import static android.content.Context.ALARM_SERVICE;
 
 /*
@@ -28,6 +30,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     Notification myNotification;
     private String dismiss = "dismiss";
     private final String note = "alarm notification";
+    AlarmDBItem alarmItem ;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -35,11 +38,19 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         long id = intent.getLongExtra("id", 0);
         Log.e("LOG MESSAGE:", "inside alarm receiver ID " + index);
 
+        ArrayList<AlarmDBItem> list = MainActivity.getList();
+
+        // find the AlarmDBItem with the same id and sets the hour and minute as the input
+        for (int i = 0; i < MainActivity.getList().size(); i++) {
+            if (list.get(i).getID() == index) {
+                alarmItem = list.get(i);
+            }
+        }
         //check to see if the alarm is a repeating alarm
-        if(MainActivity.alarmList.get(index).isAlarmRepeating()) {
+        if(alarmItem.isAlarmRepeating()) {
             //if it is a daily repeating alarm
-            if(MainActivity.alarmList.get(index).getAlarmRepeatSettings(0) == true) {
-                int alarmID = MainActivity.alarmList.get(index).getID();
+            if(alarmItem.getAlarmRepeatSettings(0) == true) {
+                int alarmID = index;
 
                 // creating an intent associated with AlarmReceiver class
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
@@ -59,7 +70,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                 int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK); // initialized to today
                 boolean sameDayInThePast = false; // for if the repeat weekly is in the past on the same day it is set
                 for(int i = 0; i < 7; i++) {
-                    if(MainActivity.alarmList.get(index).getAlarmRepeatSettings(day) == true) {
+                    if(alarmItem.getAlarmRepeatSettings(day) == true) {
 
                         if(day == Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
                             //if the alarm is in the past of today
@@ -71,7 +82,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                             //if the day is in the past, set the alarm for a week in the future
                             if(now.getTime().before(Calendar.getInstance().getTime()))
                             {
-                                int alarmID = MainActivity.alarmList.get(index).getID();
+                                int alarmID = index;
 
                                 // creating an intent associated with AlarmReceiver class
                                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
@@ -88,7 +99,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                                 alarmManager.set(AlarmManager.RTC_WAKEUP, (now.getTimeInMillis() + 7 * 24 * 60 * 60 * 1000), pendingIntent);
                                 //set a new alarm with the same id for the day that the alarm is supposed to ring
                             } else {
-                                int alarmID = MainActivity.alarmList.get(index).getID();
+                                int alarmID =index;
 
                                 // creating an intent associated with AlarmReceiver class
                                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
@@ -119,7 +130,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
                 if(sameDayInThePast == true) {
                     //set a new alarm pending intent for 1 week in the future today
-                    int alarmID = MainActivity.alarmList.get(index).getID();
+                    int alarmID = index;
 
                     // creating an intent associated with AlarmReceiver class
                     AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
