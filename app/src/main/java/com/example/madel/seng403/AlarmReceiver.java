@@ -1,17 +1,21 @@
 package com.example.madel.seng403;
 
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Vibrator;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
+
+import static android.content.Context.ALARM_SERVICE;
 
 /*
 Creates a ringtone for the alarm to sound when an intent is activated.
@@ -35,23 +39,77 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         if(MainActivity.alarmList.get(index).isAlarmRepeating()) {
             //if it is a daily repeating alarm
             if(MainActivity.alarmList.get(index).getAlarmRepeatSettings(0) == true) {
+                int alarmID = MainActivity.alarmList.get(index).getID();
+
+                // creating an intent associated with AlarmReceiver class
+                AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+                Log.e("Log message: ", "alarm created with id: " + alarmID);
+
+                // passing the alarm Id to AlarmReiver
+                alarmIntent.putExtra("AlarmId", alarmID);
+
+                // creating  a pending intent that delays the intent until the specified calender time is reached
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                // setting the alarm Manager to set alarm at exact time of the user chosen time
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, (System.currentTimeMillis() + (24 * 60 * 60 * 1000)), pendingIntent);
                 //set a new alarm with the same id for tomorrow
             } else {
-                int day = 0; // initialized to today
+                int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK); // initialized to today
                 boolean sameDayInThePast = false; // for if the repeat weekly is in the past on the same day it is set
                 for(int i = 0; i < 7; i++) {
-
                     if(MainActivity.alarmList.get(index).getAlarmRepeatSettings(day) == true) {
 
-                        if(false) {
+                        if(day == Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
                             //if the alarm is in the past of today
                             sameDayInThePast = true;
                         } else {
+                            Calendar now = Calendar.getInstance();
+
+                            now.set(Calendar.DAY_OF_WEEK, day);
+                            //if the day is in the past, set the alarm for a week in the future
+                            if(now.getTime().before(Calendar.getInstance().getTime()))
+                            {
+                                int alarmID = MainActivity.alarmList.get(index).getID();
+
+                                // creating an intent associated with AlarmReceiver class
+                                AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                                Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+                                Log.e("Log message: ", "alarm created with id: " + alarmID);
+
+                                // passing the alarm Id to AlarmReiver
+                                alarmIntent.putExtra("AlarmId", alarmID);
+
+                                // creating  a pending intent that delays the intent until the specified calender time is reached
+                                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                                // setting the alarm Manager to set alarm at exact time of the user chosen time
+                                alarmManager.set(AlarmManager.RTC_WAKEUP, (now.getTimeInMillis() + 7 * 24 * 60 * 60 * 1000), pendingIntent);
+                                //set a new alarm with the same id for the day that the alarm is supposed to ring
+                            } else {
+                                int alarmID = MainActivity.alarmList.get(index).getID();
+
+                                // creating an intent associated with AlarmReceiver class
+                                AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                                Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+                                Log.e("Log message: ", "alarm created with id: " + alarmID);
+
+                                // passing the alarm Id to AlarmReiver
+                                alarmIntent.putExtra("AlarmId", alarmID);
+
+                                // creating  a pending intent that delays the intent until the specified calender time is reached
+                                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                                // setting the alarm Manager to set alarm at exact time of the user chosen time
+                                alarmManager.set(AlarmManager.RTC_WAKEUP, now.getTimeInMillis(), pendingIntent);
+                                //set a new alarm with the same id for the day that the alarm is supposed to ring
+                            }
+
                             //set a new alarm pending intent for that day with the same id as the current alarm
                             // if the alarm is in the past, set it for a week in the future
                             break;
                         }
-
                     }
                     //if checking saturday, next day is sunday
                     if(day == 7)
@@ -61,6 +119,22 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
                 if(sameDayInThePast == true) {
                     //set a new alarm pending intent for 1 week in the future today
+                    int alarmID = MainActivity.alarmList.get(index).getID();
+
+                    // creating an intent associated with AlarmReceiver class
+                    AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                    Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+                    Log.e("Log message: ", "alarm created with id: " + alarmID);
+
+                    // passing the alarm Id to AlarmReiver
+                    alarmIntent.putExtra("AlarmId", alarmID);
+
+                    // creating  a pending intent that delays the intent until the specified calender time is reached
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    // setting the alarm Manager to set alarm at exact time of the user chosen time
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, (System.currentTimeMillis() + (7* 24 * 60 * 60 * 1000)), pendingIntent);
+                    //set a new alarm with the same id for one week from now
                 }
             }
         } else {
