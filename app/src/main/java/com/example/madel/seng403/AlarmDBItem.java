@@ -17,6 +17,7 @@ public class AlarmDBItem implements java.io.Serializable {
     private int minute;
     private  boolean active;
     private String label;
+    private boolean alarmRepeatSettings[];
 
     public AlarmDBItem(){}
 
@@ -32,6 +33,12 @@ public class AlarmDBItem implements java.io.Serializable {
         else{
             this.label = "default label";
         }
+        //in this boolean array, position 0 represents a daily repeating alarm
+        //positions 1-7 represent days of the week from sunday to saturday
+        //1 = sunday, 2 = monday, 3 = tuesday, 4 = wednesday, 5 = thursday, 6 = friday, 7 = saturday
+        this.alarmRepeatSettings = new boolean[8];
+        for(int i = 0; i < 8; i++)
+            this.alarmRepeatSettings[i] = false;
     }
 
     public int getID()
@@ -92,5 +99,13 @@ public class AlarmDBItem implements java.io.Serializable {
 
     public void setLabel(String input){
         this.label = input;
+    }
+
+    public boolean getAlarmRepeatSettings(int index) {
+        return this.alarmRepeatSettings[index];
+    }
+
+    public void setAlarmRepeatSettings(int index, boolean setting) {
+        this.alarmRepeatSettings[index] = setting;
     }
 }
