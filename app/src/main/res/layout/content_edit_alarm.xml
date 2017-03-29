@@ -23,83 +23,91 @@
         android:layout_centerInParent="true"/>
 
     <CheckBox
-        android:text="repeat"
+        android:text="Repeat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/checkBox"
+        android:id="@+id/repeatCheckBox"
         android:layout_below="@+id/timePicker"
         android:layout_alignParentStart="true" />
 
-    <RadioButton
+    <CheckBox
         android:text="TR"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioButton4"
-        android:layout_alignBaseline="@+id/radioButton3"
-        android:layout_alignBottom="@+id/radioButton3"
-        android:layout_toEndOf="@+id/radioButton3" />
+        android:id="@+id/verify_TR"
+        android:layout_alignBaseline="@+id/verify_W"
+        android:layout_alignBottom="@+id/verify_W"
+        android:layout_toEndOf="@+id/verify_W" />
 
-    <RadioButton
+    <CheckBox
         android:text="F"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioButton5"
-        android:layout_alignBaseline="@+id/radioButton4"
-        android:layout_alignBottom="@+id/radioButton4"
-        android:layout_toEndOf="@+id/radioButton4" />
+        android:id="@+id/verify_F"
+        android:layout_alignBaseline="@+id/verify_TR"
+        android:layout_alignBottom="@+id/verify_TR"
+        android:layout_toEndOf="@+id/verify_TR" />
 
-    <RadioButton
+    <CheckBox
         android:text="W"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioButton3"
-        android:layout_alignBaseline="@+id/radioButton2"
-        android:layout_alignBottom="@+id/radioButton2"
-        android:layout_toEndOf="@+id/radioButton2" />
+        android:id="@+id/verify_W"
+        android:layout_alignBaseline="@+id/verify_T"
+        android:layout_alignBottom="@+id/verify_T"
+        android:layout_toEndOf="@+id/verify_T" />
 
-    <RadioButton
+    <CheckBox
         android:text="SN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioButton7"
-        android:layout_alignBaseline="@+id/radioButton6"
-        android:layout_alignBottom="@+id/radioButton6"
-        android:layout_toEndOf="@+id/radioButton6" />
+        android:id="@+id/verify_SN"
+        android:layout_alignBaseline="@+id/verify_S"
+        android:layout_alignBottom="@+id/verify_S"
+        android:layout_toEndOf="@+id/verify_S" />
 
-    <RadioButton
+    <CheckBox
         android:text="T"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioButton2"
-        android:layout_below="@+id/checkBox"
-        android:layout_toEndOf="@+id/radioButton" />
+        android:id="@+id/verify_T"
+        android:layout_below="@+id/repeatCheckBox"
+        android:layout_toEndOf="@+id/verify_M" />
 
-    <RadioButton
+    <CheckBox
         android:text="M"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioButton"
-        android:layout_below="@+id/checkBox"
+        android:id="@+id/verify_M"
+        android:layout_below="@+id/repeatCheckBox"
         android:layout_alignParentStart="true" />
 
-    <RadioButton
+    <CheckBox
         android:text="S"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioButton6"
-        android:layout_alignBaseline="@+id/radioButton5"
-        android:layout_alignBottom="@+id/radioButton5"
-        android:layout_toEndOf="@+id/radioButton5" />
+        android:id="@+id/verify_S"
+        android:layout_alignBaseline="@+id/verify_F"
+        android:layout_alignBottom="@+id/verify_F"
+        android:layout_toEndOf="@+id/verify_F" />
 
     <ImageButton
         android:layout_width="wrap_content"
+        android:onClick="Ringtone"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_notifications_black_24dp"
         android:id="@+id/imageButton"
         android:layout_below="@+id/radioButton2"
         android:layout_alignParentStart="true"
         android:layout_marginStart="11dp" />
+
+    <TextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/radioButton2"
+        android:id="@+id/textView" />
 
     <EditText
         android:layout_width="wrap_content"

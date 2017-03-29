@@ -21,7 +21,7 @@ public class AlarmDBItem implements java.io.Serializable {
 
     public AlarmDBItem(){}
 
-    public AlarmDBItem(Calendar calendar, int id,boolean status, String text)
+    public AlarmDBItem(Calendar calendar, int id,  boolean status, String text)
     {
         this.id = id;
         this.hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -116,4 +116,6 @@ public class AlarmDBItem implements java.io.Serializable {
         }
         return false;
     }
+
+    public boolean[] getAlarmRepeatArray() { return this.alarmRepeatSettings; }
 }
