@@ -127,8 +127,10 @@ public class MainFragment extends Fragment {
     }
 
     public static void setDismissButtonVisible(boolean visible) {
-        if (visible) dismissButton.setVisibility(View.VISIBLE);
-        else dismissButton.setVisibility(View.INVISIBLE);
+        if (dismissButton != null) {
+            if (visible) dismissButton.setVisibility(View.VISIBLE);
+            else dismissButton.setVisibility(View.INVISIBLE);
+        }
     }
 
 }

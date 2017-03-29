@@ -96,7 +96,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     }
 
     public static void dismissNotification() {
-        notificationManager.cancel(MY_NOTIFICATION_ID);
+        if (notificationManager != null) notificationManager.cancel(MY_NOTIFICATION_ID);
     }
 
 }
