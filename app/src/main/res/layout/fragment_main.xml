@@ -37,4 +37,24 @@
         android:textSize="24dp"
         android:text="DISMISS" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/swipe3"
+        android:id="@+id/imageView2"
+        android:layout_marginBottom="14dp"
+        android:layout_alignBottom="@+id/dismiss_alarm_button"
+        android:layout_alignEnd="@+id/textClock" />
+
+    <TextView
+        android:text="Swipe "
+        android:textColor="@color/white"
+        android:textSize="30sp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_alignTop="@+id/dismiss_alarm_button"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
