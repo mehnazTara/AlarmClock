@@ -86,14 +86,14 @@ public class EditAlarm extends AppCompatActivity {
                 int minute = alarm_timepicker.getMinute();
                 Log.e("Log message", "time picker time " + hour + minute);
 
-               calendar= Calendar.getInstance();
+                calendar = Calendar.getInstance();
 
 
                 // setting the user input time in a calendar object
                 calendar.set(Calendar.HOUR_OF_DAY, hour);
                 calendar.set(Calendar.MINUTE, minute);
-                calendar.set(Calendar.SECOND,0);
-                calendar.set(Calendar.MILLISECOND,0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
                 Calendar calCurr = Calendar.getInstance();
                 //Checks if a checkbox is checked
                 if (weeklyCheck()) {
@@ -129,7 +129,7 @@ public class EditAlarm extends AppCompatActivity {
                                             Log.e("Log/MESSAGE:Label", "label " + label);
 
                                             // adding it to the global list
-                                            MainActivity.getList().add(new AlarmDBItem(targetCal, alarmID, true, label));
+                                            MainActivity.getList().add(new AlarmDBItem(calendar, alarmID, true, label));
                                             Log.e("Log message: ", "the alarm list id is: " + MainActivity.getList().get(MainActivity.getList().size() - 1).getID());
 
 
@@ -137,7 +137,8 @@ public class EditAlarm extends AppCompatActivity {
                                             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                                             // setting the alarm Manager to set alarm at exact time of the user chosen time
-                                            alarm_manager.setExact(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), 24 * 7 * 60 * 60 * 1000, pendingIntent);
+                                            long nextWeek = calendar.getTimeInMillis() * 24 * 7 * 60 * 60 * 1000;
+                                            alarm_manager.setExact(AlarmManager.RTC_WAKEUP, nextWeek, pendingIntent);
                                             AlarmListFragment.updateListView();
 
                                             MainActivity.saveFile(context);
@@ -145,11 +146,11 @@ public class EditAlarm extends AppCompatActivity {
                                             ArrayList<AlarmDBItem> list = MainActivity.getList();
 
                                             // find the AlarmDBItem with the same id and sets the hour and minute as the input
-                                            for (int i = 0; i < MainActivity.getList().size(); i++) {
-                                                if (list.get(i).getID() == index) {
-                                                    list.get(i).setHour(hour);
-                                                    list.get(i).setMinute(minute);
-                                                    list.get(i).setLabel(label);
+                                            for (int j = 0; j < MainActivity.getList().size(); j++) {
+                                                if (list.get(j).getID() == index) {
+                                                    list.get(j).setHour(hour);
+                                                    list.get(j).setMinute(minute);
+                                                    list.get(j).setLabel(label);
                                                 }
                                             }
 
@@ -174,7 +175,8 @@ public class EditAlarm extends AppCompatActivity {
                                             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, index, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                                             // setting the alarm Manager to set alarm at exact time of the user chosen time
-                                            alarm_manager.setExact(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), 24 * 7 * 60 * 60 * 1000, pendingIntent);
+                                            long nextWeek = calendar.getTimeInMillis() * 24 * 7 * 60 * 60 * 1000;
+                                            alarm_manager.setExact(AlarmManager.RTC_WAKEUP, nextWeek, pendingIntent);
                                             AlarmListFragment.updateListView();
                                         }
                                     }
@@ -191,8 +193,7 @@ public class EditAlarm extends AppCompatActivity {
                             day++;
                         }
                     }
-                }
-                else {
+                } else {
                     // if time  chosen is before current time then increment by 24 hours
                     if (calendar.getTime().before(calCurr.getTime())) {
                         calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour() + 24);
@@ -207,11 +208,11 @@ public class EditAlarm extends AppCompatActivity {
                         editAlarm(hour, minute);
                     }
                 }
-                    // goes back to previous fragment
-                   onBackPressed();
-
+                // goes back to previous fragment
+                onBackPressed();
+            }
         });
-
+    }
     private Boolean weeklyCheck() {
         //Get Repeating Boolean Array
         if (checkBox_0.isChecked()) {
@@ -359,12 +360,7 @@ public class EditAlarm extends AppCompatActivity {
 
     public void RingTone (View v){
         // needs implementation for ringtone button
-
     }
-
-
-
-
 
 }
 
