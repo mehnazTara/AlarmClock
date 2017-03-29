@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.ArrayList;
@@ -68,8 +67,8 @@ public class EditAlarm extends AppCompatActivity {
                 label = edit.getText().toString();
 
                 // getting the hour and minute from timePicker
-                int hour = alarm_timepicker.getHour();
-                int minute = alarm_timepicker.getMinute();
+                int hour = alarm_timepicker.getCurrentHour();
+                int minute = alarm_timepicker.getCurrentMinute();
                 Log.e("Log message", "time picker time " + hour + minute);
 
                calendar= Calendar.getInstance();
