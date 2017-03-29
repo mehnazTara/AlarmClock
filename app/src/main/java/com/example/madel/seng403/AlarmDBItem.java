@@ -108,4 +108,12 @@ public class AlarmDBItem implements java.io.Serializable {
     public void setAlarmRepeatSettings(int index, boolean setting) {
         this.alarmRepeatSettings[index] = setting;
     }
+
+    public boolean isAlarmRepeating() {
+        for(int i = 0; i < 8; i++) {
+            if (alarmRepeatSettings[i] == true)
+                return true;
+        }
+        return false;
+    }
 }

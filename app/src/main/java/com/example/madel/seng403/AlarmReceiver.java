@@ -31,8 +31,42 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         long id = intent.getLongExtra("id", 0);
         Log.e("LOG MESSAGE:", "inside alarm receiver ID " + index);
 
-        // changing the alarm to inactive status
-        MainActivity.changeAlarmToInactive(index, context);
+        //check to see if the alarm is a repeating alarm
+        if(MainActivity.alarmList.get(index).isAlarmRepeating()) {
+            //if it is a daily repeating alarm
+            if(MainActivity.alarmList.get(index).getAlarmRepeatSettings(0) == true) {
+                //set a new alarm with the same id for tomorrow
+            } else {
+                int day = 0; // initialized to today
+                boolean sameDayInThePast = false; // for if the repeat weekly is in the past on the same day it is set
+                for(int i = 0; i < 7; i++) {
+
+                    if(MainActivity.alarmList.get(index).getAlarmRepeatSettings(day) == true) {
+
+                        if(false) {
+                            //if the alarm is in the past of today
+                            sameDayInThePast = true;
+                        } else {
+                            //set a new alarm pending intent for that day with the same id as the current alarm
+                            // if the alarm is in the past, set it for a week in the future
+                            break;
+                        }
+
+                    }
+                    //if checking saturday, next day is sunday
+                    if(day == 7)
+                        day = 0;
+                    day++;
+                }
+
+                if(sameDayInThePast == true) {
+                    //set a new alarm pending intent for 1 week in the future today
+                }
+            }
+        } else {
+            // changing the alarm to inactive status
+            MainActivity.changeAlarmToInactive(index, context);
+        }
 
         // for testing purpose only
         MainActivity.loadFile(context);
