@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
@@ -34,6 +35,7 @@ public class EditAlarm extends AppCompatActivity {
     private Context context;
     private int index;
     private Calendar calendar;
+    private CheckBox repeat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class EditAlarm extends AppCompatActivity {
         alarm_timepicker=(TimePicker) findViewById(R.id.timePicker);
         edit=(EditText) findViewById(R.id.editText2) ;
         edit.setText(previousLabel);
+        repeat  = (CheckBox)findViewById(R.id.checkBox);
 
 
         //this block handles the action related to clicking of save button
@@ -131,8 +134,14 @@ public class EditAlarm extends AppCompatActivity {
         // creating  a pending intent that delays the intent until the specified calender time is reached
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // setting the alarm Manager to set alarm at exact time of the user chosen time
-        alarm_manager.setExact(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
+        // checking if repeat is true
+        if (repeat.isChecked()) {
+            // setting the alarm Manager to set alarm at to repeat daily exact time of the user chosen time
+            alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(),AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
+        else{
+            alarm_manager.setExact(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
+        }
         AlarmListFragment.updateListView();
 
         MainActivity.saveFile(context);
@@ -180,9 +189,16 @@ public class EditAlarm extends AppCompatActivity {
         // creating  a pending intent that delays the intent until the specified calender time is reached
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, index, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // setting the alarm Manager to set alarm at exact time of the user chosen time
-        alarm_manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        if(repeat.isChecked()){
+
+            alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
+        else {
+            // setting the alarm Manager to set alarm at exact time of the user chosen time
+            alarm_manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        }
         AlarmListFragment.updateListView();
+        MainActivity.saveFile(context);
 
 
     }
