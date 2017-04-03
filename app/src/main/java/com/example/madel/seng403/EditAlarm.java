@@ -152,67 +152,43 @@ public class EditAlarm extends AppCompatActivity {
 
         // setting the alarm Manager to set alarm at exact time of the user chosen time
         if(Daily.isChecked()) {
-            if(inThePast(targetCal))
-                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), AlarmManager.INTERVAL_DAY  + 24 * 60 * 60 * 1000, pendingIntent);
-            else
-                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         } else if (Sunday.isChecked() || Monday.isChecked() || Tuesday.isChecked() || Wednesday.isChecked() || Thursday.isChecked() || Friday.isChecked() || Saturday.isChecked()) {
             Calendar tempCal = targetCal;
             if (Sunday.isChecked()){
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
                     tempCal.add(Calendar.DATE, 1);
-                if(inThePast(tempCal))
-                    alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis() + 24 * 60 * 60 * 7 * 1000, 24 * 60 * 60 * 7 * 1000, pendingIntent);
-                else
-                    alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
+                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
             }
             if (Monday.isChecked()) {
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY)
                     tempCal.add(Calendar.DATE, 1);
-                if(inThePast(tempCal))
-                    alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis() + 24 * 60 * 60 * 7 * 1000, 24 * 60 * 60 * 7 * 1000, pendingIntent);
-                else
-                    alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
+                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
             }
             if (Tuesday.isChecked()) {
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.TUESDAY)
                     tempCal.add(Calendar.DATE, 1);
-                if(inThePast(tempCal))
-                    alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis() + 24 * 60 * 60 * 7 * 1000, 24 * 60 * 60 * 7 * 1000, pendingIntent);
-                else
-                    alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
+                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
             }
             if (Wednesday.isChecked()) {
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.WEDNESDAY)
                     tempCal.add(Calendar.DATE, 1);
-                if(inThePast(tempCal))
-                    alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis() + 24 * 60 * 60 * 7 * 1000, 24 * 60 * 60 * 7 * 1000, pendingIntent);
-                else
-                    alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
+                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
             }
             if (Thursday.isChecked()) {
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.THURSDAY)
                     tempCal.add(Calendar.DATE, 1);
-                if(inThePast(tempCal))
-                    alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis() + 24 * 60 * 60 * 7 * 1000, 24 * 60 * 60 * 7 * 1000, pendingIntent);
-                else
-                    alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
+                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
             }
             if (Friday.isChecked()) {
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY)
                     tempCal.add(Calendar.DATE, 1);
-                if(inThePast(tempCal))
-                    alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis() + 24 * 60 * 60 * 7 * 1000, 24 * 60 * 60 * 7 * 1000, pendingIntent);
-                else
-                    alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
+                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
             }
             if (Saturday.isChecked()) {
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY)
                     tempCal.add(Calendar.DATE, 1);
-                if(inThePast(tempCal))
-                    alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis() + 24 * 60 * 60 * 7 * 1000, 24 * 60 * 60 * 7 * 1000, pendingIntent);
-                else
-                    alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
+                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
             }
         } else {
             alarm_manager.setExact(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
