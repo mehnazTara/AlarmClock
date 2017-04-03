@@ -22,82 +22,12 @@
         android:layout_alignParentBottom ="true"
         android:layout_centerInParent="true"/>
 
-    <CheckBox
-        android:text="repeat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBox"
-        android:layout_below="@+id/timePicker"
-        android:layout_alignParentStart="true" />
-
-    <RadioButton
-        android:text="TR"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton4"
-        android:layout_alignBaseline="@+id/radioButton3"
-        android:layout_alignBottom="@+id/radioButton3"
-        android:layout_toEndOf="@+id/radioButton3" />
-
-    <RadioButton
-        android:text="F"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton5"
-        android:layout_alignBaseline="@+id/radioButton4"
-        android:layout_alignBottom="@+id/radioButton4"
-        android:layout_toEndOf="@+id/radioButton4" />
-
-    <RadioButton
-        android:text="W"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton3"
-        android:layout_alignBaseline="@+id/radioButton2"
-        android:layout_alignBottom="@+id/radioButton2"
-        android:layout_toEndOf="@+id/radioButton2" />
-
-    <RadioButton
-        android:text="SN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton7"
-        android:layout_alignBaseline="@+id/radioButton6"
-        android:layout_alignBottom="@+id/radioButton6"
-        android:layout_toEndOf="@+id/radioButton6" />
-
-    <RadioButton
-        android:text="T"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton2"
-        android:layout_below="@+id/checkBox"
-        android:layout_toEndOf="@+id/radioButton" />
-
-    <RadioButton
-        android:text="M"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton"
-        android:layout_below="@+id/checkBox"
-        android:layout_alignParentStart="true" />
-
-    <RadioButton
-        android:text="S"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton6"
-        android:layout_alignBaseline="@+id/radioButton5"
-        android:layout_alignBottom="@+id/radioButton5"
-        android:layout_toEndOf="@+id/radioButton5" />
-
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_notifications_black_24dp"
         android:id="@+id/imageButton"
-        android:layout_below="@+id/radioButton2"
+        android:layout_below="@+id/verify_W"
         android:layout_alignParentStart="true"
         android:layout_marginStart="11dp" />
 
@@ -108,7 +38,7 @@
         android:hint="enter alarm label"
         android:ems="10"
         android:id="@+id/editText2"
-        android:layout_above="@+id/checkBox"
+        android:layout_above="@+id/repeatCheckBox"
         android:layout_alignStart="@+id/imageButton" />
 
     <TimePicker
@@ -121,7 +51,7 @@
         android:layout_alignParentStart="true" />
 
     <CheckBox
-        android:text="Repeat"
+        android:text="Repeat Daily"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/repeatCheckBox"
