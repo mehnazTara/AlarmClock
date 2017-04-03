@@ -36,14 +36,14 @@ public class EditAlarm extends AppCompatActivity {
     private int index;
     private Calendar calendar;
 
-    CheckBox Daily = (CheckBox) findViewById(R.id.repeatCheckBox);
-    CheckBox Sunday = (CheckBox) findViewById(R.id.verify_SN);
-    CheckBox Monday = (CheckBox) findViewById(R.id.verify_M);
-    CheckBox Tuesday = (CheckBox) findViewById(R.id.verify_T);
-    CheckBox Wednesday = (CheckBox) findViewById(R.id.verify_W);
-    CheckBox Thursday = (CheckBox) findViewById(R.id.verify_TR);
-    CheckBox Friday = (CheckBox) findViewById(R.id.verify_F);
-    CheckBox Saturday = (CheckBox) findViewById(R.id.verify_S);
+    CheckBox Daily;
+    CheckBox Sunday;
+    CheckBox Monday;
+    CheckBox Tuesday;
+    CheckBox Wednesday;
+    CheckBox Thursday;
+    CheckBox Friday;
+    CheckBox Saturday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +115,15 @@ public class EditAlarm extends AppCompatActivity {
 
             }
         });
+
+        this.Daily = (CheckBox) findViewById(R.id.repeatCheckBox);
+        this.Sunday = (CheckBox) findViewById(R.id.verify_SN);
+        this.Monday = (CheckBox) findViewById(R.id.verify_M);
+        this.Tuesday = (CheckBox) findViewById(R.id.verify_T);
+        this.Wednesday = (CheckBox) findViewById(R.id.verify_W);
+        this.Thursday = (CheckBox) findViewById(R.id.verify_TR);
+        this.Friday = (CheckBox) findViewById(R.id.verify_F);
+        this.Saturday = (CheckBox) findViewById(R.id.verify_S);
     }
 
 
