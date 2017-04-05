@@ -176,7 +176,7 @@ public class EditAlarm extends AppCompatActivity {
             if (Wednesday.isChecked()) {
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.WEDNESDAY)
                     tempCal.add(Calendar.DATE, 1);
-                int alarmIDWednesday = alarmID;
+                int alarmIDWednesday = alarmID + 3;
                 PendingIntent pendingIntentWednesday = PendingIntent.getBroadcast(context, alarmIDWednesday, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentWednesday);
                 tempCal = targetCal;
@@ -184,7 +184,7 @@ public class EditAlarm extends AppCompatActivity {
             if (Thursday.isChecked()) {
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.THURSDAY)
                     tempCal.add(Calendar.DATE, 1);
-                int alarmIDThursday = alarmID;
+                int alarmIDThursday = alarmID + 4;
                 PendingIntent pendingIntentThursday = PendingIntent.getBroadcast(context, alarmIDThursday, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentThursday);
                 tempCal = targetCal;
