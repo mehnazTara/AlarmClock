@@ -124,8 +124,14 @@ public class AlarmAdapter extends BaseAdapter {
 
                 Intent deleteIntent = new Intent(context, AlarmReceiver.class);
                 PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) deleteButton.getTag()).getID(), deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                int temp = alarmList.get((int) deleteButton.getTag()).getID();
                 AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
                 am.cancel(deletePendingIntent);
+
+                for(int j = 1; j < 8; j++) {
+                    deletePendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) deleteButton.getTag()).getID() + j, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    am.cancel(deletePendingIntent);
+                }
 
                 MainActivity.getList().remove((int) deleteButton.getTag());
                 MainActivity.saveFile(context);
