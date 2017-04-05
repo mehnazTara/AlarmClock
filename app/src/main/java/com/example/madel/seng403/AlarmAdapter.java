@@ -88,6 +88,15 @@ public class AlarmAdapter extends BaseAdapter {
                     PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID(), cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
                     am.cancel(cancelPendingIntent);
+
+                    //For disabling weekly alarms
+                    for(int j = 1; j < 8; j++) {
+                        cancelIntent = new Intent(context, AlarmReceiver.class);
+                        cancelPendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID() + j, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                        am.cancel(cancelPendingIntent);
+                    }
+
                     // making sure alarm is disabled
                     MainActivity.changeAlarmToInactive(alarmList.get((int) cancelToggle.getTag()).getID(),context);
                     Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Cancelled!", Toast.LENGTH_LONG);
@@ -107,6 +116,24 @@ public class AlarmAdapter extends BaseAdapter {
                     calCurr.set(Calendar.MILLISECOND, 0);
 
                     am.setExact(am.RTC_WAKEUP, calCurr.getTimeInMillis(), enablePendingIntent);
+
+                    //For enabling weekly alarms
+                    for(int j = 1; j < 8; j++) {
+                        enableIntent = new Intent(context, AlarmReceiver.class);
+                        enablePendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID() + j, enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+
+                        calCurr = Calendar.getInstance();
+
+                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag()).getHour());
+                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag()).getMinute());
+                        calCurr.set(Calendar.SECOND, 0);
+                        calCurr.set(Calendar.MILLISECOND, 0);
+
+                        am.setExact(am.RTC_WAKEUP, calCurr.getTimeInMillis(), enablePendingIntent);
+                    }
+
+
                     Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Enabled!", Toast.LENGTH_LONG);
                     toast.show();
                 }
@@ -128,6 +155,7 @@ public class AlarmAdapter extends BaseAdapter {
                 AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
                 am.cancel(deletePendingIntent);
 
+                //Deletes weekly alarms too
                 for(int j = 1; j < 8; j++) {
                     deletePendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) deleteButton.getTag()).getID() + j, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     am.cancel(deletePendingIntent);
