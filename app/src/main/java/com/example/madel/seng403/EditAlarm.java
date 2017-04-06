@@ -45,6 +45,15 @@ public class EditAlarm extends AppCompatActivity {
     CheckBox Friday;
     CheckBox Saturday;
 
+    private String rDaily = "";
+    private String rSun = "";
+    private String rMon = "";
+    private String rTues = "";
+    private String rWed = "";
+    private String rThurs = "";
+    private String rFri = "";
+    private String rSat = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState== null){
@@ -64,7 +73,7 @@ public class EditAlarm extends AppCompatActivity {
         alarm_manager= (AlarmManager) getSystemService((ALARM_SERVICE));
         alarm_timepicker=(TimePicker) findViewById(R.id.timePicker);
         edit=(EditText) findViewById(R.id.editText2) ;
-        edit.setText(previousLabel);
+        edit.setText(previousLabel + "Repeat" + rDaily + rSun + rMon + rTues + rWed + rThurs + rFri + rSat);
 
 
         //this block handles the action related to clicking of save button
@@ -152,46 +161,54 @@ public class EditAlarm extends AppCompatActivity {
 
         // setting the alarm Manager to set alarm at exact time of the user chosen time
         if(Daily.isChecked()) {
+            rDaily = "Daily";
             alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         } else if (Sunday.isChecked() || Monday.isChecked() || Tuesday.isChecked() || Wednesday.isChecked() || Thursday.isChecked() || Friday.isChecked() || Saturday.isChecked()) {
             Calendar tempCal = targetCal;
             if (Sunday.isChecked()){
+                rSun = "Sunday";
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
                     tempCal.add(Calendar.DATE, 1);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
                 tempCal = targetCal;
             }
             if (Monday.isChecked()) {
+                rMon = "Monday";
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY)
                     tempCal.add(Calendar.DATE, 1);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
                 tempCal = targetCal;
             }
             if (Tuesday.isChecked()) {
+                rTues = "Tuesday";
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.TUESDAY)
                     tempCal.add(Calendar.DATE, 1);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
                 tempCal = targetCal;
             }
             if (Wednesday.isChecked()) {
+                rWed = "Wednesday";
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.WEDNESDAY)
                     tempCal.add(Calendar.DATE, 1);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
                 tempCal = targetCal;
             }
             if (Thursday.isChecked()) {
+                rThurs = "Thursday";
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.THURSDAY)
                     tempCal.add(Calendar.DATE, 1);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
                 tempCal = targetCal;
             }
             if (Friday.isChecked()) {
+                rFri = "Friday";
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY)
                     tempCal.add(Calendar.DATE, 1);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);
                 tempCal = targetCal;
             }
             if (Saturday.isChecked()) {
+                rSat = "Saturday";
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY)
                     tempCal.add(Calendar.DATE, 1);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntent);

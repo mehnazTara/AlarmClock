@@ -150,8 +150,6 @@ public class AlarmAdapter extends BaseAdapter {
                 intentLoadNewActivity.addCategory("Edit");
 
                 context.startActivity(intentLoadNewActivity);
-
-
             }
         });
 
