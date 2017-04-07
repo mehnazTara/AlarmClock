@@ -117,13 +117,13 @@ public class AlarmAdapter extends BaseAdapter {
 
                     am.setExact(am.RTC_WAKEUP, calCurr.getTimeInMillis(), enablePendingIntent);
 
+
                     //For enabling weekly alarms
-                    boolean weeklyArray[] = new boolean[7];
+                    boolean weeklyArray[];
                     // this gets the AlarmDBItem
                     // alarmList.get((int)cancelToggle.getTag());
                     weeklyArray = alarmList.get((int)cancelToggle.getTag()).getWeeklyRepeats();
                     for(int j = 1; j < 8; j++) {
-
                         if(weeklyArray[j-1] == true) {
                             enableIntent = new Intent(context, AlarmReceiver.class);
                             enablePendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID() + j, enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -136,7 +136,8 @@ public class AlarmAdapter extends BaseAdapter {
                             calCurr.set(Calendar.SECOND, 0);
                             calCurr.set(Calendar.MILLISECOND, 0);
 
-                            am.setExact(am.RTC_WAKEUP, calCurr.getTimeInMillis(), enablePendingIntent);
+                            am.setInexactRepeating(am.RTC_WAKEUP, calCurr.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, enablePendingIntent);
+
                         }
                     }
 

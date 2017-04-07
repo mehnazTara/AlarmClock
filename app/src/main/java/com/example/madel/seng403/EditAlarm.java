@@ -73,7 +73,7 @@ public class EditAlarm extends AppCompatActivity {
         alarm_manager= (AlarmManager) getSystemService((ALARM_SERVICE));
         alarm_timepicker=(TimePicker) findViewById(R.id.timePicker);
         edit=(EditText) findViewById(R.id.editText2) ;
-        edit.setText(previousLabel + "Repeat" + rDaily + rSun + rMon + rTues + rWed + rThurs + rFri + rSat);
+        //edit.setText(previousLabel + "Repeat" + rDaily + rSun + rMon + rTues + rWed + rThurs + rFri + rSat);
 
 
         //this block handles the action related to clicking of save button
@@ -163,8 +163,8 @@ public class EditAlarm extends AppCompatActivity {
         ArrayList<AlarmDBItem> list = MainActivity.getList();
         int weeklyAlarmDBItemID = -1;
         for (int i = 0; i < MainActivity.getList().size(); i++) {
-            if (list.get(i).getID() == index) {
-                weeklyAlarmDBItemID = index;
+            if (list.get(i).getID() == alarmID) {
+                weeklyAlarmDBItemID = i;
             }
         }
 
