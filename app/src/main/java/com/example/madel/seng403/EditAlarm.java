@@ -172,8 +172,14 @@ public class EditAlarm extends AppCompatActivity {
         if(Daily.isChecked()) {
             rDaily = "Daily";
             alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+            list.get(weeklyAlarmDBItemID).setDailyRepeat(true);
+            for(int k = 0; k < 7; k++)
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(k, false);
+
         } else if (Sunday.isChecked() || Monday.isChecked() || Tuesday.isChecked() || Wednesday.isChecked() || Thursday.isChecked() || Friday.isChecked() || Saturday.isChecked()) {
             Calendar tempCal = targetCal;
+            list.get(weeklyAlarmDBItemID).setDailyRepeat(false);
             if (Sunday.isChecked()){
                 rSun = "Sunday";
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
@@ -260,6 +266,10 @@ public class EditAlarm extends AppCompatActivity {
             }
         } else {
             alarm_manager.setExact(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
+            for(int k = 0; k < 7; k++)
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(k, false);
+
+            list.get(weeklyAlarmDBItemID).setDailyRepeat(false);
         }
         AlarmListFragment.updateListView();
 

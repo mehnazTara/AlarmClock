@@ -104,9 +104,9 @@ public class AlarmAdapter extends BaseAdapter {
                 }
                 //Enable alarm toggle function
                 else {
-                    Intent enableIntent = new Intent(context, AlarmReceiver.class);
-                    PendingIntent enablePendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID(), enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+
+                    boolean weeklyArray[] = alarmList.get((int)cancelToggle.getTag()).getWeeklyRepeats();
+                    boolean dailyRepeat = alarmList.get((int)cancelToggle.getTag()).getDailyRepeat();
 
                     Calendar calCurr = Calendar.getInstance();
 
@@ -115,32 +115,78 @@ public class AlarmAdapter extends BaseAdapter {
                     calCurr.set(Calendar.SECOND, 0);
                     calCurr.set(Calendar.MILLISECOND, 0);
 
-                    am.setExact(am.RTC_WAKEUP, calCurr.getTimeInMillis(), enablePendingIntent);
+                    while(calCurr.before(Calendar.getInstance()))
+                    {
+                        calCurr.set(Calendar.HOUR_OF_DAY, (int) calCurr.getTimeInMillis() + (int) AlarmManager.INTERVAL_DAY);
+                    }
+                    //check to see if it is a repeating alarm
+                    if(weeklyArray[0] != true && weeklyArray[1] != true && weeklyArray[2] != true && weeklyArray[3] != true && weeklyArray[4] != true && weeklyArray[5] != true && weeklyArray[6] != true && dailyRepeat != true) {
+                        //not a repeating alarm
+                        Intent enableIntent = new Intent(context, AlarmReceiver.class);
+                        PendingIntent enablePendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID(), enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
 
+                        am.setExact(am.RTC_WAKEUP, calCurr.getTimeInMillis(), enablePendingIntent);
+                    } else if (dailyRepeat == true) { //it is a daily repeating alarm
+                        Intent enableIntent = new Intent(context, AlarmReceiver.class);
+                        PendingIntent enablePendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID(), enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
 
-                    //For enabling weekly alarms
-                    boolean weeklyArray[];
-                    // this gets the AlarmDBItem
-                    // alarmList.get((int)cancelToggle.getTag());
-                    weeklyArray = alarmList.get((int)cancelToggle.getTag()).getWeeklyRepeats();
-                    for(int j = 1; j < 8; j++) {
-                        if(weeklyArray[j-1] == true) {
-                            enableIntent = new Intent(context, AlarmReceiver.class);
-                            enablePendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID() + j, enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                            am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                        am.setInexactRepeating(am.RTC_WAKEUP, calCurr.getTimeInMillis(), AlarmManager.INTERVAL_DAY, enablePendingIntent);
+                    } else { //its a weekly repeating alarm
+                        Calendar tempCal = calCurr;
+                        Intent enableIntent = new Intent(context, AlarmReceiver.class);
+                        AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
 
-                            calCurr = Calendar.getInstance();
-
-                            calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag()).getHour());
-                            calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag()).getMinute());
-                            calCurr.set(Calendar.SECOND, 0);
-                            calCurr.set(Calendar.MILLISECOND, 0);
-
-                            am.setInexactRepeating(am.RTC_WAKEUP, calCurr.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, enablePendingIntent);
-
+                        if (weeklyArray[0] == true) {
+                            while (tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
+                                tempCal.add(Calendar.DATE, 1);
+                            PendingIntent pendingIntentSunday = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID() + 1, enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentSunday);
+                            tempCal = calCurr;
+                        }
+                        if (weeklyArray[1] == true) {
+                            while (tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY)
+                                tempCal.add(Calendar.DATE, 1);
+                            PendingIntent pendingIntentMonday = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID() + 2, enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentMonday);
+                            tempCal = calCurr;
+                        }
+                        if (weeklyArray[2] == true) {
+                            while (tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.TUESDAY)
+                                tempCal.add(Calendar.DATE, 1);
+                            PendingIntent pendingIntentTuesday = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID() + 3, enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentTuesday);
+                            tempCal = calCurr;
+                        }
+                        if (weeklyArray[3] == true) {
+                            while (tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.WEDNESDAY)
+                                tempCal.add(Calendar.DATE, 1);
+                            PendingIntent pendingIntentWednesday = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID() + 4, enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentWednesday);
+                            tempCal = calCurr;
+                        }
+                        if (weeklyArray[4] == true) {
+                            while (tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.THURSDAY)
+                                tempCal.add(Calendar.DATE, 1);
+                            PendingIntent pendingIntentThursday = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID() + 5, enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentThursday);
+                            tempCal = calCurr;
+                        }
+                        if (weeklyArray[5] == true) {
+                            while (tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY)
+                                tempCal.add(Calendar.DATE, 1);
+                            PendingIntent pendingIntentFriday = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID() + 6, enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentFriday);
+                            tempCal = calCurr;
+                        }
+                        if (weeklyArray[6] == true) {
+                            while (tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY)
+                                tempCal.add(Calendar.DATE, 1);
+                            PendingIntent pendingIntentSaturday = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID() + 7, enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentSaturday);
                         }
                     }
-
                     Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Enabled!", Toast.LENGTH_LONG);
                     toast.show();
                 }
