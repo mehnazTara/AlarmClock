@@ -75,7 +75,6 @@ public class EditAlarm extends AppCompatActivity {
         edit=(EditText) findViewById(R.id.editText2) ;
         edit.setText(previousLabel);
 
-
         //this block handles the action related to clicking of save button
         Button save = (Button)findViewById(R.id.save_button);
         save.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +102,7 @@ public class EditAlarm extends AppCompatActivity {
                 // if time  chosen is before current time then increment by 24 hours
                 if(calendar.getTime().before(calCurr.getTime()))
                 {
-                    calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour() + 24);
+                    calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getCurrentHour() + 24);
                 }
 
 
@@ -163,8 +162,8 @@ public class EditAlarm extends AppCompatActivity {
         ArrayList<AlarmDBItem> list = MainActivity.getList();
         int weeklyAlarmDBItemID = -1;
         for (int i = 0; i < MainActivity.getList().size(); i++) {
-            if (list.get(i).getID() == index) {
-                weeklyAlarmDBItemID = index;
+            if (list.get(i).getID() == alarmID) {
+                weeklyAlarmDBItemID = i;
             }
         }
 
