@@ -29,6 +29,7 @@ public class AlarmAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private ArrayList<AlarmDBItem> alarmList;
+    private boolean[] weeklyLabels = new boolean[7];
 
     public AlarmAdapter(Context c, ArrayList<AlarmDBItem> alarms)
     {
@@ -69,7 +70,9 @@ public class AlarmAdapter extends BaseAdapter {
 //        TextView label = (TextView) view.findViewById(R.id.alarm_lable);
 //        label.setText("default label");
 
-        name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString() + "\n" + alarmList.get(i).getLabel());
+        weeklyLabels = alarmList.get(i).getWeeklyRepeats();
+
+        name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString() + "\n" + alarmList.get(i).getLabel() );
 
         final Switch cancelToggle = (Switch) view.findViewById(R.id.cancel_btn);
         cancelToggle.setTag(i);

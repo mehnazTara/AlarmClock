@@ -73,7 +73,7 @@ public class EditAlarm extends AppCompatActivity {
         alarm_manager= (AlarmManager) getSystemService((ALARM_SERVICE));
         alarm_timepicker=(TimePicker) findViewById(R.id.timePicker);
         edit=(EditText) findViewById(R.id.editText2) ;
-        edit.setText(previousLabel + "Repeat" + rDaily + rSun + rMon + rTues + rWed + rThurs + rFri + rSat);
+        edit.setText(previousLabel);
 
 
         //this block handles the action related to clicking of save button
