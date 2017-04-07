@@ -118,21 +118,27 @@ public class AlarmAdapter extends BaseAdapter {
                     am.setExact(am.RTC_WAKEUP, calCurr.getTimeInMillis(), enablePendingIntent);
 
                     //For enabling weekly alarms
+                    boolean weeklyArray[] = new boolean[7];
+                    // this gets the AlarmDBItem
+                    // alarmList.get((int)cancelToggle.getTag());
+                    weeklyArray = alarmList.get((int)cancelToggle.getTag()).getWeeklyRepeats();
                     for(int j = 1; j < 8; j++) {
-                        enableIntent = new Intent(context, AlarmReceiver.class);
-                        enablePendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID() + j, enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
 
-                        calCurr = Calendar.getInstance();
+                        if(weeklyArray[j-1] == true) {
+                            enableIntent = new Intent(context, AlarmReceiver.class);
+                            enablePendingIntent = PendingIntent.getBroadcast(context, alarmList.get((int) cancelToggle.getTag()).getID() + j, enableIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
 
-                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag()).getHour());
-                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag()).getMinute());
-                        calCurr.set(Calendar.SECOND, 0);
-                        calCurr.set(Calendar.MILLISECOND, 0);
+                            calCurr = Calendar.getInstance();
 
-                        am.setExact(am.RTC_WAKEUP, calCurr.getTimeInMillis(), enablePendingIntent);
+                            calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag()).getHour());
+                            calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag()).getMinute());
+                            calCurr.set(Calendar.SECOND, 0);
+                            calCurr.set(Calendar.MILLISECOND, 0);
+
+                            am.setExact(am.RTC_WAKEUP, calCurr.getTimeInMillis(), enablePendingIntent);
+                        }
                     }
-
 
                     Toast toast = Toast.makeText(context.getApplicationContext(), "Alarm Enabled!", Toast.LENGTH_LONG);
                     toast.show();

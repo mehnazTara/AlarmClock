@@ -159,6 +159,15 @@ public class EditAlarm extends AppCompatActivity {
         // creating  a pending intent that delays the intent until the specified calender time is reached
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        // find the AlarmDBItem with the same id for use in the weekly repeat function
+        ArrayList<AlarmDBItem> list = MainActivity.getList();
+        int weeklyAlarmDBItemID = -1;
+        for (int i = 0; i < MainActivity.getList().size(); i++) {
+            if (list.get(i).getID() == index) {
+                weeklyAlarmDBItemID = index;
+            }
+        }
+
         // setting the alarm Manager to set alarm at exact time of the user chosen time
         if(Daily.isChecked()) {
             rDaily = "Daily";
@@ -171,7 +180,11 @@ public class EditAlarm extends AppCompatActivity {
                     tempCal.add(Calendar.DATE, 1);
                 PendingIntent pendingIntentSunday = PendingIntent.getBroadcast(context, alarmID + 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentSunday);
+
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(0, true);
                 tempCal = targetCal;
+            } else {
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(0, false);
             }
             if (Monday.isChecked()) {
                 rMon = "Monday";
@@ -179,7 +192,11 @@ public class EditAlarm extends AppCompatActivity {
                     tempCal.add(Calendar.DATE, 1);
                 PendingIntent pendingIntentMonday = PendingIntent.getBroadcast(context, alarmID + 2, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentMonday);
+
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(1, true);
                 tempCal = targetCal;
+            } else {
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(1, false);
             }
             if (Tuesday.isChecked()) {
                 rTues = "Tuesday";
@@ -187,7 +204,11 @@ public class EditAlarm extends AppCompatActivity {
                     tempCal.add(Calendar.DATE, 1);
                 PendingIntent pendingIntentTuesday = PendingIntent.getBroadcast(context, alarmID + 3, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentTuesday);
+
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(2, true);
                 tempCal = targetCal;
+            } else {
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(2, false);
             }
             if (Wednesday.isChecked()) {
                 rWed = "Wednesday";
@@ -195,7 +216,11 @@ public class EditAlarm extends AppCompatActivity {
                     tempCal.add(Calendar.DATE, 1);
                 PendingIntent pendingIntentWednesday = PendingIntent.getBroadcast(context, alarmID + 4, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentWednesday);
+
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(3, true);
                 tempCal = targetCal;
+            } else {
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(3, false);
             }
             if (Thursday.isChecked()) {
                 rThurs = "Thursday";
@@ -203,15 +228,24 @@ public class EditAlarm extends AppCompatActivity {
                     tempCal.add(Calendar.DATE, 1);
                 PendingIntent pendingIntentThursday = PendingIntent.getBroadcast(context, alarmID + 5, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentThursday);
+
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(4, true);
                 tempCal = targetCal;
+            } else {
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(4, false);
             }
+
             if (Friday.isChecked()) {
                 rFri = "Friday";
                 while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY)
                     tempCal.add(Calendar.DATE, 1);
                 PendingIntent pendingIntentFriday = PendingIntent.getBroadcast(context, alarmID + 6, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentFriday);
+
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(5, true);
                 tempCal = targetCal;
+            } else {
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(5, false);
             }
             if (Saturday.isChecked()) {
                 rSat = "Saturday";
@@ -219,6 +253,10 @@ public class EditAlarm extends AppCompatActivity {
                     tempCal.add(Calendar.DATE, 1);
                 PendingIntent pendingIntentSaturday = PendingIntent.getBroadcast(context, alarmID + 7, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentSaturday);
+
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(6, true);
+            } else {
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(6, false);
             }
         } else {
             alarm_manager.setExact(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);

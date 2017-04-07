@@ -18,6 +18,8 @@ public class AlarmDBItem implements java.io.Serializable {
     private  boolean active;
     private String label;
 
+    private boolean weeklyRepeats[];
+
     public AlarmDBItem(){}
 
     public AlarmDBItem(Calendar calendar, int id,boolean status, String text)
@@ -31,6 +33,10 @@ public class AlarmDBItem implements java.io.Serializable {
         }
         else{
             this.label = "default label";
+        }
+        weeklyRepeats = new boolean[7];
+        for(int i = 0; i < 7; i++) {
+            weeklyRepeats[i] = false;
         }
     }
 
@@ -92,5 +98,13 @@ public class AlarmDBItem implements java.io.Serializable {
 
     public void setLabel(String input){
         this.label = input;
+    }
+
+    public void setWeeklyRepeats(int index, boolean value) {
+        weeklyRepeats[index] = value;
+    }
+
+    public boolean[] getWeeklyRepeats() {
+        return weeklyRepeats;
     }
 }
