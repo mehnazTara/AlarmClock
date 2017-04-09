@@ -143,6 +143,8 @@ public class EditAlarm extends AppCompatActivity {
      */
     private void setAlarm(Calendar targetCal){
 
+
+
         // creating an intent associated with AlarmReceiver class
         Intent alarmIntent = new Intent(context, AlarmReceiver.class);
         final int alarmID = (int) System.currentTimeMillis(); // assigns a unique alarmID
@@ -191,6 +193,10 @@ public class EditAlarm extends AppCompatActivity {
                 tempCal = targetCal;
             } else {
                 list.get(weeklyAlarmDBItemID).setWeeklyRepeats(0, false);
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 1, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
             }
             if (Monday.isChecked()) {
                 rMon = "Monday";
@@ -203,6 +209,10 @@ public class EditAlarm extends AppCompatActivity {
                 tempCal = targetCal;
             } else {
                 list.get(weeklyAlarmDBItemID).setWeeklyRepeats(1, false);
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 2, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
             }
             if (Tuesday.isChecked()) {
                 rTues = "Tuesday";
@@ -215,6 +225,10 @@ public class EditAlarm extends AppCompatActivity {
                 tempCal = targetCal;
             } else {
                 list.get(weeklyAlarmDBItemID).setWeeklyRepeats(2, false);
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 3, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
             }
             if (Wednesday.isChecked()) {
                 rWed = "Wednesday";
@@ -227,6 +241,10 @@ public class EditAlarm extends AppCompatActivity {
                 tempCal = targetCal;
             } else {
                 list.get(weeklyAlarmDBItemID).setWeeklyRepeats(3, false);
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 4, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
             }
             if (Thursday.isChecked()) {
                 rThurs = "Thursday";
@@ -239,6 +257,10 @@ public class EditAlarm extends AppCompatActivity {
                 tempCal = targetCal;
             } else {
                 list.get(weeklyAlarmDBItemID).setWeeklyRepeats(4, false);
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 5, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
             }
 
             if (Friday.isChecked()) {
@@ -252,6 +274,10 @@ public class EditAlarm extends AppCompatActivity {
                 tempCal = targetCal;
             } else {
                 list.get(weeklyAlarmDBItemID).setWeeklyRepeats(5, false);
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 6, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
             }
             if (Saturday.isChecked()) {
                 rSat = "Saturday";
@@ -263,6 +289,10 @@ public class EditAlarm extends AppCompatActivity {
                 list.get(weeklyAlarmDBItemID).setWeeklyRepeats(6, true);
             } else {
                 list.get(weeklyAlarmDBItemID).setWeeklyRepeats(6, false);
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 7, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
             }
         } else {
             alarm_manager.setExact(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
