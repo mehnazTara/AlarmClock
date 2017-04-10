@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ public class AlarmAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private ArrayList<AlarmDBItem> alarmList;
+    private boolean[] weeklyLabels = new boolean[7];
 
     public AlarmAdapter(Context c, ArrayList<AlarmDBItem> alarms)
     {
@@ -66,11 +68,46 @@ public class AlarmAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.rowlayout, viewGroup, false);
         }
         TextView name = (TextView) view.findViewById(R.id.list_item_string);
-//        TextView label = (TextView) view.findViewById(R.id.alarm_lable);
-//        label.setText("default label");
 
-        name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString() + "\n" + alarmList.get(i).getLabel());
+        weeklyLabels = alarmList.get(i).getWeeklyRepeats();
+        Log.e("Log message: ", "List View Labels: " + weeklyLabels[0] + weeklyLabels[2] + weeklyLabels[3]);
+        String[] weekStrings = new String[7];
+            if (weeklyLabels[0] == true) {
+                weekStrings[0] = "Sunday ";
+            }
+            else {
+                weekStrings[0] = "";
+            }
+            if (weeklyLabels[1] == true){
+            weekStrings[1] = "Mon ";
+            }
+            else {
+                weekStrings[1] = ""; }
+            if (weeklyLabels[2] == true) {
+                weekStrings[2] = "Tues ";}
+            else {
+                weekStrings[2] = ""; }
+            if (weeklyLabels[3] == true) {
+                weekStrings[3] = "Wed "; }
+            else {
+                weekStrings[3] = ""; }
+            if (weeklyLabels[4] == true) {
+                weekStrings[4] = "Thurs "; }
+            else {
+                weekStrings[4] = ""; }
+            if (weeklyLabels[5] == true) {
+                weekStrings[5] = "Fri "; }
+            else {
+                weekStrings[5] = ""; }
+            if (weeklyLabels[6] == true) {
+                weekStrings[6] ="Sat"; }
+            else {
+                weekStrings[6] = ""; }
 
+
+        name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString() + "\n" + alarmList.get(i).getLabel() + " " +
+                weekStrings[0] + weekStrings[1] + weekStrings[2] + weekStrings[3] + weekStrings[4] + weekStrings[5] + weekStrings[6]);
+        //Log.e("Log message: ", "List View Labels: " + name.getText().toString());
         final Switch cancelToggle = (Switch) view.findViewById(R.id.cancel_btn);
         cancelToggle.setTag(i);
         AlarmDBItem alarm =  alarmList.get((int) cancelToggle.getTag());

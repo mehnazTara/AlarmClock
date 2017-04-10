@@ -73,8 +73,7 @@ public class EditAlarm extends AppCompatActivity {
         alarm_manager= (AlarmManager) getSystemService((ALARM_SERVICE));
         alarm_timepicker=(TimePicker) findViewById(R.id.timePicker);
         edit=(EditText) findViewById(R.id.editText2) ;
-        //edit.setText(previousLabel + "Repeat" + rDaily + rSun + rMon + rTues + rWed + rThurs + rFri + rSat);
-
+        edit.setText(previousLabel);
 
         //this block handles the action related to clicking of save button
         Button save = (Button)findViewById(R.id.save_button);
@@ -103,7 +102,7 @@ public class EditAlarm extends AppCompatActivity {
                 // if time  chosen is before current time then increment by 24 hours
                 if(calendar.getTime().before(calCurr.getTime()))
                 {
-                    calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour() + 24);
+                    calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getCurrentHour() + 24);
                 }
 
 
