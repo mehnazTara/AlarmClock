@@ -31,6 +31,7 @@ public class AlarmAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ArrayList<AlarmDBItem> alarmList;
     private boolean[] weeklyLabels = new boolean[7];
+    private boolean dailyFlag;
 
     public AlarmAdapter(Context c, ArrayList<AlarmDBItem> alarms)
     {
@@ -70,42 +71,34 @@ public class AlarmAdapter extends BaseAdapter {
         TextView name = (TextView) view.findViewById(R.id.list_item_string);
 
         weeklyLabels = alarmList.get(i).getWeeklyRepeats();
-        Log.e("Log message: ", "List View Labels: " + weeklyLabels[0] + weeklyLabels[2] + weeklyLabels[3]);
         String[] weekStrings = new String[7];
-            if (weeklyLabels[0] == true) {
-                weekStrings[0] = "Sunday ";
-            }
-            else {
-                weekStrings[0] = "";
-            }
-            if (weeklyLabels[1] == true){
-            weekStrings[1] = "Mon ";
-            }
-            else {
-                weekStrings[1] = ""; }
-            if (weeklyLabels[2] == true) {
-                weekStrings[2] = "Tues ";}
-            else {
-                weekStrings[2] = ""; }
-            if (weeklyLabels[3] == true) {
-                weekStrings[3] = "Wed "; }
-            else {
-                weekStrings[3] = ""; }
-            if (weeklyLabels[4] == true) {
-                weekStrings[4] = "Thurs "; }
-            else {
-                weekStrings[4] = ""; }
-            if (weeklyLabels[5] == true) {
-                weekStrings[5] = "Fri "; }
-            else {
-                weekStrings[5] = ""; }
-            if (weeklyLabels[6] == true) {
-                weekStrings[6] ="Sat"; }
-            else {
-                weekStrings[6] = ""; }
+        for (int j = 0; j < 7; j++) {
+            weekStrings[j] = ""; }
+
+        String dailyString = "";
+        dailyFlag = alarmList.get(i).getDailyRepeat();
+        if (dailyFlag)
+            dailyString = "Daily";
+        else {
+            if (weeklyLabels[0] == true)
+                weekStrings[0] = "Sun ";
+            if (weeklyLabels[1] == true)
+                weekStrings[1] = "Mon ";
+            if (weeklyLabels[2] == true)
+                weekStrings[2] = "Tues ";
+            if (weeklyLabels[3] == true)
+                weekStrings[3] = "Wed ";
+            if (weeklyLabels[4] == true)
+                weekStrings[4] = "Thurs ";
+            if (weeklyLabels[5] == true)
+                weekStrings[5] = "Fri ";
+            if (weeklyLabels[6] == true)
+                weekStrings[6] = "Sat";
+        }
 
 
-        name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString() + "\n" + alarmList.get(i).getLabel() + " " +
+
+        name.setText(alarmList.get(i).getHourString() + ":" + alarmList.get(i).getMinuteString() + "\n" + alarmList.get(i).getLabel() + " " + dailyString + " " +
                 weekStrings[0] + weekStrings[1] + weekStrings[2] + weekStrings[3] + weekStrings[4] + weekStrings[5] + weekStrings[6]);
         //Log.e("Log message: ", "List View Labels: " + name.getText().toString());
         final Switch cancelToggle = (Switch) view.findViewById(R.id.cancel_btn);
@@ -149,24 +142,16 @@ public class AlarmAdapter extends BaseAdapter {
 
                     Calendar calCurr = Calendar.getInstance();
 
-                    Log.e("Log message: ", "Hour Set 1:" + calCurr.HOUR);
-                    Log.e("Log message: ", "Minute 1:" + calCurr.MINUTE);
-
                     calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag()).getHour());
                     calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag()).getMinute());
                     calCurr.set(Calendar.SECOND, 0);
                     calCurr.set(Calendar.MILLISECOND, 0);
-
-                    Log.e("Log message: ", "Hour Set 2:" + calCurr.HOUR);
-                    Log.e("Log message: ", "Minute 2:" + calCurr.MINUTE);
 
                     while(calCurr.before(Calendar.getInstance()))
                     {
                         calCurr.set(Calendar.DAY_OF_MONTH, (int) calCurr.getTimeInMillis() + (int) AlarmManager.INTERVAL_DAY);
                         Log.e("Log message: ", "Current Day of the Week:" + calCurr.DAY_OF_WEEK);
                     }
-                    Log.e("Log message: ", "Hour Set 3:" + calCurr.HOUR);
-                    Log.e("Log message: ", "Minute 3:" + calCurr.MINUTE);
 
                     //check to see if it is a repeating alarm
                     if(weeklyArray[0] != true && weeklyArray[1] != true && weeklyArray[2] != true && weeklyArray[3] != true && weeklyArray[4] != true && weeklyArray[5] != true && weeklyArray[6] != true && dailyRepeat != true) {

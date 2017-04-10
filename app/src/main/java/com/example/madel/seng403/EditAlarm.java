@@ -321,21 +321,11 @@ public class EditAlarm extends AppCompatActivity {
                 list.get(i).setHour(hour);
                 list.get(i).setMinute(minute);
                 list.get(i).setLabel(label);
-
-            }
-        }
-
-        // for testing purpose
-        for (AlarmDBItem a :MainActivity.getList()){
-            if (a.getID() == index){
-                Log.e("Log message", "time" + a.getHourString() + a.getMinuteString());
-                break;
             }
         }
 
         // saving the updated file
         MainActivity.saveFile(context);
-
 
         Intent alarmIntent = new Intent(context, AlarmReceiver.class);
         alarmIntent.putExtra("AlarmId", index);
@@ -347,8 +337,143 @@ public class EditAlarm extends AppCompatActivity {
         // creating  a pending intent that delays the intent until the specified calender time is reached
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, index, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        // find the AlarmDBItem with the same id for use in the weekly repeat function
+        int weeklyAlarmDBItemID = -1;
+        for (int i = 0; i < MainActivity.getList().size(); i++) {
+            if (list.get(i).getID() == index) {
+                weeklyAlarmDBItemID = i;
+            }
+        }
         // setting the alarm Manager to set alarm at exact time of the user chosen time
-        alarm_manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        if(Daily.isChecked()) {
+            alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            Log.e("Log message: ", "Daily Edit Alarm Set");
+            list.get(weeklyAlarmDBItemID).setDailyRepeat(true);
+            for(int k = 0; k < 7; k++)
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(k, false);
+
+        } else if (Sunday.isChecked() || Monday.isChecked() || Tuesday.isChecked() || Wednesday.isChecked() || Thursday.isChecked() || Friday.isChecked() || Saturday.isChecked()) {
+            Calendar tempCal = calendar;
+            list.get(weeklyAlarmDBItemID).setDailyRepeat(false);
+            if (Sunday.isChecked()){
+                while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
+                    tempCal.add(Calendar.DATE, 1);
+                PendingIntent pendingIntentSunday = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentSunday);
+
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(0, true);
+                tempCal = calendar;
+                Log.e("Log message: ", "Sunday Edit Alarm Set");
+            } else {
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(0, false);
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 1, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
+            }
+            if (Monday.isChecked()) {
+                while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY)
+                    tempCal.add(Calendar.DATE, 1);
+                PendingIntent pendingIntentMonday = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 2, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentMonday);
+
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(1, true);
+                tempCal = calendar;
+
+                Log.e("Log message: ", "Monday Edit Alarm Set");
+            } else {
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(1, false);
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 2, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
+            }
+            if (Tuesday.isChecked()) {
+                while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.TUESDAY)
+                    tempCal.add(Calendar.DATE, 1);
+                PendingIntent pendingIntentTuesday = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 3, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentTuesday);
+
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(2, true);
+                tempCal = calendar;
+
+                Log.e("Log message: ", "Tuesday Edit Alarm Set");
+            } else {
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(2, false);
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 3, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
+            }
+            if (Wednesday.isChecked()) {
+                while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.WEDNESDAY)
+                    tempCal.add(Calendar.DATE, 1);
+                PendingIntent pendingIntentWednesday = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 4, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentWednesday);
+
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(3, true);
+                tempCal = calendar;
+            } else {
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(3, false);
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 4, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
+            }
+            if (Thursday.isChecked()) {
+                while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.THURSDAY)
+                    tempCal.add(Calendar.DATE, 1);
+                PendingIntent pendingIntentThursday = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 5, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentThursday);
+
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(4, true);
+                tempCal = calendar;
+            } else {
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(4, false);
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 5, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
+            }
+
+            if (Friday.isChecked()) {
+                while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY)
+                    tempCal.add(Calendar.DATE, 1);
+                PendingIntent pendingIntentFriday = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 6, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentFriday);
+
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(5, true);
+                tempCal = calendar;
+            } else {
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(5, false);
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 6, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
+            }
+            if (Saturday.isChecked()) {
+                while( tempCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY)
+                    tempCal.add(Calendar.DATE, 1);
+                PendingIntent pendingIntentSaturday = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 7, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, tempCal.getTimeInMillis(), 24 * 60 * 60 * 7 * 1000, pendingIntentSaturday);
+
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(6, true);
+            } else {
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(6, false);
+                Intent deleteIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, weeklyAlarmDBItemID + 7, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                am.cancel(deletePendingIntent);
+            }
+        } else {
+            alarm_manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            for(int k = 0; k < 7; k++)
+                list.get(weeklyAlarmDBItemID).setWeeklyRepeats(k, false);
+
+            list.get(weeklyAlarmDBItemID).setDailyRepeat(false);
+        }
+
+        // setting the alarm Manager to set alarm at exact time of the user chosen time
         AlarmListFragment.updateListView();
 
 
