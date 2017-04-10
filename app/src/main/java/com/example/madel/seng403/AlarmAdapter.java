@@ -149,58 +149,25 @@ public class AlarmAdapter extends BaseAdapter {
 
                     Calendar calCurr = Calendar.getInstance();
 
+                    Log.e("Log message: ", "Hour Set 1:" + calCurr.HOUR);
+                    Log.e("Log message: ", "Minute 1:" + calCurr.MINUTE);
+
                     calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag()).getHour());
                     calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag()).getMinute());
                     calCurr.set(Calendar.SECOND, 0);
                     calCurr.set(Calendar.MILLISECOND, 0);
 
-                    if(weeklyArray[0] == true) {
-                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag() + 1).getHour());
-                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag() + 1).getMinute());
-                        calCurr.set(Calendar.SECOND, 0);
-                        calCurr.set(Calendar.MILLISECOND, 0);
-                    }
-                    if(weeklyArray[1] == true) {
-                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag() + 2).getHour());
-                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag() + 2).getMinute());
-                        calCurr.set(Calendar.SECOND, 0);
-                        calCurr.set(Calendar.MILLISECOND, 0);
-                    }
-                    if(weeklyArray[2] == true) {
-                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag() + 3).getHour());
-                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag() + 3).getMinute());
-                        calCurr.set(Calendar.SECOND, 0);
-                        calCurr.set(Calendar.MILLISECOND, 0);
-                    }
-                    if(weeklyArray[3] == true) {
-                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag() + 4).getHour());
-                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag() + 4).getMinute());
-                        calCurr.set(Calendar.SECOND, 0);
-                        calCurr.set(Calendar.MILLISECOND, 0);
-                    }
-                    if(weeklyArray[4] == true) {
-                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag() + 5).getHour());
-                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag() + 5).getMinute());
-                        calCurr.set(Calendar.SECOND, 0);
-                        calCurr.set(Calendar.MILLISECOND, 0);
-                    }
-                    if(weeklyArray[5] == true) {
-                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag() + 6).getHour());
-                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag() + 6).getMinute());
-                        calCurr.set(Calendar.SECOND, 0);
-                        calCurr.set(Calendar.MILLISECOND, 0);
-                    }
-                    if(weeklyArray[6] == true) {
-                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag() + 7).getHour());
-                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag() + 7).getMinute());
-                        calCurr.set(Calendar.SECOND, 0);
-                        calCurr.set(Calendar.MILLISECOND, 0);
-                    }
+                    Log.e("Log message: ", "Hour Set 2:" + calCurr.HOUR);
+                    Log.e("Log message: ", "Minute 2:" + calCurr.MINUTE);
 
                     while(calCurr.before(Calendar.getInstance()))
                     {
-                        calCurr.set(Calendar.HOUR_OF_DAY, (int) calCurr.getTimeInMillis() + (int) AlarmManager.INTERVAL_DAY);
+                        calCurr.set(Calendar.DAY_OF_MONTH, (int) calCurr.getTimeInMillis() + (int) AlarmManager.INTERVAL_DAY);
+                        Log.e("Log message: ", "Current Day of the Week:" + calCurr.DAY_OF_WEEK);
                     }
+                    Log.e("Log message: ", "Hour Set 3:" + calCurr.HOUR);
+                    Log.e("Log message: ", "Minute 3:" + calCurr.MINUTE);
+
                     //check to see if it is a repeating alarm
                     if(weeklyArray[0] != true && weeklyArray[1] != true && weeklyArray[2] != true && weeklyArray[3] != true && weeklyArray[4] != true && weeklyArray[5] != true && weeklyArray[6] != true && dailyRepeat != true) {
                         //not a repeating alarm
