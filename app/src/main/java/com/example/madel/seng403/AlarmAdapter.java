@@ -154,6 +154,49 @@ public class AlarmAdapter extends BaseAdapter {
                     calCurr.set(Calendar.SECOND, 0);
                     calCurr.set(Calendar.MILLISECOND, 0);
 
+                    if(weeklyArray[0] == true) {
+                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag() + 1).getHour());
+                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag() + 1).getMinute());
+                        calCurr.set(Calendar.SECOND, 0);
+                        calCurr.set(Calendar.MILLISECOND, 0);
+                    }
+                    if(weeklyArray[1] == true) {
+                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag() + 2).getHour());
+                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag() + 2).getMinute());
+                        calCurr.set(Calendar.SECOND, 0);
+                        calCurr.set(Calendar.MILLISECOND, 0);
+                    }
+                    if(weeklyArray[2] == true) {
+                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag() + 3).getHour());
+                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag() + 3).getMinute());
+                        calCurr.set(Calendar.SECOND, 0);
+                        calCurr.set(Calendar.MILLISECOND, 0);
+                    }
+                    if(weeklyArray[3] == true) {
+                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag() + 4).getHour());
+                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag() + 4).getMinute());
+                        calCurr.set(Calendar.SECOND, 0);
+                        calCurr.set(Calendar.MILLISECOND, 0);
+                    }
+                    if(weeklyArray[4] == true) {
+                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag() + 5).getHour());
+                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag() + 5).getMinute());
+                        calCurr.set(Calendar.SECOND, 0);
+                        calCurr.set(Calendar.MILLISECOND, 0);
+                    }
+                    if(weeklyArray[5] == true) {
+                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag() + 6).getHour());
+                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag() + 6).getMinute());
+                        calCurr.set(Calendar.SECOND, 0);
+                        calCurr.set(Calendar.MILLISECOND, 0);
+                    }
+                    if(weeklyArray[6] == true) {
+                        calCurr.set(Calendar.HOUR, alarmList.get((int) cancelToggle.getTag() + 7).getHour());
+                        calCurr.set(Calendar.MINUTE, alarmList.get((int) cancelToggle.getTag() + 7).getMinute());
+                        calCurr.set(Calendar.SECOND, 0);
+                        calCurr.set(Calendar.MILLISECOND, 0);
+                    }
+
                     while(calCurr.before(Calendar.getInstance()))
                     {
                         calCurr.set(Calendar.HOUR_OF_DAY, (int) calCurr.getTimeInMillis() + (int) AlarmManager.INTERVAL_DAY);
